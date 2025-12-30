@@ -1,0 +1,356 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" Inherits="Member_Site" Codebehind="Site.master.cs" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+<%@ Register Src="~/Menus/LeftM.ascx" TagName="LeftM" TagPrefix="Menu" %>
+<%@ Register Src="~/Menus/SpeedM.ascx" TagName="SpeedM" TagPrefix="Menu" %>
+<%@ Register Src="~/Menus/TopM.ascx" TagName="TopM" TagPrefix="Menu" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnehRehab :: Dashboard</title>
+    <style type="text/css">
+    html { position: relative; }
+    #slow-notice { width:300px; position: absolute; top:0; left:50%; margin-left: -160px; background-color: #F0DE7D; text-align: center; z-index: 100; padding: 10px; font-family: sans-serif; font-size: 12px; }
+    #slow-notice a, #slow-notice .dismiss { color: #000; text-decoration: underline; cursor:pointer; }
+    #slow-notice .dismiss-container { text-align:right;font-size: 10px;font-family:Trebuchet MS}
+    .req_red{color:#ff0000;font-size: 12px;}
+    .doctor_req{background: #F50909;} 
+    .nowrap{white-space:nowrap !important;}
+    .table-nobordered{border: none;}
+    .table-nobordered tr th{border: none;} 
+    .table-nobordered tr td{border: none;} 
+    </style>
+    <script type="text/javascript">
+    function setCookie(cname,cvalue,exdays) {
+        var d = new Date();
+        d.setTime(d.getTime()+(exdays*24*60*60*1000));
+        var expires = "expires="+d.toGMTString();
+        document.cookie = cname + "=" + cvalue + ";path=/;" + expires;
+    }
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+        }
+        return "";
+    }
+    if (getCookie('dismissed') != '1') {
+        var html_node = document.getElementsByTagName('html')[0];
+        var div = document.createElement('div');
+        div.setAttribute('id', 'slow-notice');
+
+        var slowLoad = window.setTimeout(function() {
+            var t1 = document.createTextNode("The website is taking a long time to load.");
+            var br = document.createElement('br');
+            var t2 = document.createTextNode("Your internet connection may be slow.");
+            //var a = document.createElement('a'); a.setAttribute('href', 'http://light-version.mysite.com'); a.innerHTML = 'Light Weight Site';
+            var dismiss = document.createElement('span');
+            dismiss.innerHTML = '[x]';
+            dismiss.setAttribute('class', 'dismiss');
+            dismiss.onclick = function() {
+                setCookie('dismissed', '1', 1);
+                html_node.removeChild(div);
+            }
+
+            var dismiss_container = document.createElement('div');
+            dismiss_container.appendChild(dismiss);
+            dismiss_container.setAttribute('class', 'dismiss-container');
+
+            div.appendChild(t1);
+            div.appendChild(br);
+            div.appendChild(t2);
+            //div.appendChild(a);
+            div.appendChild(dismiss_container);
+
+            //html_node.appendChild(div);
+            
+        }, 1000);
+
+        window.addEventListener('load', function() {
+            try {
+                //window.clearTimeout(slowLoad); 
+            } catch (e) {
+                // that's okay.
+            }
+        });
+    }
+    </script>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/jquery-ui-1.8.16.custom.css" media="screen" />
+    <link rel="stylesheet" href="/css/chosen.css" media="screen" />
+    <link rel="stylesheet" href="/css/timepicker.css" type="text/css" />
+    <link rel="stylesheet" href="/css/datepicker.css">
+    <link rel="stylesheet" href="/css/colorpicker.css">
+    <link rel="stylesheet" href="/css/glisse.css?1.css">
+    <link rel="stylesheet" href="/css/jquery.jgrowl.css">
+    <link rel="stylesheet" href="/js/elfinder/css/elfinder.css" media="screen" />
+    <link rel="stylesheet" href="/css/jquery.tagsinput.css" />
+    <link rel="stylesheet" href="/css/jquery.jscrollpane.css">
+    <link rel="stylesheet" href="/css/validationEngine.jquery.css">
+    <link rel="stylesheet" href="/css/jquery.stepy.css" />
+    <link rel="stylesheet" href="/css/icon/font-awesome.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.css">
+    <link href="/css/toastr.min.css" rel="stylesheet" type="text/css" />
+     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <!--[if lte IE 8]><script type="text/javascript" src="/js/excanvas.min.js"></script><![endif]-->
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/images/favicon.ico"/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function FloatNumber(e) {
+            var unicode = e.charCode ? e.charCode : e.keyCode
+            if (unicode != 8) { //if the key isn't the backspace key (which we should allow)
+                if (e.keyCode != 46) {
+                    if (unicode < 48 || unicode > 57) //if not a number
+                        return false //disable key press
+                }
+            }
+        }
+        function IntegerNumber(e) {
+            var unicode = e.charCode ? e.charCode : e.keyCode
+            if (unicode != 8) { //if the key isn't the backspace key (which we should allow)
+                if (unicode < 48 || unicode > 57) //if not a number
+                    return false //disable key press
+            }
+        }
+        function RejectChar(e) {
+            var unicode = e.charCode ? e.charCode : e.keyCode
+            if (unicode != 8) {
+                if (unicode == 95)
+                    return false;
+            }
+        }
+    </script>
+    <style type="text/css">
+        .form-horizontal .control-label{text-align: left;}
+    </style>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+     <style type="text/css">
+        .grid-pagination span{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#fff;background-color:#337ab7;border:1px solid #337ab7;margin-left:-2px;z-index:3;cursor:default}.grid-pagination a{position:relative;float:left;padding:6px 13px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-1px;z-index:3;cursor:pointer}.rpt-pagination{margin-top:-21px;padding:8px;border:1px solid #e7ecf1;margin-bottom:20px}.rpt-pagination a.page_disabled{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#fff;background-color:#337ab7;border:1px solid #337ab7;margin-left:-2px;z-index:3;cursor:default}.rpt-pagination a.page_enabled{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:pointer}.rpt-pagination a.page_disabled:first-child{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:default}.rpt-pagination a.page_enabled:first-child{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:pointer}.rpt-pagination a.page_disabled:last-child{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:default}.rpt-pagination a.page_enabled:last-child{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:pointer}.rpt-pagination-nojs{margin-top:-21px;padding:8px;border:1px solid #e7ecf1;margin-bottom:20px}.rpt-pagination-nojs a.page_disabled{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#fff;background-color:#337ab7;border:1px solid #337ab7;margin-left:-2px;z-index:3;cursor:default}.rpt-pagination-nojs a.page_enabled{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:pointer}.rpt-pagination-nojs a.page_disabled:first-child{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:default}.rpt-pagination-nojs a.page_enabled:first-child{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:pointer}.rpt-pagination-nojs a.page_disabled:last-child{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:default}.rpt-pagination-nojs a.page_enabled:last-child{position:relative;float:left;padding:6px 12px;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-2px;z-index:3;cursor:pointer}
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server" autocomplete="off">
+    <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server" CombineScripts="false" ></ajaxToolkit:ToolkitScriptManager>
+    <script type="text/javascript">
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+        function EndRequestHandler(sender, args) {
+            if (args.get_error() == undefined) {
+                setDropdownLists();
+            }
+        }
+        function setDropdownLists() {
+            $(".chzn-select").chosen();
+            try {
+                $('.my-timepicker').timepicker({ defaultTime: false, twoDigitsHour: true, minuteStep: 5, showInputs: false, disableFocus: true });
+                $('.my-datepicker').datepicker({ format: 'dd/mm/yyyy', autoclose: true });
+                $('.month-datepicker').datepicker({ format: 'mm/yyyy', autoclose: true });
+                $('.my-datepicker-post').datepicker({ format: 'dd/mm/yyyy', autoclose: true }).on('changeDate', function() {
+                    var inst = $.datepicker._getInst(this);
+                    document.getElementById(inst.element[0].id).onchange();
+                });
+                $('.age-datepicker').datepicker({ format: 'dd/mm/yyyy', autoclose: true }).on('changeDate', function() {
+                    DOBSelected();
+                });
+            } catch (e) { }
+        }
+        function Dropdown_Chzn_select(ctl) {
+            $("#" + ctl).trigger("liszt:updated")
+        }
+        $(function () {
+            $('.month-datepicker').datepicker({ format: 'mm/yyyy', autoclose: true });
+            $(".chzn-select-multi").chosen({ placeholder: function () { return $(this).data('placeholder'); } });
+        });
+    </script>
+    <!--Header Start-->
+    <div class="header">
+        <a class="logo">Sneh Rehab</a>
+        <div class="pull-right">
+            <!--Button User Start-->
+            <div class="btn-group pull-right" style="margin-top: 10px;">
+                <a class="btn btn-profile dropdown-toggle" id="button-profile" data-toggle="dropdown" href="javascript:;"><span class="name-user" style="text-transform:uppercase;"><strong>Welcome</strong>,
+                <strong><%= _loginName %></strong>
+                </span>
+                <span class="avatar">
+                    <img src="/images/users.jpg" alt="">
+                </span>
+                <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu" id="prof_dropdown">
+                    <div class="item_m">
+                        <span class="caret"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <ul class="clear_ul">
+                        <%--<li><a href="/Member/"><i class="icon-globe"></i>Dashboard</a></li>--%>
+                        <%--<li><a href="/Member/UserPwd.aspx"><i class="icon-lock"></i>Change Password</a></li>--%>
+                        <li><a href="/logout.ashx"><i class="icon-signout"></i> Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--Button User END-->
+        </div>
+    </div>
+    <!--Header END-->
+    <!--Sidebar Start-->
+    <div id="sidebar">
+        <ul class="menu-sidebar">
+            <Menu:LeftM ID="mnu_LeftM" runat="server" />
+        </ul>
+    </div>
+    <!--Sidebar END-->
+    <!--Content Start-->
+    <div id="content">
+        <!--SpeedBar Start-->
+        <div class="speedbar">
+            <div class="speedbar-content">
+                <ul class="menu-drop alert_message_menu">
+                    <li><a href="javascript:;"><i class="icon-chevron-down"></i></a>
+                        <ul>
+                             <Menu:SpeedM id="mnuSpeedM" runat="server"></Menu:SpeedM>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="menu-speedbar">
+                    <Menu:TopM ID="mnu_TopM" runat="server" />
+                </ul>
+            </div>
+        </div>
+        <!--SpeedBar END-->
+        <!--Search Start-->
+        <div class="search">
+            <asp:Panel ID="pnlSearch" runat="server" DefaultButton="btnSearch">
+                <script type="text/javascript">
+                    function ValidateSearch() {
+                        var _txt = document.getElementById('<%= txtSearch.ClientID %>').value;
+                        if (_txt.trim().length > 0) {
+                            window.location = '/Member/Patients.aspx?search=' + _txt;
+                        }
+                        else {
+                            document.getElementById('<%= txtSearch.ClientID %>').focus();
+                        }
+                        return false;
+                    }
+                </script>
+                <div class="search-form">
+                    <asp:TextBox ID="txtSearch" runat="server" placeholder="Search Patients"></asp:TextBox>
+                    <asp:LinkButton ID="btnSearch" runat="server" OnClientClick="return ValidateSearch();" Text=" "></asp:LinkButton>
+                </div>
+                <div class="clear">
+                </div>
+            </asp:Panel>
+        </div>
+        <!--Search END-->
+        <!--CONTENT MAIN START-->
+        <div class="content">
+            <div class="clear">
+            </div>
+            <asp:UpdatePanel ID="updatemsg" runat="server">
+                <ContentTemplate>
+                    <asp:PlaceHolder ID="MsgPlaceHolder" runat="server"></asp:PlaceHolder>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <div class="clear">
+            </div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    <!--Content END-->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->    
+    <script src="/js/bootstrap-timepicker.js"></script>
+    <script src="/js/bootstrap-datepicker.js"></script>
+    <script src="/js/bootstrap-colorpicker.js"></script>
+    <script src="/js/google-code-prettify/prettify.js"></script>
+    <script src="/js/jquery.flot.min.js"></script>
+    <script src="/js/jquery.flot.pie.js"></script>
+    <script src="/js/jquery.flot.orderBars.js"></script>
+    <script src="/js/jquery.flot.resize.js"></script>
+    <script src="/js/graphtable.js"></script>
+    <%--<script src="/js/fullcalendar.min.js"></script>--%>
+    <script src="/js/chosen.jquery.min.js"></script>
+    <script src="/js/autoresize.jquery.min.js"></script>
+    <script src="/js/jquery.tagsinput.min.js"></script>
+    <script src="/js/jquery.autotab.js"></script>
+    <script src="/js/elfinder/js/elfinder.min.js" charset="utf-8"></script>
+    <script src="/js/tiny_mce/tiny_mce.js"></script>
+    <script src="/js/validation/languages/jquery.validationEngine-en.js" charset="utf-8"></script>
+    <script src="/js/validation/jquery.validationEngine.js" charset="utf-8"></script>
+    <script src="/js/jquery.jgrowl_minimized.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/jquery.mousewheel.js"></script>
+    <script src="/js/jquery.jscrollpane.min.js"></script>
+    <script src="/js/jquery.stepy.min.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/raphael.2.1.0.min.js"></script>
+    <script src="/js/justgage.1.0.1.min.js"></script>
+    <script src="/js/glisse.js"></script>    
+    <script src="/js/toastr.min.js" type="text/javascript"></script>
+    <script src="/js/application.js"></script>
+    <script type="text/javascript">
+        $('<img src="/images/loading.orange.gif" />');
+        $('<img src="/images/load/1.gif" />');
+        function DisableOnSubmit(btn) {
+            try {
+                $('body').append('<div style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;z-index: 99999999;"></div>');
+            } catch (e) { }
+            try { $('#' + btn.id).attr('disabled', 'disabled'); } catch (e) { }
+            document.getElementById(btn.id).disabled = 'true';
+            document.getElementById(btn.id).text = 'Please Wait...';
+        }
+        function ShowBlakLoader(ctl) {
+            $('#' + ctl).html('<img src="/images/load/1.gif" />');
+            $('#' + ctl).css({ display: 'inline-block' });
+        }
+        function HideBlakLoader(ctl) {
+            $('#' + ctl).html('');$('#' + ctl).css({ display: 'none' });
+        }
+        window.onload = function() {
+            load_speedbar_notifications(); 
+        }
+        function load_speedbar_notifications() {
+            $.ajax({
+                type: "POST", url: "/Snehrehab.asmx/load_speedbar_notifications",
+                contentType: "application/json; charset=utf-8", dataType: "json",
+                success: function(response) {
+                    if (response.d != null) {
+                        if ($('ul.alert_message_menu li.doctor_req').length > 0) {
+                            $('ul.alert_message_menu li.doctor_req').html(response.d);
+                        }
+                        else {
+                            $('ul.alert_message_menu').append('<li class="speedbar-notifications doctor_req">' + response.d + '</li>');
+                        }
+                    }
+                    else {
+                        if ($('ul.alert_message_menu li.doctor_req').length > 0) {
+                            $('ul.alert_message_menu li.doctor_req').remove(); 
+                        }
+                    }
+                },
+                error: function(msg) { },
+                complete: function() { setTimeout(load_speedbar_notifications, 10000); }
+            });
+        }
+        $(document).on('keyup', '.capitalize', function () {
+            this.value = this.value.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+        });
+    </script>
+    <style>
+    .doctor_req{background: #F50909;}
+    
+    </style>
+    </form>
+</body>
+</html>

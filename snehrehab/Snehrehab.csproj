@@ -1,0 +1,2170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BAB83895-098B-4DEA-AAE5-4A5B8AEE1D09}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>snehrehab</RootNamespace>
+    <AssemblyName>snehrehab</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <UseIISExpress>true</UseIISExpress>
+    <TargetFrameworkProfile />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=3.5.50401.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL" />
+    <Reference Include="AjaxMin, Version=4.97.4951.28478, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL" />
+    <Reference Include="itextsharp, Version=5.4.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\..\main-center\snehrehab\bin\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DataVisualization, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\print.min.css" />
+    <Content Include="css\toastr.min.css" />
+    <Content Include="fullcalender\fullcalendar.min.css" />
+    <Content Include="fullcalender\fullcalendar.min.js" />
+    <Content Include="fullcalender\fullcalendar.print.min.css" />
+    <Content Include="fullcalender\HTMLPage1.htm" />
+    <Content Include="fullcalender\moment.min.js" />
+    <Content Include="fullcalender\scheduler.min.css" />
+    <Content Include="fullcalender\scheduler.min.js" />
+    <Content Include="images\compressedsnehalsign.jpg" />
+    <Content Include="images\compressedsnehlogo.png" />
+    <Content Include="images\footernew.jpg" />
+    <Content Include="images\footer_logo.png" />
+    <Content Include="images\headernew.jpg" />
+    <Content Include="images\header_logo.png" />
+    <Content Include="images\r-eip-rpt.png" />
+    <Content Include="images\leave_approved.png" />
+    <Content Include="images\leave_rejected.png" />
+    <Content Include="images\leave_stop.png" />
+    <Content Include="images\load\new.gif" />
+    <Content Include="images\snehalsign.jpg" />
+    <Content Include="js\html2canvas.js" />
+    <Content Include="js\html2canvas.min.js" />
+    <Content Include="js\jspdf.debug.js" />
+    <Content Include="js\jspdf.min.js" />
+    <Content Include="js\print.min.js" />
+    <Content Include="js\toastr.min.js" />
+    <Content Include="LeaveA.aspx" />
+    <Content Include="LeaveR.aspx" />
+    <Content Include="Member\AdultView.aspx" />
+    <Content Include="Member\Appointmentc.aspx" />
+    <Content Include="Member\AppointmentChart.aspx" />
+    <Content Include="Member\AppointmentEdit.aspx" />
+    <Content Include="Member\AppointmentPaidEdit.aspx" />
+    <Content Include="Member\AptWaiting.aspx" />
+    <Content Include="Member\AptWaitings.aspx" />
+    <Content Include="Member\BirthDayUpComming.aspx" />
+    <Content Include="Member\Doctorv.aspx" />
+    <Content Include="Member\DrAccountSheet.aspx" />
+    <Content Include="Member\DrYesterdayAppoint.aspx" />
+    <Content Include="Member\DrYesterdayAppointEdit.aspx" />
+    <Content Include="Member\DrYesterdayAppointMy.aspx" />
+    <Content Include="Member\DrYesterdayAppointRecord.aspx" />
+    <Content Include="Member\EnquiryReg.aspx" />
+    <Content Include="Member\LeaveSetting.aspx" />
+    <Content Include="Member\Manager.aspx" />
+    <Content Include="Member\Managerd.aspx" />
+    <Content Include="Member\ManagerView.aspx" />
+    <Content Include="Member\MettingSchedule.aspx" />
+    <Content Include="Member\MettingScheduleCncl.aspx" />
+    <Content Include="Member\MettingScheduleEdit.aspx" />
+    <Content Include="Member\MettingSchedules.aspx" />
+    <Content Include="Member\OtherActCategory.aspx" />
+    <Content Include="Member\OtherActivity.aspx" />
+    <Content Include="Member\OtherActProduct.aspx" />
+    <Content Include="Member\OtherActProductd.aspx" />
+    <Content Include="Member\OtherActProducts.aspx" />
+    <Content Include="Member\PackageBulk.aspx" />
+    <Content Include="Member\PackageBulkd.aspx" />
+    <Content Include="Member\PackageBulks.aspx" />
+    <Content Include="Member\PatientPhotoAlert.aspx" />
+    <Content Include="Member\Patientv.aspx" />
+    <Content Include="Member\PediatricView.aspx" />
+    <Content Include="Member\PrintReceipt.aspx" />
+    <Content Include="Member\PrintReceiptCas_Cred.aspx" />
+    <Content Include="Member\Receiption.aspx" />
+    <Content Include="Member\Receiptiond.aspx" />
+    <Content Include="Member\ReceiptionView.aspx" />
+    <Content Include="Member\RegPaymentDetail.aspx" />
+    <Content Include="Member\SendMail.aspx" />
+    <Content Include="Member\TransferAdult.aspx" />
+    <Content Include="Member\TransferPediatric.aspx" />
+    <Content Include="Member\ViewBulkPackageDetails.aspx" />
+    <Content Include="Member\ViewList.aspx" />
+    <Content Include="Member\ViewPackageDetails.aspx" />
+    <Content Include="Member\View_CerDeg_List.aspx" />
+    <Content Include="Member\YesterdayAppointments.aspx" />
+    <Content Include="Reports\Combine_ni_ndt.aspx" />
+    <Content Include="Reports\Demo_Diagnosis.aspx" />
+    <Content Include="Reports\Diagnosis.aspx" />
+    <Content Include="Reports\EIPView.aspx" />
+    <Content Include="Reports\Ndt_view_2025.aspx" />
+    <Content Include="Reports\Ndt_view_2025_other.aspx" />
+    <Content Include="Reports\PatienSession.aspx" />
+    <Content Include="Reports\Patient_BotoxView.aspx" />
+    <Content Include="Reports\Patient_DailyView.aspx" />
+    <Content Include="Reports\Patient_NDT2025.aspx" />
+    <Content Include="Reports\Patient_NdtView.aspx" />
+    <Content Include="Reports\Patient_PreConsultationView.aspx" />
+    <Content Include="Reports\Patient_PreScreenView.aspx" />
+    <Content Include="Reports\Patient_RevalView.aspx" />
+    <Content Include="Reports\Patient_Si2022.aspx" />
+    <Content Include="Reports\Patient_SiView.aspx" />
+    <Content Include="Reports\PreConsultation.aspx" />
+    <Content Include="Reports\PreConsultationView.aspx" />
+    <Content Include="Reports\ReferrenceList.aspx" />
+    <Content Include="Reports\RevalLast.aspx" />
+    <Content Include="Reports\RevalLastReport.aspx" />
+    <Content Include="Reports\RevalPopUp.aspx" />
+    <Content Include="Reports\RevalView1.aspx" />
+    <Content Include="Reports\Si2022.aspx" />
+    <Content Include="Reports\SiView1.aspx" />
+    <Content Include="Reports\YearlyAccount.aspx" />
+    <Content Include="SessionRpt\DailyRpt1.aspx" />
+    <Content Include="SessionRpt\Demo_BotoxRpt.aspx" />
+    <Content Include="SessionRpt\Demo_BotoxView.aspx" />
+    <Content Include="SessionRpt\Demo_DailyRpt.aspx" />
+    <Content Include="SessionRpt\Demo_DailyView.aspx" />
+    <Content Include="SessionRpt\Demo_EIPRpt.aspx" />
+    <Content Include="SessionRpt\Demo_NdtRpt.aspx" />
+    <Content Include="SessionRpt\Demo_NdtView.aspx" />
+    <Content Include="SessionRpt\Demo_PrConsultRpt.aspx" />
+    <Content Include="SessionRpt\Demo_PreScreenRpt.aspx" />
+    <Content Include="SessionRpt\Demo_PreScreenView.aspx" />
+    <Content Include="SessionRpt\Demo_RevalRpt.aspx" />
+    <Content Include="SessionRpt\Demo_RevalView.aspx" />
+    <Content Include="SessionRpt\Demo_SiRpt.aspx" />
+    <Content Include="SessionRpt\Demo_SIRpt2022.aspx" />
+    <Content Include="SessionRpt\Demo_SiView.aspx" />
+    <Content Include="SessionRpt\EIPRpt.aspx" />
+    <Content Include="SessionRpt\EIPView.aspx" />
+    <Content Include="SessionRpt\NDT_SFT_REVAL_RPT.aspx" />
+    <Content Include="SessionRpt\PreConsultationRpt.aspx" />
+    <Content Include="SessionRpt\PreConsultationView.aspx" />
+    <Content Include="SessionRpt\PreConsultRpt.aspx" />
+    <Content Include="SessionRpt\RevalRpt.aspx" />
+    <Content Include="SessionRpt\RevalView.aspx" />
+    <Content Include="SessionRpt\SiRpt.aspx" />
+    <Content Include="SessionRpt\SIRpt2022.aspx" />
+    <Content Include="SessionRpt\SiView.aspx" />
+    <Content Include="SessionRpt\SIview2022.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppController.cs" />
+    <Compile Include="AppModel.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Botox_Report_MailPDF.ashx.cs">
+      <DependentUpon>Botox_Report_MailPDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Daily_Report_MailPDF.ashx.cs">
+      <DependentUpon>Daily_Report_MailPDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\EIP_Report_MailPDF.ashx.cs">
+      <DependentUpon>EIP_Report_MailPDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\MailReceipt_PDFNew.ashx.cs">
+      <DependentUpon>MailReceipt_PDFNew.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Ndt_Report_MailPDF.ashx.cs">
+      <DependentUpon>Ndt_Report_MailPDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Ndt_Report_MailPDF_new.ashx.cs">
+      <DependentUpon>Ndt_Report_MailPDF_new.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Presc_Report_MailPDF.ashx.cs">
+      <DependentUpon>Presc_Report_MailPDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Reval_Report_MailPDF.ashx.cs">
+      <DependentUpon>Reval_Report_MailPDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Si2022_mailaPdf.ashx.cs">
+      <DependentUpon>Si2022_mailaPdf.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Si_Report_MailPDF.ashx.cs">
+      <DependentUpon>Si_Report_MailPDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="LeaveA.aspx.cs">
+      <DependentUpon>LeaveA.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LeaveA.aspx.designer.cs">
+      <DependentUpon>LeaveA.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LeaveR.aspx.cs">
+      <DependentUpon>LeaveR.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LeaveR.aspx.designer.cs">
+      <DependentUpon>LeaveR.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Adult.aspx.designer.cs">
+      <DependentUpon>Adult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AdultView.aspx.cs">
+      <DependentUpon>AdultView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AdultView.aspx.designer.cs">
+      <DependentUpon>AdultView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Alert_PatientPhoto.ashx.cs">
+      <DependentUpon>Alert_PatientPhoto.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppChngeRequest.aspx.cs">
+      <DependentUpon>AppChngeRequest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppChngeRequest.aspx.designer.cs">
+      <DependentUpon>AppChngeRequest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppChngeRequestC.aspx.cs">
+      <DependentUpon>AppChngeRequestC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppChngeRequestC.aspx.designer.cs">
+      <DependentUpon>AppChngeRequestC.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppChngeRequestD.aspx.cs">
+      <DependentUpon>AppChngeRequestD.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppChngeRequestD.aspx.designer.cs">
+      <DependentUpon>AppChngeRequestD.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppChngeRequestP.aspx.cs">
+      <DependentUpon>AppChngeRequestP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppChngeRequestP.aspx.designer.cs">
+      <DependentUpon>AppChngeRequestP.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Appointment.aspx.cs">
+      <DependentUpon>Appointment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Appointment.aspx.designer.cs">
+      <DependentUpon>Appointment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppointmentAbst.aspx.designer.cs">
+      <DependentUpon>AppointmentAbst.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Appointmentc.aspx.cs">
+      <DependentUpon>Appointmentc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Appointmentc.aspx.designer.cs">
+      <DependentUpon>Appointmentc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppointmentChart.aspx.cs">
+      <DependentUpon>AppointmentChart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppointmentChart.aspx.designer.cs">
+      <DependentUpon>AppointmentChart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppointmentCncl.aspx.designer.cs">
+      <DependentUpon>AppointmentCncl.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppointmentEdit.aspx.cs">
+      <DependentUpon>AppointmentEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppointmentEdit.aspx.designer.cs">
+      <DependentUpon>AppointmentEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppointmentPaidEdit.aspx.cs">
+      <DependentUpon>AppointmentPaidEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppointmentPaidEdit.aspx.designer.cs">
+      <DependentUpon>AppointmentPaidEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AppointmentPay.aspx.designer.cs">
+      <DependentUpon>AppointmentPay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Appointments.aspx.designer.cs">
+      <DependentUpon>Appointments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AptDetail.ashx.cs">
+      <DependentUpon>AptDetail.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AptWaiting.aspx.cs">
+      <DependentUpon>AptWaiting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AptWaiting.aspx.designer.cs">
+      <DependentUpon>AptWaiting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\AptWaitings.aspx.cs">
+      <DependentUpon>AptWaitings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AptWaitings.aspx.designer.cs">
+      <DependentUpon>AptWaitings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Banks.aspx.cs">
+      <DependentUpon>Banks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Banks.aspx.designer.cs">
+      <DependentUpon>Banks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\BirthDay.aspx.designer.cs">
+      <DependentUpon>BirthDay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\BirthDayUpComming.aspx.cs">
+      <DependentUpon>BirthDayUpComming.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\BirthDayUpComming.aspx.designer.cs">
+      <DependentUpon>BirthDayUpComming.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\BookingPayment.aspx.designer.cs">
+      <DependentUpon>BookingPayment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\CashEntry.aspx.designer.cs">
+      <DependentUpon>CashEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Doctor.aspx.designer.cs">
+      <DependentUpon>Doctor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DoctorAppSheet.aspx.cs">
+      <DependentUpon>DoctorAppSheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DoctorAppSheet.aspx.designer.cs">
+      <DependentUpon>DoctorAppSheet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DoctorChrges.aspx.designer.cs">
+      <DependentUpon>DoctorChrges.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DoctorCr.aspx.designer.cs">
+      <DependentUpon>DoctorCr.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DoctorCrDr.aspx.designer.cs">
+      <DependentUpon>DoctorCrDr.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Doctord.aspx.designer.cs">
+      <DependentUpon>Doctord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DoctorDr.aspx.designer.cs">
+      <DependentUpon>DoctorDr.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Doctors.aspx.designer.cs">
+      <DependentUpon>Doctors.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Doctorv.aspx.cs">
+      <DependentUpon>Doctorv.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Doctorv.aspx.designer.cs">
+      <DependentUpon>Doctorv.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Downloader.ashx.cs">
+      <DependentUpon>Downloader.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DrAccountSheet.aspx.cs">
+      <DependentUpon>DrAccountSheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DrAccountSheet.aspx.designer.cs">
+      <DependentUpon>DrAccountSheet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DrYesterdayAppoint.aspx.cs">
+      <DependentUpon>DrYesterdayAppoint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DrYesterdayAppoint.aspx.designer.cs">
+      <DependentUpon>DrYesterdayAppoint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DrYesterdayAppointEdit.aspx.cs">
+      <DependentUpon>DrYesterdayAppointEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DrYesterdayAppointEdit.aspx.designer.cs">
+      <DependentUpon>DrYesterdayAppointEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DrYesterdayAppointMy.aspx.cs">
+      <DependentUpon>DrYesterdayAppointMy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DrYesterdayAppointMy.aspx.designer.cs">
+      <DependentUpon>DrYesterdayAppointMy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\DrYesterdayAppointRecord.aspx.cs">
+      <DependentUpon>DrYesterdayAppointRecord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DrYesterdayAppointRecord.aspx.designer.cs">
+      <DependentUpon>DrYesterdayAppointRecord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\EnquiryReg.aspx.cs">
+      <DependentUpon>EnquiryReg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\EnquiryReg.aspx.designer.cs">
+      <DependentUpon>EnquiryReg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\ExpenseEntry.aspx.cs">
+      <DependentUpon>ExpenseEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\ExpenseEntry.aspx.designer.cs">
+      <DependentUpon>ExpenseEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\FeedBack.aspx.cs">
+      <DependentUpon>FeedBack.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\FeedBack.aspx.designer.cs">
+      <DependentUpon>FeedBack.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\FeedbackAll.aspx.cs">
+      <DependentUpon>FeedbackAll.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\FeedbackAll.aspx.designer.cs">
+      <DependentUpon>FeedbackAll.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Feedbacks.aspx.cs">
+      <DependentUpon>Feedbacks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Feedbacks.aspx.designer.cs">
+      <DependentUpon>Feedbacks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\FileUploadHandler.ashx.cs">
+      <DependentUpon>FileUploadHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Leave.aspx.designer.cs">
+      <DependentUpon>Leave.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\LeaveAll.aspx.designer.cs">
+      <DependentUpon>LeaveAll.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\LeaveDel.aspx.cs">
+      <DependentUpon>LeaveDel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\LeaveDel.aspx.designer.cs">
+      <DependentUpon>LeaveDel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\LeaveEdit.aspx.cs">
+      <DependentUpon>LeaveEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\LeaveEdit.aspx.designer.cs">
+      <DependentUpon>LeaveEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\LeaveRpt.aspx.cs">
+      <DependentUpon>LeaveRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\LeaveRpt.aspx.designer.cs">
+      <DependentUpon>LeaveRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Leaves.aspx.designer.cs">
+      <DependentUpon>Leaves.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\LeaveSetting.aspx.cs">
+      <DependentUpon>LeaveSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\LeaveSetting.aspx.designer.cs">
+      <DependentUpon>LeaveSetting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MailIDGet.ashx.cs">
+      <DependentUpon>MailIDGet.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MailReceipt_PDF.ashx.cs">
+      <DependentUpon>MailReceipt_PDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Manager.aspx.cs">
+      <DependentUpon>Manager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Manager.aspx.designer.cs">
+      <DependentUpon>Manager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Managerd.aspx.cs">
+      <DependentUpon>Managerd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Managerd.aspx.designer.cs">
+      <DependentUpon>Managerd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\ManagerView.aspx.cs">
+      <DependentUpon>ManagerView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\ManagerView.aspx.designer.cs">
+      <DependentUpon>ManagerView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MettingSchedule.aspx.cs">
+      <DependentUpon>MettingSchedule.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\MettingSchedule.aspx.designer.cs">
+      <DependentUpon>MettingSchedule.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MettingScheduleCncl.aspx.cs">
+      <DependentUpon>MettingScheduleCncl.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\MettingScheduleCncl.aspx.designer.cs">
+      <DependentUpon>MettingScheduleCncl.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MettingScheduleEdit.aspx.cs">
+      <DependentUpon>MettingScheduleEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\MettingScheduleEdit.aspx.designer.cs">
+      <DependentUpon>MettingScheduleEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MettingSchedules.aspx.cs">
+      <DependentUpon>MettingSchedules.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\MettingSchedules.aspx.designer.cs">
+      <DependentUpon>MettingSchedules.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MyAppointments.aspx.designer.cs">
+      <DependentUpon>MyAppointments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\NoAuth.aspx.cs">
+      <DependentUpon>NoAuth.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\NoAuth.aspx.designer.cs">
+      <DependentUpon>NoAuth.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\OtherActCategory.aspx.cs">
+      <DependentUpon>OtherActCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\OtherActCategory.aspx.designer.cs">
+      <DependentUpon>OtherActCategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\OtherActivity.aspx.cs">
+      <DependentUpon>OtherActivity.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\OtherActivity.aspx.designer.cs">
+      <DependentUpon>OtherActivity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\OtherActProduct.aspx.cs">
+      <DependentUpon>OtherActProduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\OtherActProduct.aspx.designer.cs">
+      <DependentUpon>OtherActProduct.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\OtherActProductd.aspx.cs">
+      <DependentUpon>OtherActProductd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\OtherActProductd.aspx.designer.cs">
+      <DependentUpon>OtherActProductd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\OtherActProducts.aspx.cs">
+      <DependentUpon>OtherActProducts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\OtherActProducts.aspx.designer.cs">
+      <DependentUpon>OtherActProducts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Package.aspx.cs">
+      <DependentUpon>Package.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Package.aspx.designer.cs">
+      <DependentUpon>Package.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PackageBooking.aspx.designer.cs">
+      <DependentUpon>PackageBooking.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PackageBookingd.aspx.cs">
+      <DependentUpon>PackageBookingd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PackageBookingd.aspx.designer.cs">
+      <DependentUpon>PackageBookingd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PackageBookings.aspx.designer.cs">
+      <DependentUpon>PackageBookings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PackageBulk.aspx.cs">
+      <DependentUpon>PackageBulk.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PackageBulk.aspx.designer.cs">
+      <DependentUpon>PackageBulk.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PackageBulkd.aspx.cs">
+      <DependentUpon>PackageBulkd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PackageBulkd.aspx.designer.cs">
+      <DependentUpon>PackageBulkd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PackageBulks.aspx.cs">
+      <DependentUpon>PackageBulks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PackageBulks.aspx.designer.cs">
+      <DependentUpon>PackageBulks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Packaged.aspx.cs">
+      <DependentUpon>Packaged.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Packaged.aspx.designer.cs">
+      <DependentUpon>Packaged.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Packages.aspx.cs">
+      <DependentUpon>Packages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Packages.aspx.designer.cs">
+      <DependentUpon>Packages.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PatientChrges.aspx.designer.cs">
+      <DependentUpon>PatientChrges.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Patientd.aspx.designer.cs">
+      <DependentUpon>Patientd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Patiente.aspx.designer.cs">
+      <DependentUpon>Patiente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PatientPhotoAlert.aspx.cs">
+      <DependentUpon>PatientPhotoAlert.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PatientPhotoAlert.aspx.designer.cs">
+      <DependentUpon>PatientPhotoAlert.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Patients.aspx.designer.cs">
+      <DependentUpon>Patients.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Patientv.aspx.cs">
+      <DependentUpon>Patientv.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Patientv.aspx.designer.cs">
+      <DependentUpon>Patientv.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Pediatric.aspx.designer.cs">
+      <DependentUpon>Pediatric.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PediatricView.aspx.cs">
+      <DependentUpon>PediatricView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PediatricView.aspx.designer.cs">
+      <DependentUpon>PediatricView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PrintReceipt.ashx.cs">
+      <DependentUpon>PrintReceipt.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PrintReceipt.aspx.cs">
+      <DependentUpon>PrintReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PrintReceipt.aspx.designer.cs">
+      <DependentUpon>PrintReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\PrintReceiptCas_Cred.aspx.cs">
+      <DependentUpon>PrintReceiptCas_Cred.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PrintReceiptCas_Cred.aspx.designer.cs">
+      <DependentUpon>PrintReceiptCas_Cred.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Product.aspx.cs">
+      <DependentUpon>Product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Product.aspx.designer.cs">
+      <DependentUpon>Product.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\ProductCat.aspx.cs">
+      <DependentUpon>ProductCat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\ProductCat.aspx.designer.cs">
+      <DependentUpon>ProductCat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Productd.aspx.cs">
+      <DependentUpon>Productd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Productd.aspx.designer.cs">
+      <DependentUpon>Productd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Products.aspx.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Products.aspx.designer.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Receiption.aspx.cs">
+      <DependentUpon>Receiption.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Receiption.aspx.designer.cs">
+      <DependentUpon>Receiption.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Receiptiond.aspx.cs">
+      <DependentUpon>Receiptiond.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Receiptiond.aspx.designer.cs">
+      <DependentUpon>Receiptiond.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\ReceiptionView.aspx.cs">
+      <DependentUpon>ReceiptionView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\ReceiptionView.aspx.designer.cs">
+      <DependentUpon>ReceiptionView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\RegistrationPayment.aspx.designer.cs">
+      <DependentUpon>RegistrationPayment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\RegPaymentDetail.aspx.cs">
+      <DependentUpon>RegPaymentDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\RegPaymentDetail.aspx.designer.cs">
+      <DependentUpon>RegPaymentDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\resizeImage.ashx.cs">
+      <DependentUpon>resizeImage.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\SendMail.aspx.cs">
+      <DependentUpon>SendMail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\SendMail.aspx.designer.cs">
+      <DependentUpon>SendMail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\SessionChrges.aspx.designer.cs">
+      <DependentUpon>SessionChrges.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\SettingContact.aspx.cs">
+      <DependentUpon>SettingContact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\SettingContact.aspx.designer.cs">
+      <DependentUpon>SettingContact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Site.master.designer.cs">
+      <DependentUpon>Site.master</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Support.aspx.designer.cs">
+      <DependentUpon>Support.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Supporte.aspx.designer.cs">
+      <DependentUpon>Supporte.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\SupportMy.aspx.designer.cs">
+      <DependentUpon>SupportMy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\Supports.aspx.designer.cs">
+      <DependentUpon>Supports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\TodayAppointments.aspx.designer.cs">
+      <DependentUpon>TodayAppointments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\TransferAdult.aspx.cs">
+      <DependentUpon>TransferAdult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\TransferAdult.aspx.designer.cs">
+      <DependentUpon>TransferAdult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\TransferPediatric.aspx.cs">
+      <DependentUpon>TransferPediatric.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\TransferPediatric.aspx.designer.cs">
+      <DependentUpon>TransferPediatric.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\UpdateMail.ashx.cs">
+      <DependentUpon>UpdateMail.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\UserAcc.aspx.designer.cs">
+      <DependentUpon>UserAcc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\UserAccd.aspx.designer.cs">
+      <DependentUpon>UserAccd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\UserAcce.aspx.designer.cs">
+      <DependentUpon>UserAcce.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\UserAccs.aspx.designer.cs">
+      <DependentUpon>UserAccs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\UserAct.aspx.cs">
+      <DependentUpon>UserAct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\UserAct.aspx.designer.cs">
+      <DependentUpon>UserAct.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\UserActs.aspx.cs">
+      <DependentUpon>UserActs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\UserActs.aspx.designer.cs">
+      <DependentUpon>UserActs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\UserPwd.aspx.designer.cs">
+      <DependentUpon>UserPwd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\ViewBulkPackageDetails.aspx.cs">
+      <DependentUpon>ViewBulkPackageDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\ViewBulkPackageDetails.aspx.designer.cs">
+      <DependentUpon>ViewBulkPackageDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\ViewList.aspx.cs">
+      <DependentUpon>ViewList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\ViewList.aspx.designer.cs">
+      <DependentUpon>ViewList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\ViewPackageDetails.aspx.cs">
+      <DependentUpon>ViewPackageDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\ViewPackageDetails.aspx.designer.cs">
+      <DependentUpon>ViewPackageDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\View_CerDeg_List.aspx.cs">
+      <DependentUpon>View_CerDeg_List.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\View_CerDeg_List.aspx.designer.cs">
+      <DependentUpon>View_CerDeg_List.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\WaitingCancel.ashx.cs">
+      <DependentUpon>WaitingCancel.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\WaitingConfirm.ashx.cs">
+      <DependentUpon>WaitingConfirm.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\YesterdayAppointments.aspx.cs">
+      <DependentUpon>YesterdayAppointments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\YesterdayAppointments.aspx.designer.cs">
+      <DependentUpon>YesterdayAppointments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Menus\LeftM.ascx.designer.cs">
+      <DependentUpon>LeftM.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Menus\SpeedM.ascx.designer.cs">
+      <DependentUpon>SpeedM.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Menus\TopM.ascx.designer.cs">
+      <DependentUpon>TopM.ascx</DependentUpon>
+    </Compile>
+    <Content Include="css\bootstrap-responsive.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\chosen.css" />
+    <Content Include="css\colorpicker.css" />
+    <Content Include="css\datepicker.css" />
+    <Content Include="css\glisse.css" />
+    <Content Include="css\icon\font-awesome.css" />
+    <Content Include="css\jquery-ui-1.8.16.custom.css" />
+    <Content Include="css\jquery.jgrowl.css" />
+    <Content Include="css\jquery.jscrollpane.css" />
+    <Content Include="css\jquery.stepy.css" />
+    <Content Include="css\jquery.tagsinput.css" />
+    <Content Include="css\login.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\timepicker.css" />
+    <Content Include="css\validationEngine.jquery.css" />
+    <Content Include="Files\635619318592659664.js" />
+    <Content Include="images\alpha.png" />
+    <Content Include="images\bg_filter_header.gif" />
+    <Content Include="images\bg_login.jpg" />
+    <Content Include="images\bg_sidebar.png" />
+    <Content Include="images\check_radio_sheet.png" />
+    <Content Include="images\chosen-down.png" />
+    <Content Include="images\chosen-sprite.png" />
+    <Content Include="images\close.gif" />
+    <Content Include="images\dh-appointment.png" />
+    <Content Include="images\dh-birthday.png" />
+    <Content Include="images\dh-booking.png" />
+    <Content Include="images\dh-doctor.png" />
+    <Content Include="images\dh-leaves.png" />
+    <Content Include="images\dh-management.png" />
+    <Content Include="images\dh-patient.png" />
+    <Content Include="images\dh-reportings.png" />
+    <Content Include="images\dh-settings.png" />
+    <Content Include="images\dh-support-ticket.png" />
+    <Content Include="images\dh-users.png" />
+    <Content Include="images\green_bg_Tab.gif" />
+    <Content Include="images\green_left_tab.gif" />
+    <Content Include="images\green_right_Tab.gif" />
+    <Content Include="images\loader.gif" />
+    <Content Include="images\loading.orange.gif" />
+    <Content Include="images\load\1.gif" />
+    <Content Include="images\load\10.gif" />
+    <Content Include="images\load\11.gif" />
+    <Content Include="images\load\12.gif" />
+    <Content Include="images\load\13.gif" />
+    <Content Include="images\load\14.gif" />
+    <Content Include="images\load\15.gif" />
+    <Content Include="images\load\16.gif" />
+    <Content Include="images\load\17.gif" />
+    <Content Include="images\load\18.gif" />
+    <Content Include="images\load\19.gif" />
+    <Content Include="images\load\2.gif" />
+    <Content Include="images\load\20.gif" />
+    <Content Include="images\load\21.gif" />
+    <Content Include="images\load\22.gif" />
+    <Content Include="images\load\23.gif" />
+    <Content Include="images\load\24.gif" />
+    <Content Include="images\load\25.gif" />
+    <Content Include="images\load\26.gif" />
+    <Content Include="images\load\27.gif" />
+    <Content Include="images\load\28.gif" />
+    <Content Include="images\load\29.gif" />
+    <Content Include="images\load\3.gif" />
+    <Content Include="images\load\30.gif" />
+    <Content Include="images\load\31.gif" />
+    <Content Include="images\load\32.gif" />
+    <Content Include="images\load\33.gif" />
+    <Content Include="images\load\34.gif" />
+    <Content Include="images\load\35.gif" />
+    <Content Include="images\load\36.gif" />
+    <Content Include="images\load\37.gif" />
+    <Content Include="images\load\38.gif" />
+    <Content Include="images\load\39.gif" />
+    <Content Include="images\load\4.gif" />
+    <Content Include="images\load\5.gif" />
+    <Content Include="images\load\6.gif" />
+    <Content Include="images\load\7.gif" />
+    <Content Include="images\load\8.gif" />
+    <Content Include="images\minus.jpg" />
+    <Content Include="images\minus1.jpg" />
+    <Content Include="images\next.png" />
+    <Content Include="images\no_photo.png" />
+    <Content Include="images\prev.png" />
+    <Content Include="images\r-doctor-account.png" />
+    <Content Include="images\r-head-account.png" />
+    <Content Include="images\r-hospital-account.png" />
+    <Content Include="images\r-patient-account.png" />
+    <Content Include="images\snehlogin.png" />
+    <Content Include="images\snehlogo.png" />
+    <Content Include="images\users.jpg" />
+    <Content Include="js\application.js" />
+    <Content Include="js\autoresize.jquery.min.js" />
+    <Content Include="js\bootstrap-colorpicker.js" />
+    <Content Include="js\bootstrap-datepicker.js" />
+    <Content Include="js\bootstrap-timepicker.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\chosen.jquery.min.js" />
+    <Content Include="js\elfinder\css\elfinder.css" />
+    <Content Include="js\elfinder\images\ql.png" />
+    <Content Include="js\elfinder\images\spinner.gif" />
+    <Content Include="js\elfinder\js\elfinder.min.js" />
+    <Content Include="js\fullcalendar.min.js" />
+    <Content Include="js\glisse.js" />
+    <Content Include="js\google-code-prettify\prettify.js" />
+    <Content Include="js\graphtable.js" />
+    <Content Include="js\jquery-1.3.2.min.js" />
+    <Content Include="js\jquery-ui.min.js" />
+    <Content Include="js\jquery.autotab.js" />
+    <Content Include="js\jquery.dataTables.min.js" />
+    <Content Include="js\jquery.flot.min.js" />
+    <Content Include="js\jquery.flot.orderBars.js" />
+    <Content Include="js\jquery.flot.pie.js" />
+    <Content Include="js\jquery.flot.resize.js" />
+    <Content Include="js\jquery.jgrowl_minimized.js" />
+    <Content Include="js\jquery.jscrollpane.min.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\jquery.mousewheel.js" />
+    <Content Include="js\jquery.stepy.min.js" />
+    <Content Include="js\jquery.tagsinput.min.js" />
+    <Content Include="js\jquery.textchange.min.js" />
+    <Content Include="js\jquery.tooltip.min.js" />
+    <Content Include="js\jquery.validate.min.js" />
+    <Content Include="js\justgage.1.0.1.min.js" />
+    <Content Include="js\raphael.2.1.0.min.js" />
+    <Content Include="js\tiny_mce\langs\en.js" />
+    <Content Include="js\tiny_mce\plugins\advhr\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\advimage\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\advlink\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\contextmenu\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\contextmenu\Read me!.txt" />
+    <Content Include="js\tiny_mce\plugins\directionality\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\emotions\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\emotions\Read me!.txt" />
+    <Content Include="js\tiny_mce\plugins\fullscreen\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\iespell\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\inlinepopups\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\insertdatetime\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\layer\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\media\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\nonbreaking\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\noneditable\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\pagebreak\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\paste\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\paste\Read me!.txt" />
+    <Content Include="js\tiny_mce\plugins\preview\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\print\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\save\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\searchreplace\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\style\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\table\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\table\Read me!.txt" />
+    <Content Include="js\tiny_mce\plugins\template\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\template\Read me!.txt" />
+    <Content Include="js\tiny_mce\plugins\visualchars\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\visualchars\Read me!.txt" />
+    <Content Include="js\tiny_mce\plugins\xhtmlxtras\editor_plugin.js" />
+    <Content Include="js\tiny_mce\plugins\xhtmlxtras\Read me!.txt" />
+    <Content Include="js\tiny_mce\themes\advanced\editor_template.js" />
+    <Content Include="js\tiny_mce\tiny_mce.js" />
+    <Content Include="js\validation\jquery.validationEngine.js" />
+    <Content Include="js\validation\languages\jquery.validationEngine-en.js" />
+    <Content Include="Member\Adult.aspx" />
+    <Content Include="Member\AppointmentAbst.aspx" />
+    <Content Include="Member\AppointmentCncl.aspx" />
+    <Content Include="Member\AppointmentPay.aspx" />
+    <Content Include="Member\Appointments.aspx" />
+    <Content Include="Member\BirthDay.aspx" />
+    <Content Include="Member\BookingPayment.aspx" />
+    <Content Include="Member\CashEntry.aspx" />
+    <Content Include="Member\Default.aspx" />
+    <Content Include="Member\Doctor.aspx" />
+    <Content Include="Member\DoctorChrges.aspx" />
+    <Content Include="Member\DoctorCr.aspx" />
+    <Content Include="Member\DoctorCrDr.aspx" />
+    <Content Include="Member\Doctord.aspx" />
+    <Content Include="Member\DoctorDr.aspx" />
+    <Content Include="Member\Doctors.aspx" />
+    <Content Include="Member\Leave.aspx" />
+    <Content Include="Member\LeaveAll.aspx" />
+    <Content Include="Member\Leaves.aspx" />
+    <Content Include="Member\MyAppointments.aspx" />
+    <Content Include="Member\PackageBooking.aspx" />
+    <Content Include="Member\PackageBookings.aspx" />
+    <Content Include="Member\PatientChrges.aspx" />
+    <Content Include="Member\Patientd.aspx" />
+    <Content Include="Member\Patiente.aspx" />
+    <Content Include="Member\Patients.aspx" />
+    <Content Include="Member\Pediatric.aspx" />
+    <Content Include="Member\RegistrationPayment.aspx" />
+    <Content Include="Member\SessionChrges.aspx" />
+    <Content Include="Member\Support.aspx" />
+    <Content Include="Member\Supporte.aspx" />
+    <Content Include="Member\SupportMy.aspx" />
+    <Content Include="Member\Supports.aspx" />
+    <Content Include="Member\TodayAppointments.aspx" />
+    <Content Include="Member\UserAcc.aspx" />
+    <Content Include="Member\UserAccd.aspx" />
+    <Content Include="Member\UserAcce.aspx" />
+    <Content Include="Member\UserAccs.aspx" />
+    <Content Include="Member\UserPwd.aspx" />
+    <Content Include="Menus\LeftM.ascx" />
+    <Content Include="Menus\SpeedM.ascx" />
+    <Content Include="Menus\TopM.ascx" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Adult.aspx.cs">
+      <DependentUpon>Adult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppointmentAbst.aspx.cs">
+      <DependentUpon>AppointmentAbst.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppointmentCncl.aspx.cs">
+      <DependentUpon>AppointmentCncl.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\AppointmentPay.aspx.cs">
+      <DependentUpon>AppointmentPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Appointments.aspx.cs">
+      <DependentUpon>Appointments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\BirthDay.aspx.cs">
+      <DependentUpon>BirthDay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\BookingPayment.aspx.cs">
+      <DependentUpon>BookingPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\CashEntry.aspx.cs">
+      <DependentUpon>CashEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Doctor.aspx.cs">
+      <DependentUpon>Doctor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DoctorChrges.aspx.cs">
+      <DependentUpon>DoctorChrges.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DoctorCr.aspx.cs">
+      <DependentUpon>DoctorCr.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DoctorCrDr.aspx.cs">
+      <DependentUpon>DoctorCrDr.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Doctord.aspx.cs">
+      <DependentUpon>Doctord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\DoctorDr.aspx.cs">
+      <DependentUpon>DoctorDr.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Doctors.aspx.cs">
+      <DependentUpon>Doctors.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Leave.aspx.cs">
+      <DependentUpon>Leave.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\LeaveAll.aspx.cs">
+      <DependentUpon>LeaveAll.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Leaves.aspx.cs">
+      <DependentUpon>Leaves.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\MyAppointments.aspx.cs">
+      <DependentUpon>MyAppointments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PackageBooking.aspx.cs">
+      <DependentUpon>PackageBooking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PackageBookings.aspx.cs">
+      <DependentUpon>PackageBookings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\PatientChrges.aspx.cs">
+      <DependentUpon>PatientChrges.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Patientd.aspx.cs">
+      <DependentUpon>Patientd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Patiente.aspx.cs">
+      <DependentUpon>Patiente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Patients.aspx.cs">
+      <DependentUpon>Patients.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Pediatric.aspx.cs">
+      <DependentUpon>Pediatric.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\RegistrationPayment.aspx.cs">
+      <DependentUpon>RegistrationPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\SessionChrges.aspx.cs">
+      <DependentUpon>SessionChrges.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Site.master.cs">
+      <DependentUpon>Site.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Support.aspx.cs">
+      <DependentUpon>Support.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Supporte.aspx.cs">
+      <DependentUpon>Supporte.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\SupportMy.aspx.cs">
+      <DependentUpon>SupportMy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Supports.aspx.cs">
+      <DependentUpon>Supports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\TodayAppointments.aspx.cs">
+      <DependentUpon>TodayAppointments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\UserAcc.aspx.cs">
+      <DependentUpon>UserAcc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\UserAccd.aspx.cs">
+      <DependentUpon>UserAccd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\UserAcce.aspx.cs">
+      <DependentUpon>UserAcce.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\UserAccs.aspx.cs">
+      <DependentUpon>UserAccs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\UserPwd.aspx.cs">
+      <DependentUpon>UserPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Menus\LeftM.ascx.cs">
+      <DependentUpon>LeftM.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Menus\SpeedM.ascx.cs">
+      <DependentUpon>SpeedM.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Menus\TopM.ascx.cs">
+      <DependentUpon>TopM.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Account.aspx.cs">
+      <DependentUpon>Account.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Account.aspx.designer.cs">
+      <DependentUpon>Account.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AccountHead.aspx.cs">
+      <DependentUpon>AccountHead.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AccountHead.aspx.designer.cs">
+      <DependentUpon>AccountHead.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AccountSheet.aspx.cs">
+      <DependentUpon>AccountSheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AccountSheet.aspx.designer.cs">
+      <DependentUpon>AccountSheet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AdultAccountSheet.aspx.cs">
+      <DependentUpon>AdultAccountSheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AdultAccountSheet.aspx.designer.cs">
+      <DependentUpon>AdultAccountSheet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AList.aspx.cs">
+      <DependentUpon>AList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AList.aspx.designer.cs">
+      <DependentUpon>AList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AppointmentDaily.aspx.cs">
+      <DependentUpon>AppointmentDaily.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AppointmentDaily.aspx.designer.cs">
+      <DependentUpon>AppointmentDaily.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\BotoxView.aspx.cs">
+      <DependentUpon>BotoxView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\BotoxView.aspx.designer.cs">
+      <DependentUpon>BotoxView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CashEntries.aspx.cs">
+      <DependentUpon>CashEntries.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CashEntries.aspx.designer.cs">
+      <DependentUpon>CashEntries.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Combine_ni_ndt.aspx.cs">
+      <DependentUpon>Combine_ni_ndt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Combine_ni_ndt.aspx.designer.cs">
+      <DependentUpon>Combine_ni_ndt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DailyView.aspx.cs">
+      <DependentUpon>DailyView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DailyView.aspx.designer.cs">
+      <DependentUpon>DailyView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Demo_Diagnosis.aspx.cs">
+      <DependentUpon>Demo_Diagnosis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Demo_Diagnosis.aspx.designer.cs">
+      <DependentUpon>Demo_Diagnosis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Diagnosis.aspx.cs">
+      <DependentUpon>Diagnosis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Diagnosis.aspx.designer.cs">
+      <DependentUpon>Diagnosis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DoctorAccount.aspx.cs">
+      <DependentUpon>DoctorAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DoctorAccount.aspx.designer.cs">
+      <DependentUpon>DoctorAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DoctorSession.aspx.cs">
+      <DependentUpon>DoctorSession.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DoctorSession.aspx.designer.cs">
+      <DependentUpon>DoctorSession.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\EIPView.aspx.cs">
+      <DependentUpon>EIPView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\EIPView.aspx.designer.cs">
+      <DependentUpon>EIPView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\HospitalAccount.aspx.cs">
+      <DependentUpon>HospitalAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\HospitalAccount.aspx.designer.cs">
+      <DependentUpon>HospitalAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\LeaveReport.aspx.cs">
+      <DependentUpon>LeaveReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\LeaveReport.aspx.designer.cs">
+      <DependentUpon>LeaveReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MonthlyAccount.aspx.cs">
+      <DependentUpon>MonthlyAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\MonthlyAccount.aspx.designer.cs">
+      <DependentUpon>MonthlyAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MonthlyPatientList.aspx.cs">
+      <DependentUpon>MonthlyPatientList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\MonthlyPatientList.aspx.designer.cs">
+      <DependentUpon>MonthlyPatientList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\NdtView.aspx.cs">
+      <DependentUpon>NdtView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\NdtView.aspx.designer.cs">
+      <DependentUpon>NdtView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Ndt_view_2025.aspx.cs">
+      <DependentUpon>Ndt_view_2025.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Ndt_view_2025.aspx.designer.cs">
+      <DependentUpon>Ndt_view_2025.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Ndt_view_2025_other.aspx.cs">
+      <DependentUpon>Ndt_view_2025_other.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Ndt_view_2025_other.aspx.designer.cs">
+      <DependentUpon>Ndt_view_2025_other.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PatienSession.aspx.cs">
+      <DependentUpon>PatienSession.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PatienSession.aspx.designer.cs">
+      <DependentUpon>PatienSession.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PatientAccount.aspx.cs">
+      <DependentUpon>PatientAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PatientAccount.aspx.designer.cs">
+      <DependentUpon>PatientAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PatientRptStatus.aspx.cs">
+      <DependentUpon>PatientRptStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PatientRptStatus.aspx.designer.cs">
+      <DependentUpon>PatientRptStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_BotoxView.aspx.cs">
+      <DependentUpon>Patient_BotoxView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_BotoxView.aspx.designer.cs">
+      <DependentUpon>Patient_BotoxView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_DailyView.aspx.cs">
+      <DependentUpon>Patient_DailyView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_DailyView.aspx.designer.cs">
+      <DependentUpon>Patient_DailyView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_NDT2025.aspx.cs">
+      <DependentUpon>Patient_NDT2025.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_NDT2025.aspx.designer.cs">
+      <DependentUpon>Patient_NDT2025.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_NdtView.aspx.cs">
+      <DependentUpon>Patient_NdtView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_NdtView.aspx.designer.cs">
+      <DependentUpon>Patient_NdtView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_PreConsultationView.aspx.cs">
+      <DependentUpon>Patient_PreConsultationView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_PreConsultationView.aspx.designer.cs">
+      <DependentUpon>Patient_PreConsultationView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_PreScreenView.aspx.cs">
+      <DependentUpon>Patient_PreScreenView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_PreScreenView.aspx.designer.cs">
+      <DependentUpon>Patient_PreScreenView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_RevalView.aspx.cs">
+      <DependentUpon>Patient_RevalView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_RevalView.aspx.designer.cs">
+      <DependentUpon>Patient_RevalView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_Si2022.aspx.cs">
+      <DependentUpon>Patient_Si2022.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_Si2022.aspx.designer.cs">
+      <DependentUpon>Patient_Si2022.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Patient_SiView.aspx.cs">
+      <DependentUpon>Patient_SiView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Patient_SiView.aspx.designer.cs">
+      <DependentUpon>Patient_SiView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PediatricFrequency.aspx.cs">
+      <DependentUpon>PediatricFrequency.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PediatricFrequency.aspx.designer.cs">
+      <DependentUpon>PediatricFrequency.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PreConsultation.aspx.cs">
+      <DependentUpon>PreConsultation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PreConsultation.aspx.designer.cs">
+      <DependentUpon>PreConsultation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PreConsultationView.aspx.cs">
+      <DependentUpon>PreConsultationView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PreConsultationView.aspx.designer.cs">
+      <DependentUpon>PreConsultationView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReferrenceList.aspx.cs">
+      <DependentUpon>ReferrenceList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ReferrenceList.aspx.designer.cs">
+      <DependentUpon>ReferrenceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportStatus.aspx.cs">
+      <DependentUpon>ReportStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportStatus.aspx.designer.cs">
+      <DependentUpon>ReportStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RevalLast.aspx.cs">
+      <DependentUpon>RevalLast.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RevalLast.aspx.designer.cs">
+      <DependentUpon>RevalLast.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RevalLastReport.aspx.cs">
+      <DependentUpon>RevalLastReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RevalLastReport.aspx.designer.cs">
+      <DependentUpon>RevalLastReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RevalPopUp.aspx.cs">
+      <DependentUpon>RevalPopUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RevalPopUp.aspx.designer.cs">
+      <DependentUpon>RevalPopUp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RevalView1.aspx.cs">
+      <DependentUpon>RevalView1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RevalView1.aspx.designer.cs">
+      <DependentUpon>RevalView1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Si2022.aspx.cs">
+      <DependentUpon>Si2022.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Si2022.aspx.designer.cs">
+      <DependentUpon>Si2022.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\SiView1.aspx.cs">
+      <DependentUpon>SiView1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\SiView1.aspx.designer.cs">
+      <DependentUpon>SiView1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\YearlyAccount.aspx.cs">
+      <DependentUpon>YearlyAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\YearlyAccount.aspx.designer.cs">
+      <DependentUpon>YearlyAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\BotoxRpt.aspx.cs">
+      <DependentUpon>BotoxRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\BotoxRpt.aspx.designer.cs">
+      <DependentUpon>BotoxRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\BotoxView.aspx.cs">
+      <DependentUpon>BotoxView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\BotoxView.aspx.designer.cs">
+      <DependentUpon>BotoxView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Construction.aspx.cs">
+      <DependentUpon>Construction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Construction.aspx.designer.cs">
+      <DependentUpon>Construction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\CreateRpt.ashx.cs">
+      <DependentUpon>CreateRpt.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\CreateRpt_PreConsult.cs" />
+    <Compile Include="SessionRpt\CreateRpt_SI.cs" />
+    <Compile Include="SessionRpt\CreatrRpt_SI2022.cs" />
+    <Compile Include="SessionRpt\DailyRpt.aspx.cs">
+      <DependentUpon>DailyRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\DailyRpt.aspx.designer.cs">
+      <DependentUpon>DailyRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\DailyRpt1.aspx.cs">
+      <DependentUpon>DailyRpt1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\DailyRpt1.aspx.designer.cs">
+      <DependentUpon>DailyRpt1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\DailyView.aspx.cs">
+      <DependentUpon>DailyView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\DailyView.aspx.designer.cs">
+      <DependentUpon>DailyView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_BotoxRpt.aspx.cs">
+      <DependentUpon>Demo_BotoxRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_BotoxRpt.aspx.designer.cs">
+      <DependentUpon>Demo_BotoxRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_BotoxView.aspx.cs">
+      <DependentUpon>Demo_BotoxView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_BotoxView.aspx.designer.cs">
+      <DependentUpon>Demo_BotoxView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_DailyRpt.aspx.cs">
+      <DependentUpon>Demo_DailyRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_DailyRpt.aspx.designer.cs">
+      <DependentUpon>Demo_DailyRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_DailyView.aspx.cs">
+      <DependentUpon>Demo_DailyView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_DailyView.aspx.designer.cs">
+      <DependentUpon>Demo_DailyView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_EIPRpt.aspx.cs">
+      <DependentUpon>Demo_EIPRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_EIPRpt.aspx.designer.cs">
+      <DependentUpon>Demo_EIPRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_NdtRpt.aspx.cs">
+      <DependentUpon>Demo_NdtRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_NdtRpt.aspx.designer.cs">
+      <DependentUpon>Demo_NdtRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_NdtView.aspx.cs">
+      <DependentUpon>Demo_NdtView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_NdtView.aspx.designer.cs">
+      <DependentUpon>Demo_NdtView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_PrConsultRpt.aspx.cs">
+      <DependentUpon>Demo_PrConsultRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_PrConsultRpt.aspx.designer.cs">
+      <DependentUpon>Demo_PrConsultRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_PreScreenRpt.aspx.cs">
+      <DependentUpon>Demo_PreScreenRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_PreScreenRpt.aspx.designer.cs">
+      <DependentUpon>Demo_PreScreenRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_PreScreenView.aspx.cs">
+      <DependentUpon>Demo_PreScreenView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_PreScreenView.aspx.designer.cs">
+      <DependentUpon>Demo_PreScreenView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_RevalRpt.aspx.cs">
+      <DependentUpon>Demo_RevalRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_RevalRpt.aspx.designer.cs">
+      <DependentUpon>Demo_RevalRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_RevalView.aspx.cs">
+      <DependentUpon>Demo_RevalView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_RevalView.aspx.designer.cs">
+      <DependentUpon>Demo_RevalView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_SiRpt.aspx.cs">
+      <DependentUpon>Demo_SiRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_SiRpt.aspx.designer.cs">
+      <DependentUpon>Demo_SiRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_SIRpt2022.aspx.cs">
+      <DependentUpon>Demo_SIRpt2022.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_SIRpt2022.aspx.designer.cs">
+      <DependentUpon>Demo_SIRpt2022.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_SiView.aspx.cs">
+      <DependentUpon>Demo_SiView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Demo_SiView.aspx.designer.cs">
+      <DependentUpon>Demo_SiView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\DownloadCreateRpt.ashx.cs">
+      <DependentUpon>DownloadCreateRpt.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Download_CreateRpt_PreConsult.cs" />
+    <Compile Include="SessionRpt\Download_CreateRpt_SI.cs" />
+    <Compile Include="SessionRpt\Download_PreConsult.cs" />
+    <Compile Include="SessionRpt\Dwonload_CreateRpt_SI2022.cs" />
+    <Compile Include="SessionRpt\EIPRpt.aspx.cs">
+      <DependentUpon>EIPRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\EIPRpt.aspx.designer.cs">
+      <DependentUpon>EIPRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\EIPView.aspx.cs">
+      <DependentUpon>EIPView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\EIPView.aspx.designer.cs">
+      <DependentUpon>EIPView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\NdtRpt.aspx.cs">
+      <DependentUpon>NdtRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\NdtRpt.aspx.designer.cs">
+      <DependentUpon>NdtRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\NdtView.aspx.cs">
+      <DependentUpon>NdtView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\NdtView.aspx.designer.cs">
+      <DependentUpon>NdtView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\NDT_SFT_REVAL_RPT.aspx.cs">
+      <DependentUpon>NDT_SFT_REVAL_RPT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\NDT_SFT_REVAL_RPT.aspx.designer.cs">
+      <DependentUpon>NDT_SFT_REVAL_RPT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\PreConsultationRpt.aspx.cs">
+      <DependentUpon>PreConsultationRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\PreConsultationRpt.aspx.designer.cs">
+      <DependentUpon>PreConsultationRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\PreConsultationView.aspx.cs">
+      <DependentUpon>PreConsultationView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\PreConsultationView.aspx.designer.cs">
+      <DependentUpon>PreConsultationView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\PreConsultRpt.aspx.cs">
+      <DependentUpon>PreConsultRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\PreConsultRpt.aspx.designer.cs">
+      <DependentUpon>PreConsultRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\Print.aspx.cs">
+      <DependentUpon>Print.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\Print.aspx.designer.cs">
+      <DependentUpon>Print.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\RevalRpt.aspx.cs">
+      <DependentUpon>RevalRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\RevalRpt.aspx.designer.cs">
+      <DependentUpon>RevalRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\RevalView.aspx.cs">
+      <DependentUpon>RevalView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\RevalView.aspx.designer.cs">
+      <DependentUpon>RevalView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\SiRpt.aspx.cs">
+      <DependentUpon>SiRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\SiRpt.aspx.designer.cs">
+      <DependentUpon>SiRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\SIRpt2022.aspx.cs">
+      <DependentUpon>SIRpt2022.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\SIRpt2022.aspx.designer.cs">
+      <DependentUpon>SIRpt2022.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\SiView.aspx.cs">
+      <DependentUpon>SiView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\SiView.aspx.designer.cs">
+      <DependentUpon>SiView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRpt\SIview2022.aspx.cs">
+      <DependentUpon>SIview2022.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SessionRpt\SIview2022.aspx.designer.cs">
+      <DependentUpon>SIview2022.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Snehrehab.asmx.cs">
+      <DependentUpon>Snehrehab.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\snehrehab.dll\DbHelper\SnehrehabDb.csproj">
+      <Project>{63AD67F3-C2AE-452A-8A55-5E82B6F02490}</Project>
+      <Name>SnehrehabDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\snehrehab.dll\SnehBLL\SnehrehabBLL.csproj">
+      <Project>{0C171EB5-8534-443C-AB2E-948BEBDDEDB0}</Project>
+      <Name>SnehrehabBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\snehrehab.dll\SnehDLL\SnehrehabDLL.csproj">
+      <Project>{2D3CB6A1-98B5-4725-8E2B-1B7351260028}</Project>
+      <Name>SnehrehabDLL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="css\icon\fontawesome-webfont.ttf" />
+    <None Include="css\icon\fontawesome-webfont.woff" />
+    <None Include="css\icon\OpenSans-Regular_0.ttf" />
+    <None Include="Files\1.pdf" />
+    <Content Include="Handler\Daily_Report_MailPDF.ashx" />
+    <Content Include="Handler\Ndt_Report_MailPDF.ashx" />
+    <Content Include="Handler\MailReceipt_PDFNew.ashx" />
+    <Content Include="Handler\Botox_Report_MailPDF.ashx" />
+    <Content Include="Handler\Si_Report_MailPDF.ashx" />
+    <Content Include="Handler\Reval_Report_MailPDF.ashx" />
+    <Content Include="Handler\EIP_Report_MailPDF.ashx" />
+    <Content Include="Handler\Presc_Report_MailPDF.ashx" />
+    <Content Include="Handler\Si2022_mailaPdf.ashx" />
+    <Content Include="Handler\Ndt_Report_MailPDF_new.ashx" />
+    <None Include="js\elfinder\connectors\php\connector.php" />
+    <None Include="js\jquery.qtip.min.js.map" />
+    <None Include="js\tiny_mce\plugins\contextmenu\ScriptGates.com.url" />
+    <None Include="js\tiny_mce\plugins\emotions\ScriptGates.com.url" />
+    <None Include="js\tiny_mce\plugins\paste\ScriptGates.com.url" />
+    <None Include="js\tiny_mce\plugins\table\ScriptGates.com.url" />
+    <None Include="js\tiny_mce\plugins\template\ScriptGates.com.url" />
+    <None Include="js\tiny_mce\plugins\visualchars\ScriptGates.com.url" />
+    <None Include="js\tiny_mce\plugins\xhtmlxtras\ScriptGates.com.url" />
+    <Content Include="Member\Alert_PatientPhoto.ashx" />
+    <Content Include="Member\AptDetail.ashx" />
+    <Content Include="Member\WaitingCancel.ashx" />
+    <Content Include="Member\WaitingConfirm.ashx" />
+    <Content Include="Member\PrintReceipt.ashx" />
+    <Content Include="Member\MailReceipt_PDF.ashx" />
+    <Content Include="Member\MailIDGet.ashx" />
+    <Content Include="Member\UpdateMail.ashx" />
+    <Content Include="Member\resizeImage.ashx" />
+    <Content Include="Member\FileUploadHandler.ashx" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="css\datetimepicker-custom.css" />
+    <Content Include="css\datetimepicker.css" />
+    <Content Include="css\jquery.qtip.min.css" />
+    <Content Include="images\dh-products.png" />
+    <Content Include="images\r-account-sheet.png" />
+    <Content Include="images\r-adult-account.png" />
+    <Content Include="images\r-appointment-daily.png" />
+    <Content Include="images\r-cash-account.png" />
+    <Content Include="images\r-monthly-account.png" />
+    <Content Include="images\r-session-rpt.png" />
+    <Content Include="images\rpt-logo-old.png" />
+    <Content Include="images\rpt-logo.png" />
+    <Content Include="images\underconstruction.png" />
+    <Content Include="images\user-no-auth.png" />
+    <Content Include="images\user-no-auth1.png" />
+    <Content Include="js\bootstrap-datetimepicker.js" />
+    <Content Include="js\jquery.qtip.min.js" />
+    <Content Include="js\mootools.js" />
+    <Content Include="js\tipsx3.js" />
+    <Content Include="Member\AppChngeRequest.aspx" />
+    <Content Include="Member\AppChngeRequestC.aspx" />
+    <Content Include="Member\AppChngeRequestD.aspx" />
+    <Content Include="Member\AppChngeRequestP.aspx" />
+    <Content Include="Member\Appointment.aspx" />
+    <Content Include="Member\Banks.aspx" />
+    <Content Include="Member\DoctorAppSheet.aspx" />
+    <Content Include="Member\ExpenseEntry.aspx" />
+    <Content Include="Member\FeedBack.aspx" />
+    <Content Include="Member\FeedbackAll.aspx" />
+    <Content Include="Member\Feedbacks.aspx" />
+    <Content Include="Member\NoAuth.aspx" />
+    <Content Include="Member\Package.aspx" />
+    <Content Include="Member\PackageBookingd.aspx" />
+    <Content Include="Member\Packaged.aspx" />
+    <Content Include="Member\Packages.aspx" />
+    <Content Include="Member\Product.aspx" />
+    <Content Include="Member\ProductCat.aspx" />
+    <Content Include="Member\Productd.aspx" />
+    <Content Include="Member\Products.aspx" />
+    <Content Include="Member\SettingContact.aspx" />
+    <Content Include="Reports\Account.aspx" />
+    <Content Include="Reports\AccountSheet.aspx" />
+    <Content Include="Reports\AdultAccountSheet.aspx" />
+    <Content Include="Reports\AList.aspx" />
+    <Content Include="Reports\AppointmentDaily.aspx" />
+    <Content Include="Reports\BotoxView.aspx" />
+    <Content Include="Reports\CashEntries.aspx" />
+    <Content Include="Reports\DailyView.aspx" />
+    <Content Include="Reports\DoctorSession.aspx" />
+    <Content Include="Reports\LeaveReport.aspx" />
+    <Content Include="Reports\MonthlyAccount.aspx" />
+    <Content Include="Reports\MonthlyPatientList.aspx" />
+    <Content Include="Reports\NdtView.aspx" />
+    <Content Include="Reports\PatientRptStatus.aspx" />
+    <Content Include="Reports\PediatricFrequency.aspx" />
+    <Content Include="Reports\ReportStatus.aspx" />
+    <Content Include="Reports\WebForm1.aspx" />
+    <Content Include="SessionRpt\Construction.aspx" />
+    <Content Include="SessionRpt\CreateRpt.ashx" />
+    <Content Include="Global.asax" />
+    <Content Include="images\logo.png" />
+    <Content Include="Member\Downloader.ashx" />
+    <Content Include="images\dh-session-rpt.png" />
+    <Content Include="logout.ashx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="Member\LeaveDel.aspx" />
+    <Content Include="Member\LeaveEdit.aspx" />
+    <Content Include="Member\LeaveRpt.aspx" />
+    <Content Include="Member\Site.master" />
+    <Content Include="Member\SupportFile.ashx" />
+    <Content Include="Member\UserAct.aspx" />
+    <Content Include="Member\UserActs.aspx" />
+    <Content Include="Reports\AccountHead.aspx" />
+    <Content Include="Reports\Default.aspx" />
+    <Content Include="Reports\DoctorAccount.aspx" />
+    <Content Include="Reports\HospitalAccount.aspx" />
+    <Content Include="Reports\PatientAccount.aspx" />
+    <Content Include="SessionRpt\BotoxRpt.aspx" />
+    <Content Include="SessionRpt\BotoxView.aspx" />
+    <Content Include="SessionRpt\DailyRpt.aspx" />
+    <Content Include="SessionRpt\DailyView.aspx" />
+    <Content Include="SessionRpt\Default.aspx" />
+    <Content Include="SessionRpt\NdtRpt.aspx" />
+    <Content Include="SessionRpt\NdtView.aspx" />
+    <Content Include="SessionRpt\Print.aspx" />
+    <Content Include="Snehrehab.asmx" />
+    <Content Include="SessionRpt\DownloadCreateRpt.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>23970</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:23958/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 5.0</PostBuildEvent>
+  </PropertyGroup>
+</Project>

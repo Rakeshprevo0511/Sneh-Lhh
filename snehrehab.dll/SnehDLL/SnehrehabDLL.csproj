@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2D3CB6A1-98B5-4725-8E2B-1B7351260028}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SnehDLL</RootNamespace>
+    <AssemblyName>SnehDLL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountHeads_Dll.cs" />
+    <Compile Include="AccountLedger_Dll.cs" />
+    <Compile Include="AdultCases_Dll.cs" />
+    <Compile Include="ApiMail_Dll.cs" />
+    <Compile Include="ApiSms_Dll.cs" />
+    <Compile Include="AppointmentChangeRequest_Dll.cs" />
+    <Compile Include="AppointmentDoctor_Dll.cs" />
+    <Compile Include="AppointmentDrMeetSch_Dll.cs" />
+    <Compile Include="AppointmentSession_Dll.cs" />
+    <Compile Include="Appointments_Dll.cs" />
+    <Compile Include="AppointmentTime_Dll.cs" />
+    <Compile Include="AptWaitingDoctor_DAL.cs" />
+    <Compile Include="AptWaiting_DAL.cs" />
+    <Compile Include="Banks_Dll.cs" />
+    <Compile Include="CashEntries_Dll.cs" />
+    <Compile Include="Closing_Dll.cs" />
+    <Compile Include="Degree_Dll.cs" />
+    <Compile Include="Diagnosis_Dll.cs" />
+    <Compile Include="DoctorLedger_Dll.cs" />
+    <Compile Include="DoctorMast_Dll.cs" />
+    <Compile Include="DoctorWeekOff_Dll.cs" />
+    <Compile Include="FeedBackMst_Dll.cs" />
+    <Compile Include="FeedBackTo_Dll.cs" />
+    <Compile Include="FeedBackType_Dll.cs" />
+    <Compile Include="LeaveApplications_Dll.cs" />
+    <Compile Include="LeaveTypes_Dll.cs" />
+    <Compile Include="Location_Dll.cs" />
+    <Compile Include="Management_Dll.cs" />
+    <Compile Include="MeetingScheTime_Dll.cs" />
+    <Compile Include="OtherActCategory_DLL.cs" />
+    <Compile Include="OtherActProduct_DLL.cs" />
+    <Compile Include="OtherAct_CashEntry_DLL.cs" />
+    <Compile Include="Packages_Dll.cs" />
+    <Compile Include="PatientBulkPackage_Dll.cs" />
+    <Compile Include="PatientBulk_Dll.cs" />
+    <Compile Include="PatientCategory_Dll.cs" />
+    <Compile Include="PatientChrges_Dll.cs" />
+    <Compile Include="PatientLedger_Dll.cs" />
+    <Compile Include="PatientMast_Dll.cs" />
+    <Compile Include="PatientPackage_Dll.cs" />
+    <Compile Include="PatientSessionPackage_Dll.cs" />
+    <Compile Include="PatientTypes_Dll.cs" />
+    <Compile Include="ProductCategory_Dll.cs" />
+    <Compile Include="ProductMst_Dll.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Receiption_Dll.cs" />
+    <Compile Include="Reference_Dll.cs" />
+    <Compile Include="ReportNdtMst_Dll.cs" />
+    <Compile Include="SessionMast_Dll.cs" />
+    <Compile Include="SessionToPackage_Dll.cs" />
+    <Compile Include="SettingsMst_Dll.cs" />
+    <Compile Include="Specialities_Dll.cs" />
+    <Compile Include="SupportTicket_Dll.cs" />
+    <Compile Include="UserAccount_Dll.cs" />
+    <Compile Include="UserActivity_Dll.cs" />
+    <Compile Include="UserCategory_Dll.cs" />
+    <Compile Include="WorkPlaces_Dll.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 5.0</PostBuildEvent>
+  </PropertyGroup>
+</Project>
