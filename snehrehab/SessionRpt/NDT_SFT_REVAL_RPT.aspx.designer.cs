@@ -69,15 +69,6 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.CheckBox txtGiven;
 
         /// <summary>
-        /// txtGivenDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGivenDate;
-
-        /// <summary>
         /// PanelDiagnosis control.
         /// </summary>
         /// <remarks>
@@ -105,13 +96,22 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox txtDiagnosisOther;
 
         /// <summary>
-        /// btnSubmit control.
+        /// txtGivenDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSubmit;
+        protected global::System.Web.UI.WebControls.TextBox txtGivenDate;
+
+        /// <summary>
+        /// lnkFinalSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkFinalSave;
 
         /// <summary>
         /// txtPrint control.
@@ -7519,14 +7519,5 @@ namespace snehrehab.SessionRpt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Doctor_Occupational;
-
-        /// <summary>
-        /// Button1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }

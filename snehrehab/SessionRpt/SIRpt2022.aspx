@@ -100,9 +100,8 @@
             margin: 0;
         }
 
-         .buttonClass
-        {
-           background-color:springgreen;
+        .buttonClass {
+            background-color: springgreen;
         }
 
         /*        table, th, td {
@@ -228,6 +227,7 @@
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div id="MsgPlaceHolder"></div>
     <div id="editor"></div>
     <div class="grid">
         <div class="grid-title">
@@ -235,7 +235,7 @@
                 SI Report :
             </div>
             <div class="pull-right">
-                <a href="/SessionRpt/SIview2022.aspx" class="btn btn-primary">View List</a>
+                <a href="/Reports/Si2022.aspx" class="btn btn-primary">View List</a>
             </div>
         </div>
         <div class="grid-content" style="">
@@ -275,48 +275,6 @@
                 <div class="clearfix">
                 </div>
             </div>
-            <div class="formRow">
-                <div class="span6">
-                    <label class="control-label">
-                        Given Date :</label>
-                    <div class="control-group">
-                        <asp:TextBox ID="txtGivenDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="clearfix">
-                </div>
-            </div>
-            <%-- <asp:Panel ID="PanelDiagnosis" runat="server" CssClass="span11 formRow"> 
-                 <div class="row">
-                     <div class="span2">
-                         Diagnosis :</div>
-                     <div class="span4">
-                         <asp:ListBoxID="txtDiagosis"runat="server"SelectionMode="Multiple"CssClass="chznselectmultispan4"dataplaceholder="SelecDiagnosis"><asp:ListBox>
-                     </div>
-                     <div class="span2">
-                         Other Diagnosis :</div>
-                     <div class="span2">
-                         <asp:TextBox ID="txtDiagnosisOther" runat="server" CssClass="span2"></asp:TextBox>
-                     </div>
-                 </div> 
-             </asp:Panel>--%>
-            <div class="formRow">
-                <div class="span6">
-                    <label class="control-label">
-                        &nbsp;</label>
-                    <div class="control-group">
-                        <asp:LinkButton ID="btnSubmit" runat="server" CssClass="btn btn-danger" Text="Submit"
-                            OnClientClick="DisableOnSubmit(this);" OnClick="btnSubmit_Click" ClientIDMode="Static"></asp:LinkButton>
-                        &nbsp; 
-                        <%= _printUrl %>
-                        <a href='<%= _cancelUrl %>' class="btn btn-default">Cancel</a>
-                        <asp:HiddenField ID="txtPrint" runat="server" />
-                        <%--<input type='button' id='btn' value='Print' onclick='printDiv();'>--%>
-                    </div>
-                </div>
-                <div class="clearfix">
-                </div>
-            </div>
             <asp:Panel ID="PanelDiagnosis" runat="server" CssClass="span11 formRow">
                 <div class="row">
                     <div class="span2">
@@ -333,14 +291,93 @@
                     </div>
                 </div>
             </asp:Panel>
+            <div class="formRow">
+
+                <div class="span6">
+                    <label class="control-label">Given Date :</label>
+
+                    <div class="control-group">
+                        <asp:TextBox ID="txtGivenDate" runat="server"
+                            CssClass="span2 my-datepicker"></asp:TextBox>
+                    </div>
+                </div>
+
+                <div class="span6">
+                    <label class="control-label">&nbsp;</label>
+
+                    <div class="control-group">
+                        <asp:LinkButton ID="lnkFinalSave" runat="server"
+                            CssClass="btn btn-success"
+                            OnClick="lnkFinalSave_Click"
+                            OnClientClick="return confirm('Are you sure you want to Mark Date given?');">
+                Report Given Save
+                        </asp:LinkButton>
+                    </div>
+                </div>
+            </div>
+            <%-- <asp:Panel ID="PanelDiagnosis" runat="server" CssClass="span11 formRow"> 
+                 <div class="row">
+                     <div class="span2">
+                         Diagnosis :</div>
+                     <div class="span4">
+                         <asp:ListBoxID="txtDiagosis"runat="server"SelectionMode="Multiple"CssClass="chznselectmultispan4"dataplaceholder="SelecDiagnosis"><asp:ListBox>
+                     </div>
+                     <div class="span2">
+                         Other Diagnosis :</div>
+                     <div class="span2">
+                         <asp:TextBox ID="txtDiagnosisOther" runat="server" CssClass="span2"></asp:TextBox>
+                     </div>
+                 </div> 
+             </asp:Panel>--%>
 
 
             <div class="formRow">
+                <div class="span6">
+                    <label class="control-label">
+                        &nbsp;</label>
+                    <div class="control-group">
+                        <button type="button" id="btnFinalSubmit" class="btn btn-danger">
+                            Submit
+                        </button>
+                        &nbsp; 
+                        <%= _printUrl %>
+                        <a href='<%= _cancelUrl %>' class="btn btn-default">Cancel</a>
+                        <asp:HiddenField ID="txtPrint" runat="server" />
+                        <%--<input type='button' id='btn' value='Print' onclick='printDiv();'>--%>
+                    </div>
+                    <div style="margin-top:10px; color:#d9534f; font-weight:bold;">
+            Note: 
+            <span class="buttonClass" style="
+                border: 1px solid #818080;
+                padding: 1px 10px;
+                display: inline-block;
+                background-color: #00ff7f;
+                color: #4b4949;
+                cursor: not-allowed;">
+                Save & Next
+            </span> 
+            is disabled. Please use the Submit button or navigation to save data.
+        </div>
+
+            </div>
+
+                </div>
+                <div class="clearfix">
+                </div>
+                
+
+            <div class="formRow">
                 <div class="span12">
-                       <asp:HiddenField ID="hfdTabs" runat="server" ClientIDMode="Static" />
-                       <asp:HiddenField ID="hfdCallFrom" runat="server" ClientIDMode="Static" />
-                       <asp:HiddenField ID="hfdCurTab" runat="server" ClientIDMode="Static" />
-                       <asp:HiddenField ID="hfdPrevTab" runat="server" ClientIDMode="Static" />
+                    <asp:HiddenField ID="hfdTabs" runat="server" ClientIDMode="Static" />
+                    <asp:HiddenField ID="hfdCallFrom" runat="server" ClientIDMode="Static" />
+                    <asp:HiddenField ID="hfdCurTab" runat="server" ClientIDMode="Static" />
+                    <asp:HiddenField ID="hfdPrevTab" runat="server" ClientIDMode="Static" />
+
+                    <%--<asp:HiddenField ID="hfdSubTabs" runat="server" ClientIDMode="Static" />
+                     <asp:HiddenField ID="hfdSubCallFrom" runat="server" ClientIDMode="Static" />
+                    <asp:HiddenField ID="hfdPrevsubTab" runat="server"  ClientIDMode="Static" />
+                    <asp:HiddenField ID="hfdCursubTab" runat="server" ClientIDMode="Static" />--%>
+
                     <ajaxToolkit:TabContainer ID="tb_Contents" runat="server" OnClientActiveTabChanged="clientActiveTabChanged">
 
 
@@ -349,9 +386,9 @@
                                 <div style="margin-top: 20px; margin-bottom: 20px;">
                                     <div class="formRow">
 
-                                         <div class="col-md-12">
+                                        <div class="col-md-12">
                                             <div class="control-label">
-                                                Clinical Observations :
+                                                Clinical observations :
                                             </div>
                                             <div class="control-group">
                                                 <asp:TextBox ID="ClinicleObse_txt" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -362,17 +399,21 @@
                                         <br />
 
                                         <div class="clearfix"></div>
-                                              <div class="clearfix"></div>
+                                        <div class="clearfix"></div>
                                         <div class="col-md-12">
                                             <div class="control-label">
-                                                Daily Schedule :
+                                                Daily schedule :
                                             </div>
-                                             <div class="clearfix"></div>
+                                                <div style="color:red; font-weight:bold; margin-bottom:5px;">
+                                                    Note: Please click <b>Submit</b> only for proper saving of the data after adding new shedule .
+                                                </div>
+
+                                            <div class="clearfix"></div>
                                             <ul style="display: flex; list-style-type: none; justify-content: space-evenly;">
-                                               
-                                                <label style="color:black;font:bold">TIME </label>
-                                                <label style="color:black;font:bold">ACTIVITIES</label>
-                                                <label style="color:black;font:bold">COMMENTS </label>
+
+                                                <label style="color: black; font: bold">TIME </label>
+                                                <label style="color: black; font: bold">ACTIVITIES</label>
+                                                <label style="color: black; font: bold">COMMENTS </label>
                                             </ul>
                                         </div>
                                         <div class="span5">
@@ -391,13 +432,13 @@
                                                                                 <ul class="d-flex" style="display: flex; list-style-type: none;">
                                                                                     <asp:HiddenField ID="txtSI_ID" runat="server" Value='<%#Eval("Option") %>' />
                                                                                     <li class="mr_5">
-                                                                                        <asp:TextBox ID="txtTIME" runat="server" Width="350" Text='<%#Eval("Option1") %>'></asp:TextBox></li>
+                                                                                        <asp:TextBox ID="txtTIME" runat="server" Width="350" Text='<%#Eval("Option1") %>' TextMode="MultiLine"></asp:TextBox></li>
 
                                                                                     <li class="mr_5">
-                                                                                        <asp:TextBox ID="txtACTIVITIES" runat="server" Width="350" Text='<%#Eval("Option2") %>'></asp:TextBox></li>
+                                                                                        <asp:TextBox ID="txtACTIVITIES" runat="server" Width="350" Text='<%#Eval("Option2") %>' TextMode="MultiLine"></asp:TextBox></li>
 
                                                                                     <li class="mr_5">
-                                                                                        <asp:TextBox ID="txtCOMMENTS" runat="server" Width="350" Text='<%#Eval("Option3") %>'></asp:TextBox></li>
+                                                                                        <asp:TextBox ID="txtCOMMENTS" runat="server" Width="350" Text='<%#Eval("Option3") %>' TextMode="MultiLine"></asp:TextBox></li>
 
 
                                                                                     <div class="col-md-3 padding-5">
@@ -1033,7 +1074,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                3.Mother's quality time spent on Sunday/ weekends with Child.
+                                                3.Mother's quality time spent on Sunday/ Weekends with Child.
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Mother_Weekends_1" runat="server" onclick="Mother_Weekends_1_Click();"
@@ -1070,7 +1111,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                4.Father's quality time spent on Sunday/ weekends with Child.
+                                                4.Father's quality time spent on Sunday/ Weekends with Child.
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Father_Weekends_1" runat="server" onclick="Father_Weekends_1_Click();"
@@ -1111,7 +1152,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="FamilyStructure_TimeForThreapy_1" runat="server" onclick="FamilyStructure_TimeForThreapy_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="FamilyStructure_TimeForThreapy_2" runat="server" onclick="FamilyStructure_TimeForThreapy_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1137,7 +1178,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="FamilyStructure_AcceptanceCondition_1" runat="server" onclick="FamilyStructure_AcceptanceCondition_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="FamilyStructure_AcceptanceCondition_2" runat="server" onclick="FamilyStructure_AcceptanceCondition_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1163,7 +1204,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="FamilyStructure_ExtraCaricular_1" runat="server" onclick="FamilyStructure_ExtraCaricular_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="FamilyStructure_ExtraCaricular_2" runat="server" onclick="FamilyStructure_ExtraCaricular_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1190,7 +1231,7 @@
 
                          <div class="control-group" style="padding-left: 20px">
                              <asp:CheckBox ID="Mother_Working_1" runat="server" onclick="Mother_Working_1_Click();"
-                                 CssClass="checkboes" Text="Yes" />
+                                 CssClass="checkboes" Text=" Yes" />
                              <asp:CheckBox ID="Mother_Working_2" runat="server" onclick="Mother_Working_2_Click();"
                                  CssClass="checkboes" Text="No" />
                              <script type="text/javascript">
@@ -1216,7 +1257,7 @@
                          </div>
                          <div class="control-group" style="padding-left: 20px">
                              <asp:CheckBox ID="Father_Working_1" runat="server" onclick="Father_Working_1_Click();"
-                                 CssClass="checkboes" Text="Yes" />
+                                 CssClass="checkboes" Text=" Yes" />
                              <asp:CheckBox ID="Father_Working_2" runat="server" onclick="Father_Working_2_Click();"
                                  CssClass="checkboes" Text="No" />
                              <script type="text/javascript">
@@ -1242,7 +1283,7 @@
                          </div>
                          <div class="control-group" style="padding-left: 20px">
                              <asp:CheckBox ID="Househelp_1" runat="server" onclick="Househelp_1_Click();"
-                                 CssClass="checkboes" Text="Yes" />
+                                 CssClass="checkboes" Text=" Yes" />
                              <asp:CheckBox ID="Househelp_2" runat="server" onclick="Househelp_2_Click();"
                                  CssClass="checkboes" Text="No" />
                              <script type="text/javascript">
@@ -1280,7 +1321,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="FamilyStructure_SiblingBrother_1" runat="server" onclick="FamilyStructure_SiblingBrother_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="FamilyStructure_SiblingBrother_2" runat="server" onclick="FamilyStructure_SiblingBrother_1_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1310,7 +1351,7 @@
                                             </div>
                                             <span class="char-limit-msg"></span>
                                         </div>--%>
-                                           <div class="span12">
+                                        <div class="span12">
                                             <div class="control-label">
                                                 9.Relationship with siblings.
                                             </div>
@@ -1328,7 +1369,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="FamilyStructure_SiblingSister_1" runat="server" onclick="FamilyStructure_SiblingSister_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="FamilyStructure_SiblingSister_2" runat="server" onclick="FamilyStructure_SiblingSister_1_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1354,7 +1395,7 @@
                                             11.NA sibling and cohabitation
                      <div class="control-group" style="padding-left: 20px">
                          <asp:CheckBox ID="FamilyStructure_SiblingNA_1" runat="server" onclick="FamilyStructure_SiblingNA_1_Click();"
-                             CssClass="checkboes" Text="Yes" />
+                             CssClass="checkboes" Text=" Yes" />
                          <asp:CheckBox ID="FamilyStructure_SiblingNA_2" runat="server" onclick="FamilyStructure_SiblingNA_2_Click();"
                              CssClass="checkboes" Text="No" />
                          <script type="text/javascript">
@@ -1470,7 +1511,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                2.Type of school
+                                                <%--2.Type of school--%>
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_Type_1" runat="server" onclick="Schoolinfo_Type_1_Click();"
@@ -1508,7 +1549,7 @@
                                         <div class="span12 fromRow">
                                             <div class="row">
                                                 <div class="span2">
-                                                    3.Number of hours:
+                                                    2.Number of hours:
                                                 </div>
                                                 <asp:DropDownList ID="Schoolinfo_SchoolHours" runat="server" CssClass="input-medium chzn-select span2">
                                                     <asp:ListItem Value="0">Select</asp:ListItem>
@@ -1522,7 +1563,7 @@
                                         <div class="formRow">
                                             <div class="span12">
                                                 <div class="control-label">
-                                                    4. How do they travel:
+                                                    3. How do they travel:
                                                 </div>
                                                 <div class="span5">
                                                     <div class="control-label">
@@ -1530,7 +1571,7 @@
                                                         <asp:CheckBox ID="chkCar" runat="server" CssClass="checkboes" onclick="Car_Click();" Text="Car" />
                                                         <asp:CheckBox ID="chkTwo_Wheelers" runat="server" CssClass="checkboes" onclick="Two_Wheelers_Click();" Text="Two_wheelers" />
                                                         <asp:CheckBox ID="chkwalking" runat="server" CssClass="checkboes" onclick="walking_Click();" Text="Walking" />
-                                                        <asp:CheckBox ID="chkPublic_Transport" runat="server" CssClass="checkboes" onclick="Public_Transport_Click();" Text="Public_transport" />
+                                                        <asp:CheckBox ID="chkPublic_Transport" runat="server" CssClass="checkboes" onclick="Public_Transport_Click();" Text="Public_transport" />>
 
                                                     </div>
                                                 </div>
@@ -1538,7 +1579,7 @@
                                         </div>
                                         <div class="span12">
                                             <div class="control-label">
-                                                5.	Teacher to child ratio
+                                                4.	Teacher to child ratio
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_NoOfTeacher_1" runat="server" onclick="Schoolinfo_NoOfTeacher_1_Click();"
@@ -1592,7 +1633,7 @@
                                         <div class="formRow">
                                             <div class="span12">
                                                 <div class="control-label">
-                                                    6.Seating arrangement:
+                                                    5.Seating arrangement:
                                                 </div>
                                                 <div class="span5">
                                                     <div class="control-label">
@@ -1607,8 +1648,8 @@
                                                                 var ctl = $('#<%=chkFloor.ClientID %>')[0];
                                                                 if (ctl.checked) {
                                                                     $('#<%=chksingle_bench.ClientID %>').prop('checked', false);
-                                                                     $('#<%=chkbench2.ClientID %>').prop('checked', false);
-                                                                     $('#<%=chkround_table.ClientID %>').prop('checked', false);
+                                                                    $('#<%=chkbench2.ClientID %>').prop('checked', false);
+                                                                    $('#<%=chkround_table.ClientID %>').prop('checked', false);
 
                                                                 }
                                                             }
@@ -1616,15 +1657,15 @@
                                                                 var ctl = $('#<%=chksingle_bench.ClientID %>')[0];
                                                                 if (ctl.checked) {
                                                                     $('#<%=chkFloor.ClientID %>').prop('checked', false);
-                                                                     $('#<%=chkbench2.ClientID %>').prop('checked', false);
-                                                                     $('#<%=chkround_table.ClientID %>').prop('checked', false);
+                                                                    $('#<%=chkbench2.ClientID %>').prop('checked', false);
+                                                                    $('#<%=chkround_table.ClientID %>').prop('checked', false);
 
                                                                 }
                                                             }
                                                             function bench2_Click() {
                                                                 var ctl = $('#<%=chkbench2.ClientID %>')[0];
-                                                                 if (ctl.checked) {
-                                                                     $('#<%=chksingle_bench.ClientID %>').prop('checked', false);
+                                                                if (ctl.checked) {
+                                                                    $('#<%=chksingle_bench.ClientID %>').prop('checked', false);
                                                                      $('#<%=chkFloor.ClientID %>').prop('checked', false);
                                                                      $('#<%=chkround_table.ClientID %>').prop('checked', false);
 
@@ -1632,10 +1673,10 @@
                                                             }
                                                             function round_table_Click() {
                                                                 var ctl = $('#<%=chkround_table.ClientID %>')[0];
-                                                                 if (ctl.checked) {
-                                                                     $('#<%=chksingle_bench.ClientID %>').prop('checked', false);
-                                                                    $('#<%=chkbench2.ClientID %>').prop('checked', false);
-                                                                    $('#<%=chkFloor.ClientID %>').prop('checked', false);
+                                                                if (ctl.checked) {
+                                                                    $('#<%=chksingle_bench.ClientID %>').prop('checked', false);
+                                                                     $('#<%=chkbench2.ClientID %>').prop('checked', false);
+                                                                     $('#<%=chkFloor.ClientID %>').prop('checked', false);
 
                                                                 }
                                                             }
@@ -1643,15 +1684,15 @@
 
                                                         </script>
                                                     </div>
-                                               </div>
                                                 </div>
                                             </div>
+                                        </div>
 
 
                                         <div class="span12 ">
                                             <div class="row">
                                                 <div class="span2">
-                                                    7.Meal time at the school:
+                                                    6.Meal time at the school:
                                                 </div>
                                                 <asp:DropDownList ID="Schoolinfo_Mealtime" runat="server" Height="30px" Width="132px">
                                                     <asp:ListItem Value="0">Select </asp:ListItem>
@@ -1665,7 +1706,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                8.Meal type
+                                                7.Meal type
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_MealType_1" runat="server" onclick="Schoolinfo_MealType_1_Click();"
@@ -1691,11 +1732,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                9.Sharing done by child
+                                                8.Sharing done by child
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_Shareing_1" runat="server" onclick="Schoolinfo_Shareing_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_Shareing_2" runat="server" onclick="Schoolinfo_Shareing_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <asp:CheckBox ID="Schoolinfo_Shareing_3" runat="server" onclick="Schoolinfo_Shareing_3_Click();"
@@ -1725,11 +1766,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                10.Help required in eating
+                                                9.Help required in eating
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_HelpEating_1" runat="server" onclick="Schoolinfo_HelpEating_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_HelpEating_2" runat="server" onclick="Schoolinfo_HelpEating_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1752,11 +1793,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                11.Friendships initiated by child
+                                                10.Friendships initiated by child
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_Friendship_1" runat="server" onclick="Schoolinfo_Friendship_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_Friendship_2" runat="server" onclick="Schoolinfo_Friendship_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1778,11 +1819,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                12.Interaction with peers
+                                                11.Interaction with peers
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_InteractionPeer_1" runat="server" onclick="Schoolinfo_InteractionPeer_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_InteractionPeer_2" runat="server" onclick="Schoolinfo_InteractionPeer_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1801,15 +1842,13 @@
                                                 </script>
                                             </div>
                                         </div>
-
-
                                         <div class="span12">
                                             <div class="control-label">
-                                                13.Interaction with the teacher
+                                                12.Interaction with the teacher
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_InteractionTeacher_1" runat="server" onclick="Schoolinfo_InteractionTeacher_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_InteractionTeacher_2" runat="server" onclick="Schoolinfo_InteractionTeacher_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1831,11 +1870,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                14.Annuals/Culturals function
+                                                13.Annuals/culturals function
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_AnnualFunction_1" runat="server" onclick="Schoolinfo_AnnualFunction_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_AnnualFunction_2" runat="server" onclick="Schoolinfo_AnnualFunction_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1857,11 +1896,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                15.Sports.
+                                                14.Sports.
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_Sports_1" runat="server" onclick="Schoolinfo_Sports_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_Sports_2" runat="server" onclick="Schoolinfo_Sports_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1883,11 +1922,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                16.Picnics/Field trips
+                                                15.Picnics/Field trips
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_Picnic_1" runat="server" onclick="Schoolinfo_Picnic_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_Picnic_2" runat="server" onclick="Schoolinfo_Picnic_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1909,11 +1948,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                17.Extra curricular
+                                                16.Extra curricular
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_ExtraCaricular_1" runat="server" onclick="Schoolinfo_ExtraCaricular_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_ExtraCaricular_2" runat="server" onclick="Schoolinfo_ExtraCaricular_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -1935,11 +1974,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                18.Copying from board
+                                                17.Copying from board
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_CopyBoard_1" runat="server" onclick="Schoolinfo_CopyBoard_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_CopyBoard_2" runat="server" onclick="Schoolinfo_CopyBoard_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <asp:CheckBox ID="Schoolinfo_CopyBoard_3" runat="server" onclick="Schoolinfo_CopyBoard_3_Click();"
@@ -1985,11 +2024,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                19.Follows instructions
+                                                18.Follows instructions
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_Instructions_1" runat="server" onclick="Schoolinfo_Instructions_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_Instructions_2" runat="server" onclick="Schoolinfo_Instructions_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <asp:CheckBox ID="Schoolinfo_Instructions_3" runat="server" onclick="Schoolinfo_Instructions_3_Click();"
@@ -2035,15 +2074,15 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                20.Shadow teacher
+                                                19.Shadow teacher
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_ShadowTeacher_1" runat="server" onclick="Schoolinfo_ShadowTeacher_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_ShadowTeacher_2" runat="server" onclick="Schoolinfo_ShadowTeacher_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <asp:CheckBox ID="Schoolinfo_ShadowTeacher_3" runat="server" onclick="Schoolinfo_ShadowTeacher_3_Click();"
-                                                    CssClass="checkboes" Text="Needs help" />
+                                                    CssClass="checkboes" Text="Needs Help" />
                                                 <asp:CheckBox ID="Schoolinfo_ShadowTeacher_4" runat="server" onclick="Schoolinfo_ShadowTeacher_4_Click();"
                                                     CssClass="checkboes" Text="NA" />
                                                 <script type="text/javascript">
@@ -2085,15 +2124,15 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                21.Completing CW/HW
+                                                20.Completing CW/HW
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_CW_HW_1" runat="server" onclick="Schoolinfo_CW_HW_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_CW_HW_2" runat="server" onclick="Schoolinfo_CW_HW_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <asp:CheckBox ID="Schoolinfo_CW_HW_3" runat="server" onclick="Schoolinfo_CW_HW_3_Click();"
-                                                    CssClass="checkboes" Text="Needs help" />
+                                                    CssClass="checkboes" Text="Needs Help" />
                                                 <asp:CheckBox ID="Schoolinfo_CW_HW_4" runat="server" onclick="Schoolinfo_CW_HW_4_Click();"
                                                     CssClass="checkboes" Text="NA" />
                                                 <script type="text/javascript">
@@ -2135,11 +2174,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                22.Provision of special Educator/Shadow/ Remedial teacher
+                                                21.Provision of special educator/Shadow/ Remedial teacher
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_SpecialEducator_1" runat="server" onclick="Schoolinfo_SpecialEducator_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Schoolinfo_SpecialEducator_2" runat="server" onclick="Schoolinfo_SpecialEducator_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <asp:CheckBox ID="Schoolinfo_SpecialEducator_3" runat="server" onclick="Schoolinfo_SpecialEducator_3_Click();"
@@ -2172,7 +2211,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                23.Mode of delivery of information
+                                                22.Mode of delivery of information
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Schoolinfo_DeliveryInformation_1" runat="server" onclick="Schoolinfo_DeliveryInformation_1_Click();"
@@ -2222,7 +2261,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                24.Remark of the teacher
+                                                23.Remark of the teacher
 
                                             </div>
                                             <div class="control-group">
@@ -2287,7 +2326,7 @@
                        </div>
        <div class="control-group" style="padding-left: 20px">
            <asp:CheckBox ID="Schoolinfo_SitOnlineSchool_1" runat="server" onclick="Schoolinfo_SitOnlineSchool_1_Click();"
-               CssClass="checkboes" Text="Yes" />
+               CssClass="checkboes" Text=" Yes" />
            <asp:CheckBox ID="Schoolinfo_SitOnlineSchool_2" runat="server" onclick="Schoolinfo_SitOnlineSchool_2_Click();"
                CssClass="checkboes" Text="No" />
            <asp:CheckBox ID="Schoolinfo_SitOnlineSchool_3" runat="server" onclick="Schoolinfo_SitOnlineSchool_3_Click();"
@@ -2321,7 +2360,7 @@
                            </div>
               <div class="control-group" style="padding-left: 20px">
                   <asp:CheckBox ID="Schoolinfo_TeacherInstruction_1" runat="server" onclick="Schoolinfo_TeacherInstruction_1_Click();"
-                      CssClass="checkboes" Text="Yes" />
+                      CssClass="checkboes" Text=" Yes" />
                   <asp:CheckBox ID="Schoolinfo_TeacherInstruction_2" runat="server" onclick="Schoolinfo_TeacherInstruction_2_Click();"
                       CssClass="checkboes" Text="No" />
                   <asp:CheckBox ID="Schoolinfo_TeacherInstruction_3" runat="server" onclick="Schoolinfo_TeacherInstruction_3_Click();"
@@ -2394,14 +2433,15 @@
                                         <div class="span12 formRow">
                                             <div class="row">
                                                 <div class="span2">
-                                                    <h5>A)RELATIONSHIP WITH SELF</h5>
+                                                    <h5>A) Relationship with self</h5>
                                                 </div>
                                             </div>
-                                            1. Does he know the current place:
+
+                                            1. Does he/she know the current place? :
               
               <div class="control-group" style="padding-left: 20px">
                   <asp:CheckBox ID="PersonalSocial_CurrentPlace_1" runat="server" onclick="PersonalSocial_CurrentPlace_1_Click();"
-                      CssClass="checkboes" Text="Yes" />
+                      CssClass="checkboes" Text=" Yes" />
                   <asp:CheckBox ID="PersonalSocial_CurrentPlace_2" runat="server" onclick="PersonalSocial_CurrentPlace_2_Click();"
                       CssClass="checkboes" Text="No" />
                   <asp:CheckBox ID="PersonalSocial_CurrentPlace_3" runat="server" onclick="PersonalSocial_CurrentPlace_3_Click();"
@@ -2434,12 +2474,11 @@
 
                                         <div class="span12 formRow">
                                             <div class="row"></div>
-                                               
-                                                    2. Is your child aware of what he does? :
-                                             
+                                            2. Is your child aware of what he/she does? :
+                                        
                                                 <div class="control-group" style="padding-left: 20px">
                                                     <asp:CheckBox ID="PersonalSocial_WhatHeDoes_1" runat="server" onclick="PersonalSocial_WhatHeDoes_1_Click();"
-                                                        CssClass="checkboes" Text="Yes" />
+                                                        CssClass="checkboes" Text=" Yes" />
                                                     <asp:CheckBox ID="PersonalSocial_WhatHeDoes_2" runat="server" onclick="PersonalSocial_WhatHeDoes_2_Click();"
                                                         CssClass="checkboes" Text="No" />
                                                     <asp:CheckBox ID="PersonalSocial_WhatHeDoes_3" runat="server" onclick="PersonalSocial_WhatHeDoes_3_Click();"
@@ -2468,17 +2507,17 @@
                                                         }
                                                     </script>
                                                 </div>
-                                          
+
                                         </div>
 
                                         <div class="span12 formRow">
                                             <div class="row"></div>
-                                           
-                                                   3. Does the child have own body awareness?
-                                                
+
+                                            3. Does the child have own body awareness?
+                                                  
                                                 <div class="control-group" style="padding-left: 20px">
                                                     <asp:CheckBox ID="PersonalSocial_BodyAwareness_1" runat="server" onclick="PersonalSocial_CurrentPlace_1_Click();"
-                                                        CssClass="checkboes" Text="Yes" />
+                                                        CssClass="checkboes" Text=" Yes" />
                                                     <asp:CheckBox ID="PersonalSocial_BodyAwareness_2" runat="server" onclick="PersonalSocial_CurrentPlace_2_Click();"
                                                         CssClass="checkboes" Text="No" />
                                                     <asp:CheckBox ID="PersonalSocial_BodyAwareness_3" runat="server" onclick="PersonalSocial_CurrentPlace_3_Click();"
@@ -2507,17 +2546,17 @@
                                                         }
                                                     </script>
                                                 </div>
-                                         
+
                                         </div>
 
                                         <div class="span12 formRow">
                                             <div class="row"></div>
-                                                
-                                                     4.Is your child aware of body schema?
-                                               
+
+                                            4.Is your child aware of body schema?
+                                            
                                                 <div class="control-group" style="padding-left: 20px">
                                                     <asp:CheckBox ID="PersonalSocial_BodySchema_1" runat="server" onclick="PersonalSocial_BodySchema_1_Click();"
-                                                        CssClass="checkboes" Text="Yes" />
+                                                        CssClass="checkboes" Text=" Yes" />
                                                     <asp:CheckBox ID="PersonalSocial_BodySchema_2" runat="server" onclick="PersonalSocial_BodySchema_2_Click();"
                                                         CssClass="checkboes" Text="No" />
                                                     <asp:CheckBox ID="PersonalSocial_BodySchema_3" runat="server" onclick="PersonalSocial_BodySchema_3_Click();"
@@ -2546,17 +2585,17 @@
                                                         }
                                                     </script>
                                                 </div>
-                                          
+
                                         </div>
 
                                         <div class="span12 formRow">
                                             <div class="row"></div>
+
+                                            5.  Does your child self explores the environment?
                                             
-                                                      5.  Does your child self explores the environment?
-                                          
                                                 <div class="control-group" style="padding-left: 20px">
                                                     <asp:CheckBox ID="PersonalSocial_ExploreEnvironment_1" runat="server" onclick="PersonalSocial_ExploreEnvironment_1_Click();"
-                                                        CssClass="checkboes" Text="Yes" />
+                                                        CssClass="checkboes" Text=" Yes" />
                                                     <asp:CheckBox ID="PersonalSocial_ExploreEnvironment_2" runat="server" onclick="PersonalSocial_ExploreEnvironment_2_Click();"
                                                         CssClass="checkboes" Text="No" />
                                                     <asp:CheckBox ID="PersonalSocial_ExploreEnvironment_3" runat="server" onclick="PersonalSocial_ExploreEnvironment_3_Click();"
@@ -2585,17 +2624,17 @@
                                                         }
                                                     </script>
                                                 </div>
-                                            
+
                                         </div>
 
                                         <div class="span12 formRow">
                                             <div class="row"></div>
-                                                
-                                                   6. Is your child motivated?
+
+                                            6. Is your child motivated?
                                                 
                                                 <div class="control-group" style="padding-left: 20px">
                                                     <asp:CheckBox ID="PersonalSocial_Motivated_1" runat="server" onclick="PersonalSocial_Motivated_1_Click();"
-                                                        CssClass="checkboes" Text="Yes" />
+                                                        CssClass="checkboes" Text=" Yes" />
                                                     <asp:CheckBox ID="PersonalSocial_Motivated_2" runat="server" onclick="PersonalSocial_Motivated_2_Click();"
                                                         CssClass="checkboes" Text="No" />
                                                     <asp:CheckBox ID="PersonalSocial_Motivated_3" runat="server" onclick="PersonalSocial_Motivated_3_Click();"
@@ -2624,13 +2663,13 @@
                                                         }
                                                     </script>
                                                 </div>
-                                        
+
                                         </div>
 
                                         <div class="span12 formRow">
                                             <div class="row">
                                                 <div class="span2">
-                                                    <h5>B) RELATIONSHIP WITH OTHERS</h5>
+                                                    <h5>B)  Relationship with others</h5>
                                                 </div>
                                             </div>
                                             1. Eye contact
@@ -2682,66 +2721,64 @@
                                         </div>
                                         <%--</div>--%>
 
-                                        <div class="span12 formRow">
-                                            <div class="row"></div>
-                                                    2. Social smile
-                                                <div class="control-group" style="padding-left: 20px">
-                                                  
-                                        
-                                          
-                                            <asp:CheckBox ID="PersonalSocial_SocialSmile_1" runat="server" onclick="PersonalSocial_SocialSmile_1_Click();"
-                                                CssClass="checkboes" Text="Fleeting" />
-                                            <asp:CheckBox ID="PersonalSocial_SocialSmile_2" runat="server" onclick="PersonalSocial_SocialSmile_2_Click();"
-                                                CssClass="checkboes" Text="Poor" />
-                                            <asp:CheckBox ID="PersonalSocial_SocialSmile_3" runat="server" onclick="PersonalSocial_SocialSmile_3_Click();"
-                                                CssClass="checkboes" Text="Fair" />
-                                            <asp:CheckBox ID="PersonalSocial_SocialSmile_4" runat="server" onclick="PersonalSocial_SocialSmile_4_Click();"
-                                                CssClass="checkboes" Text="Good" />
-                                            <script type="text/javascript">
-                                                function PersonalSocial_SocialSmile_1_Click() {
-                                                    var ctl = $('#<%=PersonalSocial_SocialSmile_1.ClientID %>')[0];
-                                                    if (ctl.checked) {
-                                                        $('#<%=PersonalSocial_SocialSmile_2.ClientID %>').prop('checked', false);
-                                                        $('#<%=PersonalSocial_SocialSmile_3.ClientID %>').prop('checked', false);
-                                                        $('#<%=PersonalSocial_SocialSmile_4.ClientID %>').prop('checked', false);
+                                        <div class="span12 ">
+                                            <div class="control-label">
+                                                2. Social smile
+                                            </div>
+                                            <div class="control-group" style="padding-left: 20px">
+                                                <asp:CheckBox ID="PersonalSocial_SocialSmile_1" runat="server" onclick="PersonalSocial_SocialSmile_1_Click();"
+                                                    CssClass="checkboes" Text="Fleeting" />
+                                                <asp:CheckBox ID="PersonalSocial_SocialSmile_2" runat="server" onclick="PersonalSocial_SocialSmile_2_Click();"
+                                                    CssClass="checkboes" Text="Poor" />
+                                                <asp:CheckBox ID="PersonalSocial_SocialSmile_3" runat="server" onclick="PersonalSocial_SocialSmile_3_Click();"
+                                                    CssClass="checkboes" Text="Fair" />
+                                                <asp:CheckBox ID="PersonalSocial_SocialSmile_4" runat="server" onclick="PersonalSocial_SocialSmile_4_Click();"
+                                                    CssClass="checkboes" Text="Good" />
+                                                <script type="text/javascript">
+                                                    function PersonalSocial_SocialSmile_1_Click() {
+                                                        var ctl = $('#<%=PersonalSocial_SocialSmile_1.ClientID %>')[0];
+                                                        if (ctl.checked) {
+                                                            $('#<%=PersonalSocial_SocialSmile_2.ClientID %>').prop('checked', false);
+                                                            $('#<%=PersonalSocial_SocialSmile_3.ClientID %>').prop('checked', false);
+                                                            $('#<%=PersonalSocial_SocialSmile_4.ClientID %>').prop('checked', false);
+                                                        }
                                                     }
-                                                }
-                                                function PersonalSocial_SocialSmile_2_Click() {
-                                                    var ctl = $('#<%=PersonalSocial_SocialSmile_2.ClientID %>')[0];
-                                                    if (ctl.checked) {
-                                                        $('#<%=PersonalSocial_SocialSmile_1.ClientID %>').prop('checked', false);
-                                                        $('#<%=PersonalSocial_SocialSmile_3.ClientID %>').prop('checked', false);
-                                                        $('#<%=PersonalSocial_SocialSmile_4.ClientID %>').prop('checked', false);
+                                                    function PersonalSocial_SocialSmile_2_Click() {
+                                                        var ctl = $('#<%=PersonalSocial_SocialSmile_2.ClientID %>')[0];
+                                                        if (ctl.checked) {
+                                                            $('#<%=PersonalSocial_SocialSmile_1.ClientID %>').prop('checked', false);
+                                                            $('#<%=PersonalSocial_SocialSmile_3.ClientID %>').prop('checked', false);
+                                                            $('#<%=PersonalSocial_SocialSmile_4.ClientID %>').prop('checked', false);
+                                                        }
                                                     }
-                                                }
-                                                function PersonalSocial_SocialSmile_3_Click() {
-                                                    var ctl = $('#<%=PersonalSocial_SocialSmile_3.ClientID %>')[0];
-                                                    if (ctl.checked) {
-                                                        $('#<%=PersonalSocial_SocialSmile_1.ClientID %>').prop('checked', false);
-                                                        $('#<%=PersonalSocial_SocialSmile_2.ClientID %>').prop('checked', false);
-                                                        $('#<%=PersonalSocial_SocialSmile_4.ClientID %>').prop('checked', false);
+                                                    function PersonalSocial_SocialSmile_3_Click() {
+                                                        var ctl = $('#<%=PersonalSocial_SocialSmile_3.ClientID %>')[0];
+                                                        if (ctl.checked) {
+                                                            $('#<%=PersonalSocial_SocialSmile_1.ClientID %>').prop('checked', false);
+                                                            $('#<%=PersonalSocial_SocialSmile_2.ClientID %>').prop('checked', false);
+                                                            $('#<%=PersonalSocial_SocialSmile_4.ClientID %>').prop('checked', false);
+                                                        }
                                                     }
-                                                }
-                                                function PersonalSocial_SocialSmile_4_Click() {
-                                                    var ctl = $('#<%=PersonalSocial_SocialSmile_4.ClientID %>')[0];
-                                                    if (ctl.checked) {
-                                                        $('#<%=PersonalSocial_SocialSmile_1.ClientID %>').prop('checked', false);
-                                                        $('#<%=PersonalSocial_SocialSmile_2.ClientID %>').prop('checked', false);
-                                                        $('#<%=PersonalSocial_SocialSmile_3.ClientID %>').prop('checked', false);
+                                                    function PersonalSocial_SocialSmile_4_Click() {
+                                                        var ctl = $('#<%=PersonalSocial_SocialSmile_4.ClientID %>')[0];
+                                                        if (ctl.checked) {
+                                                            $('#<%=PersonalSocial_SocialSmile_1.ClientID %>').prop('checked', false);
+                                                            $('#<%=PersonalSocial_SocialSmile_2.ClientID %>').prop('checked', false);
+                                                            $('#<%=PersonalSocial_SocialSmile_3.ClientID %>').prop('checked', false);
+                                                        }
                                                     }
-                                                }
-                                            </script>
-                                                            </div>
+                                                </script>
+                                            </div>
                                         </div>
 
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                3. Family Regards
+                                                3. Family regards
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="PersonalSocial_FamilyRegards_1" runat="server" onclick="PersonalSocial_FamilyRegards_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="PersonalSocial_FamilyRegards_2" runat="server" onclick="PersonalSocial_FamilyRegards_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -2792,11 +2829,11 @@
    </div>--%>
                                         <div class="span12">
                                             <div class="control-label">
-                                                <h6>HOW IS THE CHILD SOCIALLY?:</h6>
+                                                <h6>How is the child sociallly?:</h6>
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="PersonalSocial_ChildSocially_1" runat="server" onclick="PersonalSocial_ChildSocially_1_Click();"
-                                                    CssClass="checkboes" Text="Difficult to handle" />
+                                                    CssClass="checkboes" Text=" Difficult to handle" />
                                                 <asp:CheckBox ID="PersonalSocial_ChildSocially_2" runat="server" onclick="PersonalSocial_ChildSocially_2_Click();"
                                                     CssClass="checkboes" Text="Good" />
                                                 <asp:CheckBox ID="PersonalSocial_ChildSocially_3" runat="server" onclick="PersonalSocial_ChildSocially_3_Click();"
@@ -2928,7 +2965,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                5.  When did your child start to long Sentences
+                                                5.  When did your child start to long sentences
 
                                             </div>
                                             <div class="control-group">
@@ -2941,13 +2978,13 @@
                                         </div>
 
                                         <div class="span12 formRow">
-                                            <div class="row"></div>
-                                              
+                                            <div class="row">
+                                                <div class="span2">
                                                     6. Unusual sounds /Jargon speech
-                                               
+                                                </div>
                                                 <div class="control-group" style="padding-left: 20px">
                                                     <asp:CheckBox ID="SpeechLanguage_UnusualSoundsJargonSpeech_1" runat="server" onclick="SpeechLanguage_UnusualSoundsJargonSpeech_1_Click();"
-                                                        CssClass="checkboes" Text="Yes" />
+                                                        CssClass="checkboes" Text=" Yes" />
                                                     <asp:CheckBox ID="SpeechLanguage_UnusualSoundsJargonSpeech_2" runat="server" onclick="SpeechLanguage_UnusualSoundsJargonSpeech_2_Click();"
                                                         CssClass="checkboes" Text="No" />
                                                     <script type="text/javascript">
@@ -2965,18 +3002,17 @@
                                                         }
                                                     </script>
                                                 </div>
-                                    
+                                            </div>
                                         </div>
 
 
                                         <div class="span12">
                                             <div class="control-label">
-                                              7. Imitation of speech / Gestures
+                                                7. Imitation of speech / Gestures
                                             </div>
-                                              
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="SpeechLanguage_speechgestures_1" runat="server" onclick="SpeechLanguage_speechgestures_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="SpeechLanguage_speechgestures_2" runat="server" onclick="SpeechLanguage_speechgestures_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -3012,7 +3048,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                9.  Non verbal facial: Eye Contact
+                                                9.  Non verbal facial: Eye contact
 
                                             </div>
                                             <div class="control-group">
@@ -3097,11 +3133,11 @@
                                         <div class="span12 formRow">
                                             <div class="row">
                                                 <div class="span2">
-                                                    <h6>15. Two - way Interaction</h6>
+                                                    <h6>15. Two - way interaction</h6>
                                                 </div>
                                                 <div class="control-group" style="padding-left: 20px">
                                                     <asp:CheckBox ID="SpeechLanguage_TwowayInteraction_1" runat="server" onclick="SpeechLanguage_TwowayInteraction_1_Click();"
-                                                        CssClass="checkboes" Text="Yes" />
+                                                        CssClass="checkboes" Text=" Yes" />
                                                     <asp:CheckBox ID="SpeechLanguage_TwowayInteraction_2" runat="server" onclick="SpeechLanguage_TwowayInteraction_2_Click();"
                                                         CssClass="checkboes" Text="No" />
                                                     <asp:CheckBox ID="SpeechLanguage_TwowayInteraction_3" runat="server" onclick="SpeechLanguage_TwowayInteraction_3_Click();"
@@ -3149,7 +3185,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                17.Narrate Incidents:At Home/Expression of :Want
+                                                17.Narrate incidents:At Home/Expression of :Want
 
                                             </div>
                                             <div class="control-group">
@@ -3284,7 +3320,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                1.BEHAVIOUR OF THE CHILD :- What does the child do in his free time
+                                                1.Behaviour of the child :- What does the child do in his free time
                                             </div>
                                             <div class="control-group">
                                                 <asp:TextBox ID="Behaviour_FreeTime" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -3314,13 +3350,13 @@
                                         </div>
 
                                         <div class="span12 formRow">
-                                            <div class="row"></div>
-                                            
+                                            <div class="row">
+                                                <div class="span2">
                                                     3. Does the child have situational meltdowns :
-                                        
+                                                </div>
                                                 <div class="control-group" style="padding-left: 20px">
                                                     <asp:CheckBox ID="Behaviour_situationalmeltdowns_1" runat="server" onclick="Behaviour_situationalmeltdowns_1_Click();"
-                                                        CssClass="checkboes" Text="Yes" />
+                                                        CssClass="checkboes" Text=" Yes" />
                                                     <asp:CheckBox ID="Behaviour_situationalmeltdowns_2" runat="server" onclick="Behaviour_situationalmeltdowns_2_Click();"
                                                         CssClass="checkboes" Text="No" />
                                                     <asp:CheckBox ID="Behaviour_situationalmeltdowns_3" runat="server" onclick="Behaviour_situationalmeltdowns_3_Click();"
@@ -3349,7 +3385,7 @@
                                                         }
                                                     </script>
                                                 </div>
-                                         
+                                            </div>
                                         </div>
                                         <div class="span12">
                                             <div class="control-label">
@@ -3394,9 +3430,6 @@
                                 </div>
                             </ContentTemplate>
                         </ajaxToolkit:TabPanel>
-
-
-
 
                         <ajaxToolkit:TabPanel ID="tb_Report8" runat="server" HeaderText="AROUSAL">
                             <ContentTemplate>
@@ -3443,7 +3476,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Arousal_Stimuli_1" runat="server" onclick="Arousal_Stimuli_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Arousal_Stimuli_2" runat="server" onclick="Arousal_Stimuli_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <asp:CheckBox ID="Arousal_Stimuli_3" runat="server" onclick="Arousal_Stimuli_3_Click();"
@@ -3477,11 +3510,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                4.Maintainance Of Arousal During Transition.
+                                                4.Maintainance Of arousal during transition.
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Arousal_Transition_1" runat="server" onclick="Arousal_Transition_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Arousal_Transition_2" runat="server" onclick="Arousal_Transition_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -3596,7 +3629,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Affect_RangeEmotion_1" runat="server" onclick="Affect_RangeEmotion_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Affect_RangeEmotion_2" runat="server" onclick="Affect_RangeEmotion_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -3622,7 +3655,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Affect_ExpressEmotion_1" runat="server" onclick="Affect_ExpressEmotion_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Affect_ExpressEmotion_2" runat="server" onclick="Affect_ExpressEmotion_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -3769,7 +3802,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Attention_FocusHandhome_1" runat="server" onclick="Attention_FocusHandhome_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Attention_FocusHandhome_2" runat="server" onclick="Attention_FocusHandhome_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -3817,11 +3850,11 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                4.	Dividing attention
+                                                4.Dividing attention
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Attention_Dividing_1" runat="server" onclick="Attention_Dividing_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Attention_Dividing_2" runat="server" onclick="Attention_Dividing_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -3843,7 +3876,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                5.	Change of activities every
+                                                5. Change of activities every
                                             </div>
                                             <div class="control-group">
                                                 <asp:TextBox ID="Attention_ChangeActivities" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -3858,7 +3891,7 @@
                                                 6.	Age appropriate attention   
                         <div class="control-group" style="padding-left: 20px">
                             <asp:CheckBox ID="Attention_AgeAppropriate_1" runat="server" onclick="Attention_AgeAppropriate_1_Click();"
-                                CssClass="checkboes" Text="Yes" />
+                                CssClass="checkboes" Text=" Yes" />
                             <asp:CheckBox ID="Attention_AgeAppropriate_2" runat="server" onclick="Attention_AgeAppropriate_2_Click();"
                                 CssClass="checkboes" Text="No" />
                             <asp:CheckBox ID="Attention_AgeAppropriate_3" runat="server" onclick="Attention_AgeAppropriate_3_Click();"
@@ -3968,7 +4001,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Attention_move_1" runat="server" onclick="Attention_move_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Attention_move_2" runat="server" onclick="Attention_move_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -4006,8 +4039,6 @@
                             </ContentTemplate>
                         </ajaxToolkit:TabPanel>
 
-
-
                         <ajaxToolkit:TabPanel ID="tb_Report12" runat="server" HeaderText="ACTION">
                             <ContentTemplate>
                                 <div style="margin-top: 20px; margin-bottom: 20px;">
@@ -4015,7 +4046,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                1.Age appropriate Motor planning
+                                                1.Age appropriate motor planning
                                             </div>
                                             <div class="control-group">
                                                 <asp:TextBox ID="Action_MotorPlanning" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -4031,7 +4062,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Action_Purposeful_1" runat="server" onclick="Action_Purposeful_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Action_Purposeful_2" runat="server" onclick="Action_Purposeful_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -4057,7 +4088,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Action_GoalOriented_1" runat="server" onclick="Action_GoalOriented_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Action_GoalOriented_2" runat="server" onclick="Action_GoalOriented_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -4083,7 +4114,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Action_FeedBackDependent_1" runat="server" onclick="Action_FeedBackDependent_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Action_FeedBackDependent_2" runat="server" onclick="Action_FeedBackDependent_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -4109,7 +4140,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Action_Constructive_1" runat="server" onclick="Action_Constructive_1_click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Action_Constructive_2" runat="server" onclick="Action_Constructive_2_click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -4170,7 +4201,7 @@
                                                 <div class="control-label">
                                                     <asp:CheckBox ID="chkInteracts" runat="server" CssClass="checkboes" onclick="Interacts_Click();" Text="Interacts" />
                                                     <asp:CheckBox ID="chkDoes_not_initiate" runat="server" CssClass="checkboes" onclick="Does_not_initiate_Click();" Text="Does not initiate" />
-                                                    <asp:CheckBox ID="chkSustain" runat="server" CssClass="checkboes" onclick="Sustain_Click();" Text="Does not Sustain" />
+                                                    <asp:CheckBox ID="chkSustain" runat="server" CssClass="checkboes" onclick="Sustain_Click();" Text="Does not sustain" />
                                                     <asp:CheckBox ID="chkFight" runat="server" CssClass="checkboes" onclick="Fight_Click();" Text="Fight" />
                                                     <asp:CheckBox ID="chkFreeze" runat="server" CssClass="checkboes" onclick="Freeze_Click();" Text="Freeze" />
                                                     <asp:CheckBox ID="chkFright" runat="server" CssClass="checkboes" onclick="Fright_Click();" Text="Fright" />
@@ -4251,7 +4282,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Interaction_SocialQues_1" runat="server" onclick="Interaction_SocialQues_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Interaction_SocialQues_2" runat="server" onclick="Interaction_SocialQues_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -4325,7 +4356,7 @@
                                             </div>
                                             <div class="control-group" style="padding-left: 20px">
                                                 <asp:CheckBox ID="Interaction_Friends_1" runat="server" onclick="Interaction_Friends_1_Click();"
-                                                    CssClass="checkboes" Text="Yes" />
+                                                    CssClass="checkboes" Text=" Yes" />
                                                 <asp:CheckBox ID="Interaction_Friends_2" runat="server" onclick="Interaction_Friends_2_Click();"
                                                     CssClass="checkboes" Text="No" />
                                                 <script type="text/javascript">
@@ -4351,11 +4382,11 @@
               </div>
                <div class="control-group" style="padding-left: 20px">
                   <asp:CheckBox ID="Interaction_RelatesPeople_1" runat="server" onclick="Interaction_RelatesPeople_1_Click();"
-                      CssClass="checkboes" Text="Yes" />
+                      CssClass="checkboes" Text=" Yes" />
                   <asp:CheckBox ID="Interaction_RelatesPeople_2" runat="server" onclick="Interaction_RelatesPeople_2_Click();"
                       CssClass="checkboes" Text="No" />
                     <asp:CheckBox ID="Interaction_RelatesPeople_3" runat="server" onclick="Interaction_RelatesPeople_3_Click();"
-                      CssClass="checkboes" Text="Sometimes" />
+                      CssClass="checkboes" Text="SOMETIMES" />
                   <script type="text/javascript">
                             function Interaction_RelatesPeople_1_Click() {
                                 var ctl = $('#<%=Interaction_RelatesPeople_1.ClientID %>')[0];
@@ -4384,7 +4415,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                8.What activities does He/She enjoys.
+                                                8.What activities does he/she enjoys.
                                             </div>
                                             <div class="control-group">
                                                 <asp:TextBox ID="Interaction_Enjoy" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -4458,7 +4489,7 @@
                                             </table>
 
                                             <div class="control-label">
-                                                <h6>SOMATOSENSORY SYSTEM- ( Tactile-Vestibular - Prop Trio)</h6>
+                                                <h6>Somatosensory system- ( Tactile-Vestibular - Prop Trio)</h6>
                                             </div>
                                             <table class="ndt-default-table">
                                                 <tr>
@@ -4527,7 +4558,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                              How well he identifies body parts
+                                              How well he/she identifies body parts
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_identifies" runat="server" CssClass="span3"></asp:TextBox>
@@ -4543,7 +4574,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                 Constantly bumps into objects in his path
+                                                 Constantly bumps into objects in his/her path
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_Constantly" runat="server" CssClass="span3"></asp:TextBox>
@@ -4551,7 +4582,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                 Is he clumsy with his things
+                                                 Is he/she clumsy with his things
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_clumsy" runat="server" CssClass="span3"></asp:TextBox>
@@ -4559,8 +4590,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                Can he maneuver himself out ofa 
-                                                variety of equipment orsituations?
+                                                Can he/she maneuver himself out of a 
+                                                variety of equipment or situations?
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_maneuver" runat="server" CssClass="span3"></asp:TextBox>
@@ -4568,7 +4599,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                Is he overly fidgety?
+                                                Is he/she overly fidgety?
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_overly" runat="server" CssClass="span3"></asp:TextBox>
@@ -4576,8 +4607,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                Is he able to stand in line 
-                                                      duringor waits for his turn
+                                                Is he/she able to stand in line 
+                                                      duringor waits for his/her turn
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_stand" runat="server" CssClass="span3"></asp:TextBox>
@@ -4585,7 +4616,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                Does he indulge into rough/sportplay?
+                                                Does he/she indulge into rough/sportplay?
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_indulge" runat="server" CssClass="span3"></asp:TextBox>
@@ -4593,7 +4624,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                Does he dislike any type of textures?
+                                                Does he/she dislike any type of textures?
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_textures" runat="server" CssClass="span3"></asp:TextBox>
@@ -4610,8 +4641,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                     Use of swings Slide Can he perform heavy activities Cycle/tricycle 
-                                                      Riding Can he maintain good posture while sitting?
+                                                     Use of swings Slide Can he/she perform heavy activities Cycle/tricycle 
+                                                      Riding Can he/she maintain good posture while sitting?
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="SS_swings" runat="server" CssClass="span3"></asp:TextBox>
@@ -4620,7 +4651,7 @@
                                             </table>
 
                                             <div class="control-label">
-                                                <h6>VESTIBULAR SYSTEM</h6>
+                                                <h6>Vestibular system</h6>
                                             </div>
                                             <table class="ndt-default-table">
                                                 <tr>
@@ -4659,7 +4690,7 @@
                                             </table>
 
                                             <div class="control-label">
-                                                <h6>PROPRIOCEPTIVE SYSTEM</h6>
+                                                <h6>Proprioceptive system</h6>
                                             </div>
                                             <table class="ndt-default-table">
                                                 <tr>
@@ -4688,7 +4719,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                   Responsiveness Mention the Behavioral 
+                                                   Responsiveness mention the behavioral 
                                                       responses shown by the child
                                                     </td>
                                                     <td>
@@ -4698,7 +4729,7 @@
                                             </table>
 
                                             <div class="control-label">
-                                                <h6>ORO- MOTOR SYSTEM:</h6>
+                                                <h6>ORO-Motor system:</h6>
                                             </div>
                                             <table class="ndt-default-table">
                                                 <tr>
@@ -4728,7 +4759,7 @@
                                                 <tr>
                                                     <td class="span3">&nbsp;
                                                    Responsiveness(Hyporesponsive /Hyperresponsive ) 
-                                                   Mention the Behavioral responses shown by the child
+                                                   mention the behavioral responses shown by the child
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="OM_Responsiveness" runat="server" CssClass="span3"></asp:TextBox>
@@ -4737,12 +4768,12 @@
                                             </table>
 
                                             <div class="control-label">
-                                                <h6>AUDITORY SYSTEM:</h6>
+                                                <h6>Auditory System</h6>
                                             </div>
                                             <table class="ndt-default-table">
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                   Auditory Registration
+                                                   Auditory registration
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="AS_Auditory" runat="server" CssClass="span3"></asp:TextBox>
@@ -4750,7 +4781,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="span3">&nbsp;
-                                                   Auditory Orientation
+                                                   Auditory orientation
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="AS_Orientation" runat="server" CssClass="span3"></asp:TextBox>
@@ -4759,7 +4790,7 @@
                                                 <tr>
                                                     <td class="span3">&nbsp;
                                                    Responsiveness(Hyporesponsive/ Hyperresponsive) 
-                                                   Mention the Behavioral responses shown by the child
+                                                   mention the behavioral responses shown by the child
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="AS_Responsiveness" runat="server" CssClass="span3"></asp:TextBox>
@@ -4817,7 +4848,7 @@
 
                                             </table>
                                             <div class="control-label">
-                                                <h6>VISUAL SYSTEM:</h6>
+                                                <h6>Visual system:</h6>
                                             </div>
                                             <table class="ndt-default-table">
                                                 <tr>
@@ -4831,7 +4862,7 @@
                                                 <tr>
                                                     <td class="span3">&nbsp;
                                                   Responsiveness(Hyporesponsive/Hyperresponsive ) 
-                                                  Mention the Behavioral responses shown by the child
+                                                  mention the behavioral responses shown by the child
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="VS_Responsiveness" runat="server" CssClass="span3"></asp:TextBox>
@@ -4936,7 +4967,7 @@
                                                 </tr>
                                             </table>
                                             <div class="control-label">
-                                                <h6>OLFACTORY SYSTEM : </h6>
+                                                <h6>Olfactory system: </h6>
                                             </div>
                                             <table class="ndt-default-table">
                                                 <tr>
@@ -4967,7 +4998,7 @@
                                                 <tr>
                                                     <td class="span3">&nbsp;
                                                  Responsiveness(Hyporesponsive/Hyperresponsive ) 
-                                                 Mention the Behavioral responses shown by the child
+                                                 mention the behavioral responses shown by the child
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="OS_Responsiveness" runat="server" CssClass="span3"></asp:TextBox>
@@ -5049,7 +5080,7 @@
 
                                         <div class="span12">
                                             <div class="control-label">
-                                                3.Denver’s checklist Language
+                                                3.Denver’s checklist language
                                             </div>
                                             <div class="control-group">
                                                 <asp:TextBox ID="TestMeassures_DenverLanguage" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -5125,12 +5156,12 @@
                             </ContentTemplate>
                         </ajaxToolkit:TabPanel>
 
-                           <ajaxToolkit:TabPanel ID="tb_Report16" runat="server" HeaderText="AGES AND STAGES">
+                        <ajaxToolkit:TabPanel ID="tb_Report16" runat="server" HeaderText="AGES AND STAGES">
                             <ContentTemplate>
                                 <div style="margin-top: 20px; margin-bottom: 20px;">
                                     <div class="formRow">
                                         <div class="span12">
-                                             <asp:UpdatePanel ID="updAgeStage" runat="server" UpdateMode="Conditional">
+                                            <asp:UpdatePanel ID="updAgeStage" runat="server" UpdateMode="Conditional">
                                                 <ContentTemplate>
                                                     <asp:DropDownList ID="SelectMonth" runat="server" CssClass="input-medium chzn-select span2" OnSelectedIndexChanged="SelectMonth_SelectedIndexChanged" AutoPostBack="true" EnableViewState="true">
                                                     </asp:DropDownList>
@@ -5170,7 +5201,8 @@
 
                                                             </ItemTemplate>
                                                         </asp:Repeater>
-                                                    </table>                                                </ContentTemplate>
+                                                    </table>
+                                                </ContentTemplate>
                                                 <Triggers>
                                                     <asp:AsyncPostBackTrigger ControlID="SelectMonth" />
                                                 </Triggers>
@@ -5212,7 +5244,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross motor</b>
                                                     </td>
                                                     <td>
                                                         <b>41.84</b>
@@ -5228,7 +5260,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>30.16</b>
@@ -5244,7 +5276,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>24.62</b>
@@ -5260,7 +5292,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>33.71</b>
@@ -5399,7 +5431,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>38.41</b>
@@ -5415,7 +5447,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>29.62</b>
@@ -5431,7 +5463,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>34.98</b>
@@ -5447,7 +5479,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>33.96</b>
@@ -5497,7 +5529,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>38.41</b>
@@ -5513,7 +5545,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>29.62</b>
@@ -5529,7 +5561,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>34.98</b>
@@ -5545,7 +5577,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>33.16</b>
@@ -5596,7 +5628,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>30.61</b>
@@ -5612,7 +5644,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>40.15</b>
@@ -5628,7 +5660,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>36.17</b>
@@ -5644,7 +5676,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>35.84</b>
@@ -5695,7 +5727,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>30.61</b>
@@ -5711,7 +5743,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>40.15</b>
@@ -5727,7 +5759,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>36.17</b>
@@ -5743,7 +5775,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>35.84</b>
@@ -5794,7 +5826,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>30.07</b>
@@ -5810,7 +5842,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>37.97</b>
@@ -5826,7 +5858,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>32.51</b>
@@ -5842,7 +5874,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>27.25</b>
@@ -5893,7 +5925,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>21.49</b>
@@ -5909,7 +5941,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>34.50</b>
@@ -5925,7 +5957,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>27.32</b>
@@ -5941,7 +5973,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>21.73</b>
@@ -5992,7 +6024,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>25.80</b>
@@ -6008,7 +6040,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>23.06</b>
@@ -6024,7 +6056,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>22.56</b>
@@ -6040,7 +6072,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>23.18</b>
@@ -6091,7 +6123,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>25.80</b>
@@ -6107,7 +6139,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>23.06</b>
@@ -6123,7 +6155,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>22.56</b>
@@ -6139,7 +6171,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>23.18</b>
@@ -6190,7 +6222,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>25.80</b>
@@ -6206,7 +6238,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>23.06</b>
@@ -6222,7 +6254,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>22.56</b>
@@ -6238,7 +6270,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>23.18</b>
@@ -6289,7 +6321,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>39.89</b>
@@ -6305,7 +6337,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>36.05</b>
@@ -6321,7 +6353,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>28.84</b>
@@ -6337,7 +6369,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>33.36</b>
@@ -6388,7 +6420,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>27.75</b>
@@ -6404,7 +6436,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>29.61</b>
@@ -6420,7 +6452,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>29.30</b>
@@ -6436,7 +6468,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>30.07</b>
@@ -6487,7 +6519,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>38.07</b>
@@ -6503,7 +6535,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>35.16</b>
@@ -6519,7 +6551,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>29.78</b>
@@ -6535,7 +6567,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>31.54</b>
@@ -6586,7 +6618,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>28.01</b>
@@ -6602,7 +6634,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>18.42</b>
@@ -6618,7 +6650,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>27.62</b>
@@ -6634,7 +6666,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>25.31</b>
@@ -6685,7 +6717,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>36.14</b>
@@ -6701,7 +6733,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>19.25</b>
@@ -6717,7 +6749,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>27.08</b>
@@ -6733,7 +6765,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>33.01</b>
@@ -6784,7 +6816,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>34.80</b>
@@ -6800,7 +6832,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>12.28</b>
@@ -6816,7 +6848,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>26.92</b>
@@ -6832,7 +6864,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>28.96</b>
@@ -6883,7 +6915,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>36.99</b>
@@ -6899,7 +6931,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>18.07</b>
@@ -6915,7 +6947,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>30.29</b>
@@ -6931,7 +6963,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>35.33</b>
@@ -6982,7 +7014,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>36.27</b>
@@ -6998,7 +7030,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>19.82</b>
@@ -7014,7 +7046,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>28.11</b>
@@ -7030,7 +7062,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>31.12</b>
@@ -7081,7 +7113,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>32.78</b>
@@ -7097,7 +7129,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>15.81</b>
@@ -7113,7 +7145,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>31.30</b>
@@ -7129,7 +7161,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>26.60</b>
@@ -7180,7 +7212,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>35.18</b>
@@ -7196,7 +7228,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>17.32</b>
@@ -7212,7 +7244,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>28.12</b>
@@ -7228,7 +7260,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>32.33</b>
@@ -7279,7 +7311,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>GROSS MOTOR</b>
+                                                        <b>Gross Motor</b>
                                                     </td>
                                                     <td>
                                                         <b>31.28</b>
@@ -7295,7 +7327,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>FINE MOTOR</b>
+                                                        <b>Fine motor</b>
                                                     </td>
                                                     <td>
                                                         <b>26.54</b>
@@ -7311,7 +7343,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PROBLEM SOLVING</b>
+                                                        <b>Problem solving</b>
                                                     </td>
                                                     <td>
                                                         <b>29.99</b>
@@ -7327,7 +7359,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <b>PERSONAL SOCIAL</b>
+                                                        <b>Personal social</b>
                                                     </td>
                                                     <td>
                                                         <b>39.07</b>
@@ -7347,7 +7379,7 @@
 
 
 
-                                           
+
 
 
                                         </div>
@@ -7379,42 +7411,42 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>GENERAL Processing
+                                                        <td>GENERAL processing
                                                         </td>
                                                         <td>
                                                             <asp:TextBox ID="General_Processing" runat="server" CssClass="span3"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>AUDITORY Processing
+                                                        <td>AUDITORY processing
                                                         </td>
                                                         <td>
                                                             <asp:TextBox ID="AUDITORY_Processing" runat="server" CssClass="span3"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>VISUAL Processing
+                                                        <td>VISUAL processing
                                                         </td>
                                                         <td>
                                                             <asp:TextBox ID="VISUAL_Processing" runat="server" CssClass="span3"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>TOUCH Processing
+                                                        <td>TOUCH processing
                                                         </td>
                                                         <td>
                                                             <asp:TextBox ID="TOUCH_Processing" runat="server" CssClass="span3"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>MOVEMENT Processing
+                                                        <td>MOVEMENT processing
                                                         </td>
                                                         <td>
                                                             <asp:TextBox ID="MOVEMENT_Processing" runat="server" CssClass="span3"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>ORAL Processing
+                                                        <td>ORAL processing
                                                         </td>
                                                         <td>
                                                             <asp:TextBox ID="ORAL_Processing" runat="server" CssClass="span3"></asp:TextBox>
@@ -7496,7 +7528,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                                     Seeking
+                                                     SEEKING
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7516,7 +7548,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                               Avoiding
+                                                AVOIDING
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7536,7 +7568,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                                Sensitivity
+                                                SENSITIVITY
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7556,7 +7588,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                              Registration
+                                                REGISTRATION
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7576,7 +7608,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                                 General
+                                                GENERAL
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7595,7 +7627,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                                 Auditory
+                                                AUDITORY
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7614,7 +7646,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                                Visual
+                                                VISUAL
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7633,7 +7665,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                                   Touch
+                                                TOUCH
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7652,7 +7684,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                           Movement
+                                                MOVEMENT
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7671,7 +7703,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                                Oral
+                                                ORAL
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7690,7 +7722,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="span1">&nbsp;
-                                                Behavioral
+                                                BEHAVIORAL
                                                         </td>
                                                         <td>
                                                             <b>
@@ -7830,7 +7862,7 @@
                                                         </td>
                                                         <td>
                                                             <b>
-                                                                <asp:TextBox ID="SPchild_Auditory_3" runat="server" CssClass="span1"></asp:TextBox>/50</b>
+                                                                <asp:TextBox ID="SPchild_Auditory_3" runat="server" CssClass="span1"></asp:TextBox>/40</b>
                                                         </td>
                                                         <td>
                                                             <div class="" style="display: inline-block; margin-right: 5px;">
@@ -7935,7 +7967,7 @@
                                                         </td>
                                                         <td>
                                                             <b>
-                                                                <asp:TextBox ID="SPchild_Oral_3" runat="server" CssClass="span1"></asp:TextBox>/35</b>
+                                                                <asp:TextBox ID="SPchild_Oral_3" runat="server" CssClass="span1"></asp:TextBox>/50</b>
                                                         </td>
                                                         <td>
                                                             <div class="" style="display: inline-block; margin-right: 5px;">
@@ -8365,7 +8397,6 @@
                                             <asp:UpdatePanel ID="updAbility" runat="server" UpdateMode="Conditional">
                                                 <ContentTemplate>
                                                     <asp:DropDownList ID="MonthSelect" runat="server" CssClass="input-medium chzn-select span2" OnSelectedIndexChanged="MonthSelect_SelectedIndexChanged" AutoPostBack="true" EnableViewState="true">
-                                                       
                                                     </asp:DropDownList>
 
                                                     <table style="border: 1px solid gray">
@@ -8375,7 +8406,6 @@
                                                             <td>YES</td>
                                                             <td>NO</td>
                                                         </tr>--%>
-
 
                                                         <asp:Repeater ID="abilityQuestionsParent" runat="server" OnItemDataBound="abilityQuestionsParent_ItemDataBound">
                                                             <ItemTemplate>
@@ -8393,14 +8423,14 @@
                                                                             <td>
                                                                                 <center>
                                                                                     <asp:Label ID="abilityQuestionNo" runat="server" Text='<%#DataBinder.Eval(Container,"DataItem.questionNO")%>'></asp:Label>
-                                                                                    <asp:Label ID="lblCategoryId" runat="server" Text='<%#DataBinder.Eval(Container,"DataItem.CategoryID")%>' Visible="false"></asp:Label>
+                                                                                    <asp:Label ID="lblCategoryId" runat="server" Text='<%#DataBinder.Eval(Container,"DataItem.CategoryID")%>' Style="display: none;"></asp:Label>
                                                                                 </center>
                                                                             </td>
                                                                             <td><%#DataBinder.Eval(Container,"DataItem.Question")%></td>
-                                                                             <td>
-                                                                        <asp:CheckBox runat="server" ID="chkMonthYes" Checked='<%#Convert.ToBoolean(DataBinder.Eval(Container,"DataItem.Yes"))%>' /></td>
-                                                                    <td>
-                                                                        <asp:CheckBox runat="server" ID="chkMonthNo" Checked='<%#Convert.ToBoolean(DataBinder.Eval(Container,"DataItem.No"))%>' /></td>
+                                                                            <td>
+                                                                                <asp:CheckBox runat="server" ID="chkMonthYes" Checked='<%#Convert.ToBoolean(DataBinder.Eval(Container,"DataItem.Yes"))%>' /></td>
+                                                                            <td>
+                                                                                <asp:CheckBox runat="server" ID="chkMonthNo" Checked='<%#Convert.ToBoolean(DataBinder.Eval(Container,"DataItem.No"))%>' /></td>
                                                                         </tr>
                                                                     </ItemTemplate>
                                                                 </asp:Repeater>
@@ -8478,13 +8508,13 @@
                                                             <h5>Not at all like your child 1</h5>
                                                         </td>
                                                         <td>
-                                                            <h5>A bit like your Child 2</h5>
+                                                            <h5>A bit like your child 2</h5>
                                                         </td>
                                                         <td>
                                                             <h5>Moderately like your child 3</h5>
                                                         </td>
                                                         <td>
-                                                            <h5>Quite a bit like your Child 4</h5>
+                                                            <h5>Quite a bit like your child 4</h5>
                                                         </td>
                                                         <td>
                                                             <h5>Extremely like your child 5</h5>
@@ -8499,13 +8529,13 @@
                                                     <tr>
                                                         <td></td>
                                                         <td>
-                                                            <h6>Control During Movement</h6>
+                                                            <h6>Control during movement</h6>
                                                         </td>
                                                         <td>
-                                                            <h6>Fine Motor/Handwriting</h6>
+                                                            <h6>Fine motor/Handwriting</h6>
                                                         </td>
                                                         <td>
-                                                            <h6>General Coordination</h6>
+                                                            <h6>General coordination</h6>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -8770,8 +8800,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Control during movement  </td>
-                                                    <td>Fine motor and Handwriting </td>
-                                                    <td>General Coordination </td>
+                                                    <td>Fine motor and handwriting </td>
+                                                    <td>General coordination </td>
                                                     <td>Total</td>
                                                 </tr>
 
@@ -8783,10 +8813,10 @@
                                                     <table class="ndt-default-table">
                                                         <tr>
                                                             <td>
-                                                                <h5>Age Group</h5>
+                                                                <h5>Age group</h5>
                                                             </td>
                                                             <td>
-                                                                <h5>Indication of,or Suspect for,DCD</h5>
+                                                                <h5>Indication of,or suspect for,DCD</h5>
                                                             </td>
                                                             <td>
                                                                 <h5>Probably not DCD</h5>
@@ -8858,7 +8888,7 @@
                                         <div class="span11">
                                             <h5>SIPT Information :</h5>
                                             <ajaxToolkit:TabContainer ID="TabContainer2" runat="server">
-                                                <ajaxToolkit:TabPanel ID="TabPanel15" runat="server" HeaderText="History">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport1" runat="server" HeaderText="History">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -8877,7 +8907,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel16" runat="server" HeaderText="Hand Function-I">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport2" runat="server" HeaderText="Hand Function-I">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -8924,7 +8954,7 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>:3 Jaw Chuck
+                                                                        <td>:3 Jaw chuck
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_HandFunction1_JawChuckRight" runat="server" CssClass="span3"></asp:TextBox>
@@ -8960,7 +8990,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel13" runat="server" HeaderText="Hand Function-II">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport3" runat="server" HeaderText="Hand Function-II">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9039,7 +9069,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel14" runat="server" HeaderText="SIPT-III">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport4" runat="server" HeaderText="SIPT-III">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9073,7 +9103,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel5" runat="server" HeaderText="SIPT-IV">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport5" runat="server" HeaderText="SIPT-IV">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9094,7 +9124,7 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Finger identification test
+                                                                        <td>Finger Identification Test
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT4_Finger" runat="server" CssClass="span3"></asp:TextBox>
@@ -9108,7 +9138,7 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Double tactile localisation
+                                                                        <td>Double Tactile Localisation
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT4_DoubleTactile" runat="server" CssClass="span3"></asp:TextBox>
@@ -9129,14 +9159,14 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Post rotary nystagmus
+                                                                        <td>Post Rotary Nystagmus
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT4_PostRotary" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Standing and walking balance
+                                                                        <td>Standing And Walking Balance
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT4_Standing" runat="server" CssClass="span3"></asp:TextBox>
@@ -9149,7 +9179,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel6" runat="server" HeaderText="SIPT-V">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport6" runat="server" HeaderText="SIPT-V">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9163,42 +9193,42 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Color recognition
+                                                                        <td>Color Recognition
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT5_Color" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Form constancy
+                                                                        <td>Form Constancy
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT5_Form" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Size differentiation
+                                                                        <td>Size Differentiation
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT5_Size" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Depth perception
+                                                                        <td>Depth Perception
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT5_Depth" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Figure ground perception
+                                                                        <td>Figure Ground Perception
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT5_Figure" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Motor accuracy
+                                                                        <td>Motor Accuracy
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT5_Motor" runat="server" CssClass="span3"></asp:TextBox>
@@ -9211,7 +9241,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel7" runat="server" HeaderText="SIPT-VI">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport7" runat="server" HeaderText="SIPT-VI">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9225,14 +9255,14 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Design copying
+                                                                        <td>Design Copying
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT6_Design" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Constructional praxis
+                                                                        <td>Constructional Praxis
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT6_Constructional" runat="server" CssClass="span3"></asp:TextBox>
@@ -9245,7 +9275,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel8" runat="server" HeaderText="SIPT-VII">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport8" runat="server" HeaderText="SIPT-VII">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9259,14 +9289,14 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Visual scanning
+                                                                        <td>Visual Scanning
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT7_Scanning" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Visual memory
+                                                                        <td>Visual Memory
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT7_Memory" runat="server" CssClass="span3"></asp:TextBox>
@@ -9279,7 +9309,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel9" runat="server" HeaderText="SIPT-VIII">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport9" runat="server" HeaderText="SIPT-VIII">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span12">
@@ -9293,7 +9323,7 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Postural praxis
+                                                                        <td>Postural Praxis
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT8_Postural" runat="server" CssClass="span3"></asp:TextBox>
@@ -9307,14 +9337,14 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Sequencing praxis
+                                                                        <td>Sequencing Praxis
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT8_Sequencing" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Praxis on verbal commands
+                                                                        <td>Praxis On Verbal Commands
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT8_Commands" runat="server" CssClass="span3"></asp:TextBox>
@@ -9327,7 +9357,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel10" runat="server" HeaderText="SIPT-IX">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport10" runat="server" HeaderText="SIPT-IX">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9341,28 +9371,28 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Bilateral motor co-ordination
+                                                                        <td>Bilateral Motor Co-ordination
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT9_Bilateral" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Space visualisation contralat use
+                                                                        <td>Space Visualisation Contralat Use
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT9_Contralat" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Space visualisation preferred hand
+                                                                        <td>Space Visualisation Preferred Hand
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT9_PreferredHand" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Crossing midline
+                                                                        <td>Crossing Midline
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT9_CrossingMidline" runat="server" CssClass="span3"></asp:TextBox>
@@ -9375,7 +9405,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel11" runat="server" HeaderText="SIPT-X">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport11" runat="server" HeaderText="SIPT-X">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9389,7 +9419,7 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Draw a person test
+                                                                        <td>Draw A Person Test
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT10_Draw" runat="server" CssClass="span3"></asp:TextBox>
@@ -9403,28 +9433,28 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Filtering information
+                                                                        <td>Filtering Information
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT10_Filtering" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Motor planning
+                                                                        <td>Motor Planning
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT10_MotorPlanning" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Body pmage
+                                                                        <td>Body Image
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT10_BodyImage" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Body schema
+                                                                        <td>Body Schema
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_SIPT10_BodySchema" runat="server" CssClass="span3"></asp:TextBox>
@@ -9444,12 +9474,12 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel12" runat="server" HeaderText="Activity Given">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReport12" runat="server" HeaderText="Activity Given">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    Activity given :
+                                                                    Activity Given :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="SIPTInfo_ActivityGiven_Remark" runat="server" CssClass="span10"
@@ -9471,35 +9501,35 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Interest in activity
+                                                                        <td>Interest In Activity
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_InterestActivity" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Interest in completion
+                                                                        <td>Interest In Completion
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_InterestCompletion" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Initial learning
+                                                                        <td>Initial Learning
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_Learning" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Complexity and organisation of task
+                                                                        <td>Complexity And Organisation Of Task
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_Complexity" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Problem solving
+                                                                        <td>Problem Solving
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_ProblemSolving" runat="server" CssClass="span3"></asp:TextBox>
@@ -9513,56 +9543,56 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Retension and recall
+                                                                        <td>Retension And Recall
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_Retension" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Speed of perfomance
+                                                                        <td>Speed Of Perfomance
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_SpeedPerfom" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Activity neatness
+                                                                        <td>Activity Neatness
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_Neatness" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Frustation tolerance
+                                                                        <td>Frustation Tolerance
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_Frustation" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Work tolerance
+                                                                        <td>Work Tolerance
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_Work" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Reaction to authority
+                                                                        <td>Reaction To Authority
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_Reaction" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Sociability with therapist
+                                                                        <td>Sociability With Therapist
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_SociabilityTherapist" runat="server" CssClass="span3"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Sociability with others students
+                                                                        <td>Sociability With Others Students
                                                                         </td>
                                                                         <td>
                                                                             <asp:TextBox ID="SIPTInfo_ActivityGiven_SociabilityStudents" runat="server" CssClass="span3"></asp:TextBox>
@@ -9593,7 +9623,7 @@
                                         <div class="span11">
                                             <h5>Evaluation :</h5>
                                             <ajaxToolkit:TabContainer ID="TabContainer3" runat="server">
-                                                <ajaxToolkit:TabPanel ID="TabPanel17" runat="server" HeaderText="Strength">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReporteval13" runat="server" HeaderText="Strength">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9610,7 +9640,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel18" runat="server" HeaderText="Area of Concerns">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReporteval14" runat="server" HeaderText="Area of Concerns">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9628,7 +9658,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    2. Functional Limitations :
+                                                                    2. Functional limitations :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Concern_Limitations" runat="server" CssClass="span10"
@@ -9641,7 +9671,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    3. Posture and Movement Limitation(Prioritized) :
+                                                                    3. Posture and movement limitation(Prioritized) :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Concern_Posture" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -9666,7 +9696,7 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel113" runat="server" HeaderText="Goals">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReporteval15" runat="server" HeaderText="Goals">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
@@ -9684,7 +9714,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    2. Previous Long Term Goals :
+                                                                    2. Previous long term goals :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Goal_Previous" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -9697,7 +9727,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    3. Long Term Goals(Functional Outcome Measured)1 - Year :
+                                                                    3. Long term goals(Functional outcome measured)1 - Year :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Goal_LongTerm" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -9710,7 +9740,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    4. Short Term Goals(Functional Outcome Measures) 3 - Month :
+                                                                    4. Short term goals(Functional outcome measures) 3 - Month :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Goal_ShortTerm" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -9723,7 +9753,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    5. impairment related Objective goal-3 Months :
+                                                                    5. Impairment related objective goal-3 Months :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Goal_Impairment" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -9735,12 +9765,12 @@
                                                         </div>
                                                     </ContentTemplate>
                                                 </ajaxToolkit:TabPanel>
-                                                <ajaxToolkit:TabPanel ID="TabPanel114" runat="server" HeaderText="Plan Of Care">
+                                                <ajaxToolkit:TabPanel ID="tb_SubReporteval16" runat="server" HeaderText="Plan Of Care">
                                                     <ContentTemplate>
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    1. Frequency and Duration :
+                                                                    1. Frequency and duration :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Plan_Frequency" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -9753,7 +9783,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    2. Service Delivery Models :
+                                                                    2. Service delivery models :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Plan_Service" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -9766,7 +9796,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    3. Strategies to Address Impairments and Posture Movement Issues Motor Learning
+                                                                    3. Strategies to address impairments and posture movement issues motor learning
                                                                     :
                                                                 </div>
                                                                 <div class="control-group">
@@ -9793,7 +9823,7 @@
                                                         <div class="formRow">
                                                             <div class="span10">
                                                                 <div class="control-label">
-                                                                    5. Client/Family Education :
+                                                                    5. Client/Family education :
                                                                 </div>
                                                                 <div class="control-group">
                                                                     <asp:TextBox ID="Evaluation_Plan_Education" runat="server" CssClass="span10" TextMode="MultiLine"
@@ -9840,7 +9870,7 @@
                                                 2. Advice for school
                                             </div>
                                             <div class="control-group">
-                                                <asp:TextBox ID="Treatment_School" runat="server" CssClass="span10" TextMode="MultiLine" Rows="8" style="background-color: white; color: black;"></asp:TextBox>
+                                                <asp:TextBox ID="Treatment_School" runat="server" CssClass="span10" TextMode="MultiLine" Rows="8" Style="background-color: white; color: black;"></asp:TextBox>
                                             </div>
                                             <span class="char-limit-msg"></span>
                                         </div>
@@ -9850,7 +9880,7 @@
                                                 3. Advice for therapy
                                             </div>
                                             <div class="control-group">
-                                                <asp:TextBox ID="Treatment_Threapy" runat="server" CssClass="span10" TextMode="MultiLine" Rows="8" style="background-color: white; color: black;"></asp:TextBox>
+                                                <asp:TextBox ID="Treatment_Threapy" runat="server" CssClass="span10" TextMode="MultiLine" Rows="8" Style="background-color: white; color: black;"></asp:TextBox>
                                             </div>
                                             <span class="char-limit-msg"></span>
                                         </div>
@@ -9860,7 +9890,7 @@
                                                 COMMENTS :
                                             </div>
                                             <div class="control-group">
-                                                <asp:TextBox ID="Treatment_cmt" runat="server" CssClass="span10" TextMode="MultiLine" Rows="3" style="background-color: white; color: black;"></asp:TextBox>
+                                                <asp:TextBox ID="Treatment_cmt" runat="server" CssClass="span10" TextMode="MultiLine" Rows="3" Style="background-color: white; color: black;"></asp:TextBox>
                                             </div>
                                         </div>
 
@@ -9935,10 +9965,11 @@
 
                     </ajaxToolkit:TabContainer>
 
-                                    <div class="clearfix">
-                                  <asp:Button ID="Button1" CssClass="buttonClass" runat="server" Text="SAVE&NEXT" align="center" Font-Bold="True" OnClick="Button1_Click"  ClientIDMode="Static" width="200px"/>
- 
-                                          </div>
+                    <div class="clearfix">
+                        <button type="button" id="btnSaveNext" class="buttonClass" style="width: 200px; display:none">
+                            Save&Next
+                        </button>
+                    </div>
 
                 </div>
                 <div class="clearfix"></div>
@@ -9947,30 +9978,61 @@
         </div>
     </div>
 
-     <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog"  style="max-width:400px; max-height:400px">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog" style="max-width: 400px; max-height: 400px">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title">YOU DID NOT CLICK ON SAVE&NEXT BUTTON DATA IS SAVING PLEASE WAIT.. </h5>
+                    <%--<img src="../images/NewLoader.gif" />--%>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+
         </div>
-        <div class="modal-body">
-            <h5 class="modal-title">YOU DID NOT CLICK ON SAVE&NEXT BUTTON DATA IS SAVING PLEASE WAIT.. </h5>
-            <%--<img src="../images/NewLoader.gif" />--%>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-        </div>
-      </div>
-      
     </div>
+      <div class="modal fade" id="confirmSaveModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+
+      <!-- HEADER -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm Save</h4>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+
+        <div id="modalInternetStatus" style="margin-bottom:10px;"></div>
+
+        <div style="max-height:300px; overflow:auto;">
+          <table class="table table-bordered table-condensed">
+            <tbody id="modalDataPreview"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmSaveBtn">Confirm & Save</button>
+      </div>
+
+    </div>
+
   </div>
-
-
-
+</div>
     <script type="text/javascript">
         function clientActiveTabChanged(sender, args) {
             debugger;
@@ -9978,14 +10040,18 @@
             //alert(tabName.id);
             document.getElementById("hfdTabs").value = tabName.id;
         }
-                                                </script>
- 
 
-    <script type="text/javascript">
+    </script>
+
+
+
+
+
+    <%--<script type="text/javascript">
 
         var preTabId;
         var CurTabId;
-
+       
         function clientActiveTabChanged(sender, args) {
             debugger;
 
@@ -10014,13 +10080,16 @@
             else
                 document.getElementById("hfdTabs").value = CurTabId;
         }
-    </script>
+
+
+        
+    </script>--%>
 
     <script type="text/javascript">
-            function Changetab(ctl, tabp) {
-                console.log("save", ctl, tabp);
-            }
-        </script>
+        function Changetab(ctl, tabp) {
+            console.log("save", ctl, tabp);
+        }
+    </script>
 
     <script type="text/javascript">
         window.dataLayer = window.dataLayer || [];
@@ -10085,7 +10154,7 @@
             console.log(rangeInput1.value);
             hiddenField1.value = rangeInput1.value;
         });
-     </script>
+    </script>
     <script type="text/javascript">
         var rangeInput2 = document.getElementById("range2");
         var hiddenField2 = document.getElementById("<%= Hdnrange2.ClientID %>");
@@ -10094,7 +10163,7 @@
 
             hiddenField2.value = rangeInput2.value;
         });
-     </script>
+    </script>
 
     <script type="text/javascript">
 
@@ -10123,8 +10192,6 @@
                 }
             });
         });
-
-
 
         function printDiv() {
             console.log("hh")
@@ -10270,23 +10337,2082 @@
 
     </script>
 
-      <script>
-          // Check if the page is already open in another tab
-          if (sessionStorage.getItem('pageOpened')) {
-              // Display a warning message
-              alert('This page is already open in another tab.');
-              // Redirect or take appropriate action
-              window.location.href = '/SessionRpt/SiView.aspx'; // Redirect to another page
-          } else {
-              // Set a flag in sessionStorage indicating that the page is open
-              sessionStorage.setItem('pageOpened', 'true');
-              // Add an event listener to handle tab close events
-              window.addEventListener('beforeunload', function () {
-                  // Clear the flag when the tab is closed
-                  sessionStorage.removeItem('pageOpened');
-              });
-          }
-      </script>
-</asp:Content>
 
+    <script>
+
+        // Check if the page is already open in another tab
+        var screenWidth = window.screen.width;
+        var screenHeight = window.screen.height;
+        var mobileThreshold = 768;
+        if (screenWidth < mobileThreshold) {
+            // Execute code for mobile devices
+            // For example, you can use a different approach or show different content
+            console.log('Mobile resolution detected.');
+            // Add your mobile-specific logic here
+        }
+        else {
+            // Execute code for non-mobile devices
+            // Use your existing code or another approach suitable for non-mobile devices
+            console.log('Non-mobile resolution detected.');
+            if (sessionStorage.getItem('pageOpened')) {
+                // Display a warning message
+                alert('This page is already open in another tab.');
+                // Redirect or take appropriate action
+                window.location.href = '/SessionRpt/SiView.aspx'; // Redirect to another page
+            }
+            else {
+                // Set a flag in sessionStorage indicating that the page is open
+                sessionStorage.setItem('pageOpened', 'true');
+                // Add an event listener to handle tab close events
+                window.addEventListener('beforeunload', function () {
+                    // Clear the flag when the tab is closed
+                    sessionStorage.removeItem('pageOpened');
+                });
+            }
+        }
+    </script>
+
+    <%--<script>
+        // Check if the page is already open in another tab
+        var screenWidth = window.screen.width;
+        var screenHeight = window.screen.height;
+        var mobileThreshold = 768;
+        if (screenWidth < mobileThreshold) {
+            // Execute code for mobile devices
+            // For example, you can use a different approach or show different content
+            console.log('Mobile resolution detected.');
+            // Add your mobile-specific logic here
+        } else {
+            // Execute code for non-mobile devices
+            // Use your existing code or another approach suitable for non-mobile devices
+            console.log('Non-mobile resolution detected.');
+
+            if (document.cookie.includes('pageOpened=true')) {
+                // Display a warning message
+                alert('This page is already open in another tab.');
+                // Redirect or take appropriate action
+                window.location.href = '/SessionRpt/SiView.aspx'; // Redirect to another page
+            } else {
+                // Set a cookie indicating that the page is open
+                document.cookie = 'pageOpened=true; path=/'; // Set the cookie path appropriately
+                // Add an event listener to handle tab close events
+                window.addEventListener('beforeunload', function () {
+                    // Clear the cookie when the tab is closed
+                    document.cookie = 'pageOpened=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'; // Clear the cookie
+                });
+            }
+            // Use your existing logic or alternative approaches here
+        }
+        
+
+    </script>--%>
+
+    <%-- <script>
+        // Check if sessionStorage is supported
+        if (sessionStorage) {
+            // Check if the page is already open in another tab
+            if (sessionStorage.getItem('pageOpened')) {
+                // Display a warning message
+                alert('This page is already open in another tab.');
+                // Redirect or take appropriate action
+                window.location.href = '/SessionRpt/SiView.aspx'; // Redirect to another page
+            } else {
+                // Set a flag in sessionStorage indicating that the page is open
+                sessionStorage.setItem('pageOpened', 'true');
+                // Add an event listener to handle tab close events
+                window.addEventListener('beforeunload', function () {
+                    // Clear the flag when the tab is closed
+                    sessionStorage.removeItem('pageOpened');
+                });
+            }
+        } else {
+            // If sessionStorage is not supported, perform a server-side check
+            // Send an AJAX request to the server to check if the page is already open
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/CheckPageOpened', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.pageOpened) {
+                            alert('This page is already open in another tab.');
+                            window.location.href = '/SessionRpt/SiView.aspx'; // Redirect to another page
+                        }
+                    }
+                }
+            };Physical School
+            xhr.send();
+        }
+
+    </script>--%>
+
+     <script type="text/javascript">
+
+         var preTabId = ""; var CurTabId = "";
+
+         var nextAfterSave = false;
+         let saveInProgress = false;
+         $(document).ready(function () {
+             if (!$("#hfdPrevTab").val())
+                 $("#hfdPrevTab").val("tb_Report1");
+
+             if (!$("#hfdCurTab").val())
+                 $("#hfdCurTab").val("tb_Report1");
+
+             // ✅ show message after reload (Final Submit)
+             var msg = sessionStorage.getItem("afterReloadMsg");
+             var type = sessionStorage.getItem("afterReloadType");
+
+             if (msg) {
+                 showAlert(msg, parseInt(type || "1"));
+                 sessionStorage.removeItem("afterReloadMsg");
+                 sessionStorage.removeItem("afterReloadType");
+             }
+
+             // =========================
+             // Range 1
+             // =========================
+             $("#range1").on("input change", function () {
+                 $("#<%= hdnrange.ClientID %>").val($(this).val());
+            });
+
+            $("#range2").on("input change", function () {
+                $("#<%= Hdnrange2.ClientID %>").val($(this).val());
+            });
+
+            $("#btnSaveNext").on("click", function (e) {
+                e.preventDefault();
+
+                var curTab = getCurrentTabId();
+
+                nextAfterSave = true;
+                $("#hfdTabs").val(curTab);
+                $("#hfdCurTab").val(curTab);
+                $("#hfdCallFrom").val("SaveNext");
+
+                SaveTabById(curTab, false); // ✅ modal handled inside SaveTab
+            });
+
+            $("#btnFinalSubmit").off("click").on("click", function (e) {
+                e.preventDefault();
+
+
+
+                nextAfterSave = false;
+
+                var curTab = getCurrentTabId();
+
+                $("#hfdTabs").val(curTab);
+                $("#hfdCurTab").val(curTab);
+                $("#hfdCallFrom").val("Submit");
+
+                SaveTabById(curTab, true);
+            });
+
+        });
+
+         function clientActiveTabChanged(sender, args) {
+
+             try {
+
+                 var tab = sender.get_tabs()[sender.get_activeTabIndex()];
+                 CurTabId = tab.get_id();
+
+                 $("#hfdCurTab").val(CurTabId);
+
+                 var prevTab = $("#hfdPrevTab").val();
+
+                 if (!prevTab || prevTab === "undefined")
+                     prevTab = "tb_Report1";
+
+                 if (prevTab !== CurTabId) {
+
+                     $("#hfdTabs").val(prevTab);
+                     $("#hfdCallFrom").val("Tab");
+                     $("#hfdPrevTab").val(CurTabId);
+
+                     var formData = { Tab: prevTab };
+
+                     if (saveInProgress) return;
+
+                     SaveTabById(prevTab, false);
+                 }
+
+             } catch (ex) {
+                 console.log("clientActiveTabChanged error:", ex);
+             }
+         }
+
+
+         // =========================
+         // TAB HELPERS
+         // =========================
+         function getCurrentTabId() {
+             var cur = $("#hfdCurTab").val();
+             if (!cur || cur === "undefined") cur = "tb_Report1";
+             return cur;
+         }
+
+         function getPreviousTabId() {
+             var prev = $("#hfdPrevTab").val();
+             if (!prev || prev === "undefined") prev = "tb_Report1";
+             return prev;
+         }
+
+         // =========================
+         // MAIN TAB SAVE SWITCH
+         // =========================
+         function SaveTabById(tabId, reloadAfterSave) {
+             if (saveInProgress) {
+                 console.warn("Save blocked: already in progress");
+                 return;
+             }
+
+             switch (tabId) {
+
+                 case "tb_Report1":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report1":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report1_tab":
+                     SaveTab1(reloadAfterSave);
+                     break;
+
+                 case "tb_Report6":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report6":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report6_tab":
+                     SaveTab2(reloadAfterSave);
+                     break;
+
+                 case "tb_Report7":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report7":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report7_tab":
+                     SaveTab3(reloadAfterSave);
+                     break;
+
+                 case "tb_Report3":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report3":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report3_tab":
+                     SaveTab4(reloadAfterSave);
+                     break;
+
+                 case "tb_Report4":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report4":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report4_tab":
+                     SaveTab5(reloadAfterSave);
+                     break;
+
+                 case "tb_Report5":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report5":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report5_tab":
+                     SaveTab6(reloadAfterSave);
+                     break;
+
+                 case "tb_Report8":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report8":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report8_tab":
+                     SaveTab7(reloadAfterSave);
+                     break;
+
+                 case "tb_Report11":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report11":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report11_tab":
+                     SaveTab8(reloadAfterSave);
+                     break;
+
+                 case "tb_Report9":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report9":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report9_tab":
+                     SaveTab9(reloadAfterSave);
+                     break;
+
+                 case "tb_Report12":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report12":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report12_tab":
+                     SaveTab10(reloadAfterSave);
+                     break;
+
+                 case "tb_Report10":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report10":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report10_tab":
+                     SaveTab11(reloadAfterSave);
+                     break;
+
+                 case "tb_Report18":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report18":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report18_tab":
+                     SaveTab12(reloadAfterSave);
+                     break;
+
+                 case "tb_Report13":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report13":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report13_tab":
+                     SaveTab13(reloadAfterSave);
+                     break;
+
+                 case "tb_Report16":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report16":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report16_tab":
+                     SaveTab14(reloadAfterSave);
+                     break;
+
+                 case "tb_Report15":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report15":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report15_tab":
+                     SaveTab15(reloadAfterSave);
+                     break;
+
+                 case "tb_Report17":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report17":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report17_tab":
+                     SaveTab16(reloadAfterSave);
+                     break;
+
+                 case "tb_Report20":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report20":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report20_tab":
+                     SaveTab17(reloadAfterSave);
+                     break;
+
+                 case "tb_Report19":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report19":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report19_tab":
+                     SaveTab18(reloadAfterSave);
+                     break;
+
+                 case "tb_Report21":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report21":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report21_tab":
+                     SaveTab19(reloadAfterSave);
+                     break;
+
+                 case "tb_Report14":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report14":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report14_tab":
+                     SaveTab20(reloadAfterSave);
+                     break;
+
+                 case "tb_Report22":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report22":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report22_tab":
+                     SaveTab21(reloadAfterSave);
+                     break;
+
+                 default:
+                     console.log("No save function for tab:", tabId);
+                     break;
+             }
+
+         }
+
+         // =========================
+         // ONE COMMON AJAX FUNCTION
+         // =========================
+         function PostToHandler(formData, reloadAfterSave, tabName) {
+             if (saveInProgress) return;
+
+             saveInProgress = true;
+             $("#btnSaveNext").prop("disabled", true);
+             $("#btnFinalSubmit").prop("disabled", true);
+
+             $.ajax({
+                 type: "POST",
+                 url: "<%= ResolveUrl("~/Handler/SaveReportSi_2023.ashx") %>",
+                data: formData,
+
+                success: function (res) {
+
+                    var arr = (res || "").split("|");
+
+                    if (arr[0] === "OK") {
+
+                        // ✅ If Final Submit -> reload first, then show message
+                        if (reloadAfterSave === true) {
+                            sessionStorage.setItem("afterReloadMsg", (tabName || "Tab") + " Saved Successfully");
+                            sessionStorage.setItem("afterReloadType", "1");
+                            location.reload();
+                            return;
+                        }
+
+                        // ✅ Normal save -> show message now
+                        showAlert((tabName || "Tab") + " Saved Successfully", 1);
+
+                        // ✅ Save&Next -> go next tab
+                        if (nextAfterSave === true) {
+                            nextAfterSave = false;
+
+                            try {
+                                var tabStrip = $find("<%= tb_Contents.ClientID %>"); // ajaxToolkit TabContainer
+                                if (tabStrip) {
+                                    var idx = tabStrip.get_activeTabIndex();
+                                    var tabs = tabStrip.get_tabs();
+                                    var total = tabs.length;
+
+                                    if (idx < total - 1) {
+                                        tabStrip.set_activeTabIndex(idx + 1);
+                                    }
+                                }
+                            } catch (ex) {
+                                console.log("Next tab error:", ex);
+                            }
+                        }
+
+                    } else {
+                        showAlert(arr[1] || res, 2);
+                    }
+
+                    $("#btnSaveNext").prop("disabled", false);
+                    $("#btnFinalSubmit").prop("disabled", false);
+                    isSaving = false;
+                },
+
+                error: function (xhr) {
+
+                    $("#btnSaveNext").prop("disabled", false);
+                    $("#btnFinalSubmit").prop("disabled", false);
+
+                    console.log("AJAX ERROR:", xhr.status, xhr.responseText);
+                    showAlert((tabName || "Tab") + " Save Failed!", 2);
+                    isSaving = false;
+                },
+                complete: function () {
+                    saveInProgress = false; // ✅ keep only this
+                }
+            });
+         }
+
+         // =========================
+         // TAB 1 SAVE FUNCTION
+         // =========================
+         function SaveTab1(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 1;
+
+            formData.ClinicalObsevation = $("#<%= ClinicleObse_txt.ClientID %>").val();
+
+             var list = [];
+
+             // ✅ use option_box_single_choice as container (it exists in HTML)
+             $("#option_box_single_choice .cloneThisRow").each(function () {
+
+                 var siId = $(this).find("input[id$='txtSI_ID']").val() || "0";
+
+                 // because MultiLine => textarea
+                 var time = $(this).find("textarea[id$='txtTIME']").val() || "";
+                 var act = $(this).find("textarea[id$='txtACTIVITIES']").val() || "";
+                 var com = $(this).find("textarea[id$='txtCOMMENTS']").val() || "";
+
+                 if ($.trim(time) !== "" || $.trim(act) !== "" || $.trim(com) !== "" || siId !== "0") {
+                     list.push({
+                         SI_ID: siId,
+                         TIME: time,
+                         ACTIVITIES: act,
+                         COMMENTS: com
+                     });
+                 }
+             });
+
+             formData.TimelineJson = JSON.stringify(list);
+
+             saveWithModal(formData, reloadAfterSave, "CLINICAL_OBSERVATION AND DAILY SCHEDULE ");
+         }
+         function SaveTab2(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 2;
+
+            // 1) Mother quality time daily (only one checked)
+            formData.FamilyStructure_QualityTimeMother =
+                getCheckedText(
+            "#<%= FamilyStructure_QualityTimeMother_1.ClientID %>",
+            "#<%= FamilyStructure_QualityTimeMother_2.ClientID %>",
+            "#<%= FamilyStructure_QualityTimeMother_3.ClientID %>"
+                );
+
+            // 2) Father quality time daily
+            formData.FamilyStructure_QualityTimeFather =
+                getCheckedText(
+            "#<%= FamilyStructure_QualityTimeFather_1.ClientID %>",
+            "#<%= FamilyStructure_QualityTimeFather_2.ClientID %>",
+            "#<%= FamilyStructure_QualityTimeFather_3.ClientID %>"
+                );
+
+            // 3) Mother weekends
+            formData.Mother_Weekends =
+                getCheckedText(
+            "#<%= Mother_Weekends_1.ClientID %>",
+            "#<%= Mother_Weekends_2.ClientID %>",
+            "#<%= Mother_Weekends_3.ClientID %>"
+                );
+
+            // 4) Father weekends
+            formData.Father_Weekends =
+                getCheckedText(
+            "#<%= Father_Weekends_1.ClientID %>",
+            "#<%= Father_Weekends_2.ClientID %>",
+            "#<%= Father_Weekends_3.ClientID %>"
+                );
+
+            // 5) Willingness to devote time for therapy (Yes/No)
+            formData.FamilyStructure_TimeForThreapy =
+                getCheckedText(
+                  "#<%= FamilyStructure_TimeForThreapy_1.ClientID %>",
+                  "#<%= FamilyStructure_TimeForThreapy_2.ClientID %>"
+                );
+
+            // 6) Acceptance condition (Yes/No)
+            formData.FamilyStructure_AcceptanceCondition =
+                getCheckedText(
+                  "#<%= FamilyStructure_AcceptanceCondition_1.ClientID %>",
+                  "#<%= FamilyStructure_AcceptanceCondition_2.ClientID %>"
+                );
+
+            // 7) Extra curricular (Yes/No)
+            formData.FamilyStructure_ExtraCaricular =
+                getCheckedText(
+            "#<%= FamilyStructure_ExtraCaricular_1.ClientID %>",
+            "#<%= FamilyStructure_ExtraCaricular_2.ClientID %>"
+                );
+
+            // TextAreas
+            formData.FamilyStructure_Diciplinary = $("#<%= FamilyStructure_Diciplinary.ClientID %>").val();
+            formData.FamilyStructure_SiblingBrother = $("#<%= FamilyStructure_SiblingBrother.ClientID %>").val();
+            formData.FamilyStructure_Expectations = $("#<%= FamilyStructure_Expectations.ClientID %>").val();
+            formData.FamilyStructure_CloselyInvolved = $("#<%= FamilyStructure_CloselyInvolved.ClientID %>").val();
+            formData.FAMILY_cmt = $("#<%= FAMILY_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "FAMILY STRUCTURE");
+         }
+         function SaveTab3(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 3;
+
+            // 1) Does child attend school (Yes/No)
+            formData.Schoolinfo_Attend = "";
+            if ($("#<%= Schoolinfo_Attend_1.ClientID %>").is(":checked")) formData.Schoolinfo_Attend = "Yes";
+            if ($("#<%= Schoolinfo_Attend_2.ClientID %>").is(":checked")) formData.Schoolinfo_Attend = "No";
+
+            // 2) Type of school (Open/Integrated/Special)
+            formData.Schoolinfo_Type = "";
+            if ($("#<%= Schoolinfo_Type_1.ClientID %>").is(":checked")) formData.Schoolinfo_Type = "Open";
+            if ($("#<%= Schoolinfo_Type_2.ClientID %>").is(":checked")) formData.Schoolinfo_Type = "Integrated";
+            if ($("#<%= Schoolinfo_Type_3.ClientID %>").is(":checked")) formData.Schoolinfo_Type = "Special";
+
+            // 3) School Hours dropdown
+            formData.Schoolinfo_SchoolHours = $("#<%= Schoolinfo_SchoolHours.ClientID %>").val();
+            var travelModes = [];
+            if ($("#<%= chkSchool_Bus.ClientID %>").is(":checked"))
+                travelModes.push("School_bus");
+
+            if ($("#<%= chkCar.ClientID %>").is(":checked"))
+                travelModes.push("Car");
+
+            if ($("#<%= chkTwo_Wheelers.ClientID %>").is(":checked"))
+                travelModes.push("Two_wheelers");
+
+            if ($("#<%= chkwalking.ClientID %>").is(":checked"))
+                travelModes.push("Walking");
+
+            if ($("#<%= chkPublic_Transport.ClientID %>").is(":checked"))
+                travelModes.push("Public_transport");
+            formData.School_Travel_Mode = travelModes.join(",");
+
+            // 5) Teacher ratio (1 to 5 / 1 to 30 / 1 to 60 / >60)
+            formData.Schoolinfo_NoOfTeacher = "";
+            if ($("#<%= Schoolinfo_NoOfTeacher_1.ClientID %>").is(":checked")) formData.Schoolinfo_NoOfTeacher = "1 to 5";
+            if ($("#<%= Schoolinfo_NoOfTeacher_2.ClientID %>").is(":checked")) formData.Schoolinfo_NoOfTeacher = "1 to 30";
+            if ($("#<%= Schoolinfo_NoOfTeacher_3.ClientID %>").is(":checked")) formData.Schoolinfo_NoOfTeacher = "1 to 60";
+            if ($("#<%= Schoolinfo_NoOfTeacher_4.ClientID %>").is(":checked")) formData.Schoolinfo_NoOfTeacher = "more than 60";
+
+            // 6) Seating arrangement (Floor/Single_bench/Bench2/Round_table)
+            var seating = [];
+            if ($("#<%= chkFloor.ClientID %>").is(":checked")) seating.push("Floor");
+            if ($("#<%= chksingle_bench.ClientID %>").is(":checked")) seating.push("Single_bench");
+            if ($("#<%= chkbench2.ClientID %>").is(":checked")) seating.push("Bench2");
+            if ($("#<%= chkround_table.ClientID %>").is(":checked")) seating.push("Round_table");
+
+            formData.Seating_Type = seating.join(",");
+
+
+            // 7) Meal time dropdown
+            formData.Schoolinfo_Mealtime = $("#<%= Schoolinfo_Mealtime.ClientID %>").val();
+
+            // 8) Meal type (Provided/Tiffin)
+            formData.Schoolinfo_MealType = "";
+            if ($("#<%= Schoolinfo_MealType_1.ClientID %>").is(":checked")) formData.Schoolinfo_MealType = "Provided by school";
+            if ($("#<%= Schoolinfo_MealType_2.ClientID %>").is(":checked")) formData.Schoolinfo_MealType = "Tiffin carried from home";
+
+            // 9) Sharing done (Yes/No/NA)
+            formData.Schoolinfo_Shareing = "";
+            if ($("#<%= Schoolinfo_Shareing_1.ClientID %>").is(":checked")) formData.Schoolinfo_Shareing = "Yes";
+            if ($("#<%= Schoolinfo_Shareing_2.ClientID %>").is(":checked")) formData.Schoolinfo_Shareing = "No";
+            if ($("#<%= Schoolinfo_Shareing_3.ClientID %>").is(":checked")) formData.Schoolinfo_Shareing = "NA";
+
+            // 10) Help required eating (Yes/No)
+            formData.Schoolinfo_HelpEating = "";
+            if ($("#<%= Schoolinfo_HelpEating_1.ClientID %>").is(":checked")) formData.Schoolinfo_HelpEating = "Yes";
+            if ($("#<%= Schoolinfo_HelpEating_2.ClientID %>").is(":checked")) formData.Schoolinfo_HelpEating = "No";
+
+            // 11) Friendship initiated (Yes/No)
+            formData.Schoolinfo_Friendship = "";
+            if ($("#<%= Schoolinfo_Friendship_1.ClientID %>").is(":checked")) formData.Schoolinfo_Friendship = "Yes";
+            if ($("#<%= Schoolinfo_Friendship_2.ClientID %>").is(":checked")) formData.Schoolinfo_Friendship = "No";
+
+            // 12) Interaction with peers (Yes/No)
+            formData.Schoolinfo_InteractionPeer = "";
+            if ($("#<%= Schoolinfo_InteractionPeer_1.ClientID %>").is(":checked")) formData.Schoolinfo_InteractionPeer = "Yes";
+            if ($("#<%= Schoolinfo_InteractionPeer_2.ClientID %>").is(":checked")) formData.Schoolinfo_InteractionPeer = "No";
+
+            // 13) Interaction with teacher (Yes/No)
+            formData.Schoolinfo_InteractionTeacher = "";
+            if ($("#<%= Schoolinfo_InteractionTeacher_1.ClientID %>").is(":checked")) formData.Schoolinfo_InteractionTeacher = "Yes";
+            if ($("#<%= Schoolinfo_InteractionTeacher_2.ClientID %>").is(":checked")) formData.Schoolinfo_InteractionTeacher = "No";
+
+            // 14) Annual function (Yes/No)
+            formData.Schoolinfo_AnnualFunction = "";
+            if ($("#<%= Schoolinfo_AnnualFunction_1.ClientID %>").is(":checked")) formData.Schoolinfo_AnnualFunction = "Yes";
+            if ($("#<%= Schoolinfo_AnnualFunction_2.ClientID %>").is(":checked")) formData.Schoolinfo_AnnualFunction = "No";
+
+            // 15) Sports (Yes/No)
+            formData.Schoolinfo_Sports = "";
+            if ($("#<%= Schoolinfo_Sports_1.ClientID %>").is(":checked")) formData.Schoolinfo_Sports = "Yes";
+            if ($("#<%= Schoolinfo_Sports_2.ClientID %>").is(":checked")) formData.Schoolinfo_Sports = "No";
+
+            // 16) Picnic (Yes/No)
+            formData.Schoolinfo_Picnic = "";
+            if ($("#<%= Schoolinfo_Picnic_1.ClientID %>").is(":checked")) formData.Schoolinfo_Picnic = "Yes";
+            if ($("#<%= Schoolinfo_Picnic_2.ClientID %>").is(":checked")) formData.Schoolinfo_Picnic = "No";
+
+            // 17) Extra curricular (Yes/No)
+            formData.Schoolinfo_ExtraCaricular = "";
+            if ($("#<%= Schoolinfo_ExtraCaricular_1.ClientID %>").is(":checked")) formData.Schoolinfo_ExtraCaricular = "Yes";
+            if ($("#<%= Schoolinfo_ExtraCaricular_2.ClientID %>").is(":checked")) formData.Schoolinfo_ExtraCaricular = "No";
+
+            // 18) Copying from board (Yes/No/Inconsistent/NA)
+            formData.Schoolinfo_CopyBoard = "";
+            if ($("#<%= Schoolinfo_CopyBoard_1.ClientID %>").is(":checked")) formData.Schoolinfo_CopyBoard = "Yes";
+            if ($("#<%= Schoolinfo_CopyBoard_2.ClientID %>").is(":checked")) formData.Schoolinfo_CopyBoard = "No";
+            if ($("#<%= Schoolinfo_CopyBoard_3.ClientID %>").is(":checked")) formData.Schoolinfo_CopyBoard = "Inconsistent";
+            if ($("#<%= Schoolinfo_CopyBoard_4.ClientID %>").is(":checked")) formData.Schoolinfo_CopyBoard = "NA";
+
+            // 19) Follows instructions (Yes/No/Sometime/NA)
+            formData.Schoolinfo_Instructions = "";
+            if ($("#<%= Schoolinfo_Instructions_1.ClientID %>").is(":checked")) formData.Schoolinfo_Instructions = "Yes";
+            if ($("#<%= Schoolinfo_Instructions_2.ClientID %>").is(":checked")) formData.Schoolinfo_Instructions = "No";
+            if ($("#<%= Schoolinfo_Instructions_3.ClientID %>").is(":checked")) formData.Schoolinfo_Instructions = "Sometime";
+            if ($("#<%= Schoolinfo_Instructions_4.ClientID %>").is(":checked")) formData.Schoolinfo_Instructions = "NA";
+
+            // 20) Shadow teacher (Yes/No/Needs Help/NA)
+            formData.Schoolinfo_ShadowTeacher = "";
+            if ($("#<%= Schoolinfo_ShadowTeacher_1.ClientID %>").is(":checked")) formData.Schoolinfo_ShadowTeacher = "Yes";
+            if ($("#<%= Schoolinfo_ShadowTeacher_2.ClientID %>").is(":checked")) formData.Schoolinfo_ShadowTeacher = "No";
+            if ($("#<%= Schoolinfo_ShadowTeacher_3.ClientID %>").is(":checked")) formData.Schoolinfo_ShadowTeacher = "Needs Help";
+            if ($("#<%= Schoolinfo_ShadowTeacher_4.ClientID %>").is(":checked")) formData.Schoolinfo_ShadowTeacher = "NA";
+
+            // 21) Completing CW/HW (Yes/No/Needs Help/NA)
+            formData.Schoolinfo_CW_HW = "";
+            if ($("#<%= Schoolinfo_CW_HW_1.ClientID %>").is(":checked")) formData.Schoolinfo_CW_HW = "Yes";
+            if ($("#<%= Schoolinfo_CW_HW_2.ClientID %>").is(":checked")) formData.Schoolinfo_CW_HW = "No";
+            if ($("#<%= Schoolinfo_CW_HW_3.ClientID %>").is(":checked")) formData.Schoolinfo_CW_HW = "Needs Help";
+            if ($("#<%= Schoolinfo_CW_HW_4.ClientID %>").is(":checked")) formData.Schoolinfo_CW_HW = "NA";
+
+            // 22) Special educator (Yes/No/NA)
+            formData.Schoolinfo_SpecialEducator = "";
+            if ($("#<%= Schoolinfo_SpecialEducator_1.ClientID %>").is(":checked")) formData.Schoolinfo_SpecialEducator = "Yes";
+            if ($("#<%= Schoolinfo_SpecialEducator_2.ClientID %>").is(":checked")) formData.Schoolinfo_SpecialEducator = "No";
+            if ($("#<%= Schoolinfo_SpecialEducator_3.ClientID %>").is(":checked")) formData.Schoolinfo_SpecialEducator = "NA";
+
+            // 23) Mode of delivery (PPT/Videos/Books/NOTA)
+            formData.Schoolinfo_DeliveryInformation = "";
+            if ($("#<%= Schoolinfo_DeliveryInformation_1.ClientID %>").is(":checked")) formData.Schoolinfo_DeliveryInformation = "PPT";
+            if ($("#<%= Schoolinfo_DeliveryInformation_2.ClientID %>").is(":checked")) formData.Schoolinfo_DeliveryInformation = "Videos";
+            if ($("#<%= Schoolinfo_DeliveryInformation_3.ClientID %>").is(":checked")) formData.Schoolinfo_DeliveryInformation = "Books";
+            if ($("#<%= Schoolinfo_DeliveryInformation_4.ClientID %>").is(":checked")) formData.Schoolinfo_DeliveryInformation = "NOTA";
+
+            // 24) Remark + Comment textboxes
+            formData.Schoolinfo_RemarkTeacher = $("#<%= Schoolinfo_RemarkTeacher.ClientID %>").val();
+            formData.SCHOOL_cmt = $("#<%= SCHOOL_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "SCHOOL INFORMATION");
+         }
+         function SaveTab4(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 4;
+
+            // A) Relationship with self
+
+            // 1) Current place (Yes/No/Sometimes)
+            formData.PersonalSocial_CurrentPlace = "";
+            if ($("#<%= PersonalSocial_CurrentPlace_1.ClientID %>").is(":checked")) formData.PersonalSocial_CurrentPlace = "Yes";
+            if ($("#<%= PersonalSocial_CurrentPlace_2.ClientID %>").is(":checked")) formData.PersonalSocial_CurrentPlace = "No";
+            if ($("#<%= PersonalSocial_CurrentPlace_3.ClientID %>").is(":checked")) formData.PersonalSocial_CurrentPlace = "Sometimes";
+
+            // 2) What he/she does (Yes/No/Sometimes)
+            formData.PersonalSocial_WhatHeDoes = "";
+            if ($("#<%= PersonalSocial_WhatHeDoes_1.ClientID %>").is(":checked")) formData.PersonalSocial_WhatHeDoes = "Yes";
+            if ($("#<%= PersonalSocial_WhatHeDoes_2.ClientID %>").is(":checked")) formData.PersonalSocial_WhatHeDoes = "No";
+            if ($("#<%= PersonalSocial_WhatHeDoes_3.ClientID %>").is(":checked")) formData.PersonalSocial_WhatHeDoes = "Sometimes";
+
+            // 3) Body awareness (Yes/No/Sometimes)
+            formData.PersonalSocial_BodyAwareness = "";
+            if ($("#<%= PersonalSocial_BodyAwareness_1.ClientID %>").is(":checked")) formData.PersonalSocial_BodyAwareness = "Yes";
+            if ($("#<%= PersonalSocial_BodyAwareness_2.ClientID %>").is(":checked")) formData.PersonalSocial_BodyAwareness = "No";
+            if ($("#<%= PersonalSocial_BodyAwareness_3.ClientID %>").is(":checked")) formData.PersonalSocial_BodyAwareness = "Sometimes";
+
+            // 4) Body schema (Yes/No/Sometimes)
+            formData.PersonalSocial_BodySchema = "";
+            if ($("#<%= PersonalSocial_BodySchema_1.ClientID %>").is(":checked")) formData.PersonalSocial_BodySchema = "Yes";
+            if ($("#<%= PersonalSocial_BodySchema_2.ClientID %>").is(":checked")) formData.PersonalSocial_BodySchema = "No";
+            if ($("#<%= PersonalSocial_BodySchema_3.ClientID %>").is(":checked")) formData.PersonalSocial_BodySchema = "Sometimes";
+
+            // 5) Explore environment (Yes/No/Sometimes)
+            formData.PersonalSocial_ExploreEnvironment = "";
+            if ($("#<%= PersonalSocial_ExploreEnvironment_1.ClientID %>").is(":checked")) formData.PersonalSocial_ExploreEnvironment = "Yes";
+            if ($("#<%= PersonalSocial_ExploreEnvironment_2.ClientID %>").is(":checked")) formData.PersonalSocial_ExploreEnvironment = "No";
+            if ($("#<%= PersonalSocial_ExploreEnvironment_3.ClientID %>").is(":checked")) formData.PersonalSocial_ExploreEnvironment = "Sometimes";
+
+            // 6) Motivated (Yes/No/Sometimes)
+            formData.PersonalSocial_Motivated = "";
+            if ($("#<%= PersonalSocial_Motivated_1.ClientID %>").is(":checked")) formData.PersonalSocial_Motivated = "Yes";
+            if ($("#<%= PersonalSocial_Motivated_2.ClientID %>").is(":checked")) formData.PersonalSocial_Motivated = "No";
+            if ($("#<%= PersonalSocial_Motivated_3.ClientID %>").is(":checked")) formData.PersonalSocial_Motivated = "Sometimes";
+
+
+            // B) Relationship with others
+
+            // 1) Eye contact (Fleeting/Poor/Fair/Good)
+            formData.PersonalSocial_EyeContact = "";
+            if ($("#<%= PersonalSocial_EyeContact_1.ClientID %>").is(":checked")) formData.PersonalSocial_EyeContact = "Fleeting";
+            if ($("#<%= PersonalSocial_EyeContact_2.ClientID %>").is(":checked")) formData.PersonalSocial_EyeContact = "Poor";
+            if ($("#<%= PersonalSocial_EyeContact_3.ClientID %>").is(":checked")) formData.PersonalSocial_EyeContact = "Fair";
+            if ($("#<%= PersonalSocial_EyeContact_4.ClientID %>").is(":checked")) formData.PersonalSocial_EyeContact = "Good";
+
+            // 2) Social smile (Fleeting/Poor/Fair/Good)
+            formData.PersonalSocial_SocialSmile = "";
+            if ($("#<%= PersonalSocial_SocialSmile_1.ClientID %>").is(":checked")) formData.PersonalSocial_SocialSmile = "Fleeting";
+            if ($("#<%= PersonalSocial_SocialSmile_2.ClientID %>").is(":checked")) formData.PersonalSocial_SocialSmile = "Poor";
+            if ($("#<%= PersonalSocial_SocialSmile_3.ClientID %>").is(":checked")) formData.PersonalSocial_SocialSmile = "Fair";
+            if ($("#<%= PersonalSocial_SocialSmile_4.ClientID %>").is(":checked")) formData.PersonalSocial_SocialSmile = "Good";
+
+            // 3) Family regards (Yes/No)
+            formData.PersonalSocial_FamilyRegards = "";
+            if ($("#<%= PersonalSocial_FamilyRegards_1.ClientID %>").is(":checked")) formData.PersonalSocial_FamilyRegards = "Yes";
+            if ($("#<%= PersonalSocial_FamilyRegards_2.ClientID %>").is(":checked")) formData.PersonalSocial_FamilyRegards = "No";
+
+            // Child socially (Difficult/Good/Okay/Really good/Fantastic)
+            formData.PersonalSocial_ChildSocially = "";
+            if ($("#<%= PersonalSocial_ChildSocially_1.ClientID %>").is(":checked")) formData.PersonalSocial_ChildSocially = "Difficult to handle";
+            if ($("#<%= PersonalSocial_ChildSocially_2.ClientID %>").is(":checked")) formData.PersonalSocial_ChildSocially = "Good";
+            if ($("#<%= PersonalSocial_ChildSocially_3.ClientID %>").is(":checked")) formData.PersonalSocial_ChildSocially = "Okay";
+            if ($("#<%= PersonalSocial_ChildSocially_4.ClientID %>").is(":checked")) formData.PersonalSocial_ChildSocially = "Really good";
+            if ($("#<%= PersonalSocial_ChildSocially_5.ClientID %>").is(":checked")) formData.PersonalSocial_ChildSocially = "Fantastic";
+
+            // Comment textbox
+            formData.PERSONAL_cmt = $("#<%= PERSONAL_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "PERSONAL SOCIAL");
+         }
+         function SaveTab5(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 5;
+
+            // Textboxes
+            formData.SpeechLanguage_StartSpeek = $("#<%= SpeechLanguage_StartSpeek.ClientID %>").val();
+            formData.SpeechLanguage_Monosyllables = $("#<%= SpeechLanguage_Monosyllables.ClientID %>").val();
+            formData.SpeechLanguage_Bisyllables = $("#<%= SpeechLanguage_Bisyllables.ClientID %>").val();
+            formData.SpeechLanguage_ShrotScentences = $("#<%= SpeechLanguage_ShrotScentences.ClientID %>").val();
+            formData.SpeechLanguage_LongScentences = $("#<%= SpeechLanguage_LongScentences.ClientID %>").val();
+
+            // 6) Unusual sounds / Jargon speech (Yes/No)
+            formData.SpeechLanguage_UnusualSoundsJargonSpeech = "";
+            if ($("#<%= SpeechLanguage_UnusualSoundsJargonSpeech_1.ClientID %>").is(":checked")) formData.SpeechLanguage_UnusualSoundsJargonSpeech = "Yes";
+            if ($("#<%= SpeechLanguage_UnusualSoundsJargonSpeech_2.ClientID %>").is(":checked")) formData.SpeechLanguage_UnusualSoundsJargonSpeech = "No";
+
+            // 7) Imitation of speech / Gestures (Yes/No)
+            formData.SpeechLanguage_speechgestures = "";
+            if ($("#<%= SpeechLanguage_speechgestures_1.ClientID %>").is(":checked")) formData.SpeechLanguage_speechgestures = "Yes";
+            if ($("#<%= SpeechLanguage_speechgestures_2.ClientID %>").is(":checked")) formData.SpeechLanguage_speechgestures = "No";
+
+            // Textboxes
+            formData.SpeechLanguage_NonverbalfacialExpression = $("#<%= SpeechLanguage_NonverbalfacialExpression.ClientID %>").val();
+            formData.SpeechLanguage_NonverbalfacialEyeContact = $("#<%= SpeechLanguage_NonverbalfacialEyeContact.ClientID %>").val();
+            formData.SpeechLanguage_NonverbalfacialGestures = $("#<%= SpeechLanguage_NonverbalfacialGestures.ClientID %>").val();
+
+            formData.SpeechLanguage_SimpleComplex = $("#<%= SpeechLanguage_SimpleComplex.ClientID %>").val();
+            formData.SpeechLanguage_UnderstandImpliedMeaning = $("#<%= SpeechLanguage_UnderstandImpliedMeaning.ClientID %>").val();
+            formData.SpeechLanguage_UnderstandJokesarcasm = $("#<%= SpeechLanguage_UnderstandJokesarcasm.ClientID %>").val();
+            formData.SpeechLanguage_Respondstoname = $("#<%= SpeechLanguage_Respondstoname.ClientID %>").val();
+
+            // 15) Two way interaction (Yes/No/Sometimes)
+            formData.SpeechLanguage_TwowayInteraction = "";
+            if ($("#<%= SpeechLanguage_TwowayInteraction_1.ClientID %>").is(":checked")) formData.SpeechLanguage_TwowayInteraction = "Yes";
+            if ($("#<%= SpeechLanguage_TwowayInteraction_2.ClientID %>").is(":checked")) formData.SpeechLanguage_TwowayInteraction = "No";
+            if ($("#<%= SpeechLanguage_TwowayInteraction_3.ClientID %>").is(":checked")) formData.SpeechLanguage_TwowayInteraction = "Sometimes";
+
+            // Textboxes
+            formData.SpeechLanguage_NarrateIncidentsAtSchool = $("#<%= SpeechLanguage_NarrateIncidentsAtSchool.ClientID %>").val();
+            formData.SpeechLanguage_NarrateIncidentsAtHome = $("#<%= SpeechLanguage_NarrateIncidentsAtHome.ClientID %>").val();
+
+            formData.SpeechLanguage_Needs = $("#<%= SpeechLanguage_Needs.ClientID %>").val();
+            formData.SpeechLanguage_Emotions = $("#<%= SpeechLanguage_Emotions.ClientID %>").val();
+            formData.SpeechLanguage_AchievementsFailure = $("#<%= SpeechLanguage_AchievementsFailure.ClientID %>").val();
+
+            formData.SpeechLanguage_Echolalia = $("#<%= SpeechLanguage_Echolalia.ClientID %>").val();
+
+            // Comment
+            formData.Speech_cmt = $("#<%= Speech_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "SPEECH AND LANGUAGE");
+         }
+         function SaveTab6(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 6;
+
+            formData.Behaviour_FreeTime = $("#<%= Behaviour_FreeTime.ClientID %>").val();
+
+            formData.unassociated = $("#<%= chkunassociated.ClientID %>").is(":checked") ? "unassociated" : "";
+            formData.solitary = $("#<%= chksolitary.ClientID %>").is(":checked") ? "solitary" : "";
+            formData.onlooker = $("#<%= chkonlooker.ClientID %>").is(":checked") ? "onlooker" : "";
+            formData.parallel = $("#<%= chkparallel.ClientID %>").is(":checked") ? "parallel" : "";
+            formData.associative = $("#<%= chkassociative.ClientID %>").is(":checked") ? "associative" : "";
+            formData.cooperative = $("#<%= chkcooperative.ClientID %>").is(":checked") ? "cooperative" : "";
+
+
+            formData.Behaviour_situationalmeltdowns = "";
+            if ($("#<%= Behaviour_situationalmeltdowns_1.ClientID %>").is(":checked")) formData.Behaviour_situationalmeltdowns = "Yes";
+            if ($("#<%= Behaviour_situationalmeltdowns_2.ClientID %>").is(":checked")) formData.Behaviour_situationalmeltdowns = "No";
+            if ($("#<%= Behaviour_situationalmeltdowns_3.ClientID %>").is(":checked")) formData.Behaviour_situationalmeltdowns = "Sometimes";
+
+            formData.BEHAVIOUR_cmt = $("#<%= BEHAVIOUR_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "BEHAVIOUR");
+         }
+         function SaveTab7(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 7;
+
+            // sliders hidden values
+            formData.rangevalue = $("#<%= hdnrange.ClientID %>").val() || "0";
+            formData.rangevalue2 = $("#<%= Hdnrange2.ClientID %>").val() || "0";
+
+            // 3) Responds to stimuli? (Yes/No/Sometimes)
+            formData.Arousal_Stimuli = "";
+            if ($("#<%= Arousal_Stimuli_1.ClientID %>").is(":checked")) formData.Arousal_Stimuli = "Yes";
+            if ($("#<%= Arousal_Stimuli_2.ClientID %>").is(":checked")) formData.Arousal_Stimuli = "No";
+            if ($("#<%= Arousal_Stimuli_3.ClientID %>").is(":checked")) formData.Arousal_Stimuli = "Sometimes";
+
+            // 4) Maintainance Of arousal during transition (Yes/No)
+            formData.Arousal_Transition = "";
+            if ($("#<%= Arousal_Transition_1.ClientID %>").is(":checked")) formData.Arousal_Transition = "Yes";
+            if ($("#<%= Arousal_Transition_2.ClientID %>").is(":checked")) formData.Arousal_Transition = "No";
+
+            // 5-7 Textboxes
+            formData.Arousal_FactorOCD = $("#<%= Arousal_FactorOCD.ClientID %>").val();
+            formData.Arousal_ClaimingFactor = $("#<%= Arousal_ClaimingFactor.ClientID %>").val();
+            formData.Arousal_DipsDown = $("#<%= Arousal_DipsDown.ClientID %>").val();
+
+            // Comments
+            formData.AROUSAL_cmt = $("#<%= AROUSAL_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "AROUSAL");
+         }
+         function SaveTab8(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 8;
+
+            // 1) Wide range of emotion (Yes/No)
+            formData.Affect_RangeEmotion = "";
+            if ($("#<%= Affect_RangeEmotion_1.ClientID %>").is(":checked")) formData.Affect_RangeEmotion = "Yes";
+            if ($("#<%= Affect_RangeEmotion_2.ClientID %>").is(":checked")) formData.Affect_RangeEmotion = "No";
+
+            // 2) Able to express emotion (Yes/No)
+            formData.Affect_ExpressEmotion = "";
+            if ($("#<%= Affect_ExpressEmotion_1.ClientID %>").is(":checked")) formData.Affect_ExpressEmotion = "Yes";
+            if ($("#<%= Affect_ExpressEmotion_2.ClientID %>").is(":checked")) formData.Affect_ExpressEmotion = "No";
+
+            // 3-7 Textboxes
+            formData.Affect_Environment = $("#<%= Affect_Environment.ClientID %>").val();
+            formData.Affect_Task = $("#<%= Affect_Task.ClientID %>").val();
+            formData.Affect_Individual = $("#<%= Affect_Individual.ClientID %>").val();
+            formData.Affect_ThroughOut = $("#<%= Affect_ThroughOut.ClientID %>").val();
+            formData.Affect_Charaterising = $("#<%= Affect_Charaterising.ClientID %>").val();
+
+            // Comments
+            formData.Affect_cmt = $("#<%= Affect_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "AFFECT");
+         }
+         function SaveTab9(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 9;
+
+            // 1) Attention span (textbox)
+            formData.Attention_AttentionSpan = $("#<%= Attention_AttentionSpan.ClientID %>").val();
+
+            // 2) Focus task at hand - Home (Yes/No)
+            formData.Attention_FocusHandhome = "";
+            if ($("#<%= Attention_FocusHandhome_1.ClientID %>").is(":checked")) formData.Attention_FocusHandhome = "Yes";
+            if ($("#<%= Attention_FocusHandhome_2.ClientID %>").is(":checked")) formData.Attention_FocusHandhome = "No";
+
+            // 3) Focus task at hand - School (Yes/No)
+            formData.Attention_FocusHandSchool = "";
+            if ($("#<%= Attention_FocusHandSchool_1.ClientID %>").is(":checked")) formData.Attention_FocusHandSchool = "Yes";
+            if ($("#<%= Attention_FocusHandSchool_2.ClientID %>").is(":checked")) formData.Attention_FocusHandSchool = "No";
+
+            // 4) Dividing attention (Yes/No)
+            formData.Attention_Dividing = "";
+            if ($("#<%= Attention_Dividing_1.ClientID %>").is(":checked")) formData.Attention_Dividing = "Yes";
+            if ($("#<%= Attention_Dividing_2.ClientID %>").is(":checked")) formData.Attention_Dividing = "No";
+
+            // 5) Change of activities every (textbox)
+            formData.Attention_ChangeActivities = $("#<%= Attention_ChangeActivities.ClientID %>").val();
+
+            // 6) Age appropriate attention (Yes/No/Sometimes)
+            formData.Attention_AgeAppropriate = "";
+            if ($("#<%= Attention_AgeAppropriate_1.ClientID %>").is(":checked")) formData.Attention_AgeAppropriate = "Yes";
+            if ($("#<%= Attention_AgeAppropriate_2.ClientID %>").is(":checked")) formData.Attention_AgeAppropriate = "No";
+            if ($("#<%= Attention_AgeAppropriate_3.ClientID %>").is(":checked")) formData.Attention_AgeAppropriate = "Sometimes";
+
+            // 7) Factors of distractibility (textbox)
+            formData.Attention_Distractibility = $("#<%= Attention_Distractibility.ClientID %>").val();
+
+            // 8-12 Textboxes
+            formData.Focal_Attention = $("#<%= Focal_Attention.ClientID %>").val();
+            formData.Joint_Attention = $("#<%= Joint_Attention.ClientID %>").val();
+            formData.Divided_Attention = $("#<%= Divided_Attention.ClientID %>").val();
+            formData.Alternating_Attention = $("#<%= Alternating_Attention.ClientID %>").val();
+            formData.Sustained_Attention = $("#<%= Sustained_Attention.ClientID %>").val();
+
+            // 13) Move continuously (Yes/No)
+            formData.Attention_move = "";
+            if ($("#<%= Attention_move_1.ClientID %>").is(":checked")) formData.Attention_move = "Yes";
+            if ($("#<%= Attention_move_2.ClientID %>").is(":checked")) formData.Attention_move = "No";
+
+            // Comments
+            formData.ATTENTION_cmt = $("#<%= ATTENTION_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "ATTENTION");
+         }
+         function SaveTab10(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 10;
+
+            // 1) Motor planning (textbox)
+            formData.Action_MotorPlanning = $("#<%= Action_MotorPlanning.ClientID %>").val();
+
+            // 2) Purposeful (Yes/No)
+            formData.Action_Purposeful = "";
+            if ($("#<%= Action_Purposeful_1.ClientID %>").is(":checked")) formData.Action_Purposeful = "Yes";
+            if ($("#<%= Action_Purposeful_2.ClientID %>").is(":checked")) formData.Action_Purposeful = "No";
+
+            // 3) Goal oriented (Yes/No)
+            formData.Action_GoalOriented = "";
+            if ($("#<%= Action_GoalOriented_1.ClientID %>").is(":checked")) formData.Action_GoalOriented = "Yes";
+            if ($("#<%= Action_GoalOriented_2.ClientID %>").is(":checked")) formData.Action_GoalOriented = "No";
+
+            // 4) Feedback dependent (Yes/No)
+            formData.Action_FeedBackDependent = "";
+            if ($("#<%= Action_FeedBackDependent_1.ClientID %>").is(":checked")) formData.Action_FeedBackDependent = "Yes";
+            if ($("#<%= Action_FeedBackDependent_2.ClientID %>").is(":checked")) formData.Action_FeedBackDependent = "No";
+
+            // 5) Constructive (Yes/No)
+            formData.Action_Constructive = "";
+            if ($("#<%= Action_Constructive_1.ClientID %>").is(":checked")) formData.Action_Constructive = "Yes";
+            if ($("#<%= Action_Constructive_2.ClientID %>").is(":checked")) formData.Action_Constructive = "No";
+
+            // Comments
+            formData.Action_cmt = $("#<%= Action_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "ACTION");
+         }
+         function SaveTab11(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 11;
+
+            // 1) Social gathering multiple checkboxes (store Yes/No like your server variables)
+            formData.Interacts = $("#<%= chkInteracts.ClientID %>").is(":checked") ? "Interacts" : "";
+            formData.Does_not_initiate = $("#<%= chkDoes_not_initiate.ClientID %>").is(":checked") ? "Does not initiate" : "";
+            formData.Sustain = $("#<%= chkSustain.ClientID %>").is(":checked") ? "Does not sustain" : "";
+
+            formData.Fight = $("#<%= chkFight.ClientID %>").is(":checked") ? "Fight" : "";
+            formData.Freeze = $("#<%= chkFreeze.ClientID %>").is(":checked") ? "Freeze" : "";
+            formData.Fright = $("#<%= chkFright.ClientID %>").is(":checked") ? "Fright" : "";
+
+            formData.Anxious = $("#<%= chkAnxious.ClientID %>").is(":checked") ? "Anxious" : "";
+            formData.Comfortable = $("#<%= chkComfortable.ClientID %>").is(":checked") ? "Comfortable" : "";
+            formData.Nervous = $("#<%= chkNervous.ClientID %>").is(":checked") ? "Nervous" : "";
+
+            formData.ANS_response = $("#<%= chkANS_response.ClientID %>").is(":checked") ? "ANS_response" : "";
+            formData.OTHERS = $("#<%= chkOTHERS.ClientID %>").is(":checked") ? "OTHERS" : "";
+
+            // Gathering comment
+            formData.cmtgathering = $("#<%= cmtgathering.ClientID %>").val();
+
+            // 2) Understands social cues (Yes/No)
+            formData.Interaction_SocialQues = "";
+            if ($("#<%= Interaction_SocialQues_1.ClientID %>").is(":checked")) formData.Interaction_SocialQues = "Yes";
+            if ($("#<%= Interaction_SocialQues_2.ClientID %>").is(":checked")) formData.Interaction_SocialQues = "No";
+
+            // 3) Reactions textboxes
+            formData.Interaction_Happiness = $("#<%= Interaction_Happiness.ClientID %>").val();
+            formData.Interaction_Sadness = $("#<%= Interaction_Sadness.ClientID %>").val();
+            formData.Interaction_Surprise = $("#<%= Interaction_Surprise.ClientID %>").val();
+            formData.Interaction_Shock = $("#<%= Interaction_Shock.ClientID %>").val();
+
+            // 4) Friendship (Yes/No)
+            formData.Interaction_Friends = "";
+            if ($("#<%= Interaction_Friends_1.ClientID %>").is(":checked")) formData.Interaction_Friends = "Yes";
+            if ($("#<%= Interaction_Friends_2.ClientID %>").is(":checked")) formData.Interaction_Friends = "No";
+
+            // 5) Enjoy activities + Comments
+            formData.Interaction_Enjoy = $("#<%= Interaction_Enjoy.ClientID %>").val();
+            formData.INTERACTION_cmt = $("#<%= INTERACTION_cmt.ClientID %>").val();
+
+             saveWithModal(formData, reloadAfterSave, "INTERACTION");
+         }
+         function SaveTab12(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 12;
+
+            // --- Tactile Systems (TS)
+            formData.TS_Registration = $("#<%= TS_Registration.ClientID %>").val();
+            formData.TS_Orientation = $("#<%= TS_Orientation.ClientID %>").val();
+            formData.TS_Discrimination = $("#<%= TS_Discrimination.ClientID %>").val();
+            formData.TS_Responsiveness = $("#<%= TS_Responsiveness.ClientID %>").val();
+
+            // --- Somatosensory system (SS)
+            formData.SS_Bodyawareness = $("#<%= SS_Bodyawareness.ClientID %>").val();
+            formData.SS_Bodyschema = $("#<%= SS_Bodyschema.ClientID %>").val();
+            formData.SS_Orientation = $("#<%= SS_Orientation.ClientID %>").val();
+            formData.SS_Posterior = $("#<%= SS_Posterior.ClientID %>").val();
+            formData.SS_Bilateral = $("#<%= SS_Bilateral.ClientID %>").val();
+            formData.SS_Balance = $("#<%= SS_Balance.ClientID %>").val();
+            formData.SS_Dominance = $("#<%= SS_Dominance.ClientID %>").val();
+            formData.SS_Right = $("#<%= SS_Right.ClientID %>").val();
+            formData.SS_identifies = $("#<%= SS_identifies.ClientID %>").val();
+            formData.SS_point = $("#<%= SS_point.ClientID %>").val();
+            formData.SS_Constantly = $("#<%= SS_Constantly.ClientID %>").val();
+            formData.SS_clumsy = $("#<%= SS_clumsy.ClientID %>").val();
+            formData.SS_maneuver = $("#<%= SS_maneuver.ClientID %>").val();
+            formData.SS_overly = $("#<%= SS_overly.ClientID %>").val();
+            formData.SS_stand = $("#<%= SS_stand.ClientID %>").val();
+            formData.SS_indulge = $("#<%= SS_indulge.ClientID %>").val();
+            formData.SS_textures = $("#<%= SS_textures.ClientID %>").val();
+            formData.SS_monkey = $("#<%= SS_monkey.ClientID %>").val();
+            formData.SS_swings = $("#<%= SS_swings.ClientID %>").val();
+
+            // --- Vestibular system (VM)
+            formData.VM_Registration = $("#<%= VM_Registration.ClientID %>").val();
+            formData.VM_Orientation = $("#<%= VM_Orientation.ClientID %>").val();
+            formData.VM_Discrimination = $("#<%= VM_Discrimination.ClientID %>").val();
+            formData.VM_Responsiveness = $("#<%= VM_Responsiveness.ClientID %>").val();
+
+            // --- Proprioceptive system (PS)
+            formData.PS_Registration = $("#<%= PS_Registration.ClientID %>").val();
+            formData.PS_Gradation = $("#<%= PS_Gradation.ClientID %>").val();
+            formData.PS_Discrimination = $("#<%= PS_Discrimination.ClientID %>").val();
+            formData.PS_Responsiveness = $("#<%= PS_Responsiveness.ClientID %>").val();
+
+            // --- ORO-Motor system (OM)
+            formData.OM_Registration = $("#<%= OM_Registration.ClientID %>").val();
+            formData.OM_Orientation = $("#<%= OM_Orientation.ClientID %>").val();
+            formData.OM_Discrimination = $("#<%= OM_Discrimination.ClientID %>").val();
+            formData.OM_Responsiveness = $("#<%= OM_Responsiveness.ClientID %>").val();
+
+            // --- Auditory System (AS)
+            formData.AS_Auditory = $("#<%= AS_Auditory.ClientID %>").val();
+            formData.AS_Orientation = $("#<%= AS_Orientation.ClientID %>").val();
+            formData.AS_Responsiveness = $("#<%= AS_Responsiveness.ClientID %>").val();
+            formData.AS_discrimination = $("#<%= AS_discrimination.ClientID %>").val();
+            formData.AS_Background = $("#<%= AS_Background.ClientID %>").val();
+            formData.AS_localization = $("#<%= AS_localization.ClientID %>").val();
+            formData.AS_Analysis = $("#<%= AS_Analysis.ClientID %>").val();
+            formData.AS_sequencing = $("#<%= AS_sequencing.ClientID %>").val();
+            formData.AS_blending = $("#<%= AS_blending.ClientID %>").val();
+
+            // --- Visual system (VS)
+            formData.VS_Visual = $("#<%= VS_Visual.ClientID %>").val();
+            formData.VS_Responsiveness = $("#<%= VS_Responsiveness.ClientID %>").val();
+            formData.VS_scanning = $("#<%= VS_scanning.ClientID %>").val();
+            formData.VS_constancy = $("#<%= VS_constancy.ClientID %>").val();
+            formData.VS_memory = $("#<%= VS_memory.ClientID %>").val();
+            formData.VS_Perception = $("#<%= VS_Perception.ClientID %>").val();
+            formData.VS_hand = $("#<%= VS_hand.ClientID %>").val();
+            formData.VS_foot = $("#<%= VS_foot.ClientID %>").val();
+            formData.VS_discrimination = $("#<%= VS_discrimination.ClientID %>").val();
+            formData.VS_closure = $("#<%= VS_closure.ClientID %>").val();
+            formData.VS_Figureground = $("#<%= VS_Figureground.ClientID %>").val();
+            formData.VS_Visualmemory = $("#<%= VS_Visualmemory.ClientID %>").val();
+            formData.VS_sequential = $("#<%= VS_sequential.ClientID %>").val();
+            formData.VS_spatial = $("#<%= VS_spatial.ClientID %>").val();
+
+            // --- Olfactory system (OS)
+            formData.OS_Registration = $("#<%= OS_Registration.ClientID %>").val();
+            formData.OS_Orientation = $("#<%= OS_Orientation.ClientID %>").val();
+            formData.OS_Discrimination = $("#<%= OS_Discrimination.ClientID %>").val();
+           formData.OS_Responsiveness = $("#<%= OS_Responsiveness.ClientID %>").val();
+
+            saveWithModal(formData, reloadAfterSave, "SYSTEM EVALUATION");
+        }
+        function SaveTab13(reloadAfterSave) {
+
+            var formData = {};
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+           formData.TabNo = 13;
+
+           formData.TestMeassures_GrossMotor = $("#<%= TestMeassures_GrossMotor.ClientID %>").val();
+           formData.TestMeassures_FineMotor = $("#<%= TestMeassures_FineMotor.ClientID %>").val();
+           formData.TestMeassures_DenverLanguage = $("#<%= TestMeassures_DenverLanguage.ClientID %>").val();
+           formData.TestMeassures_DenverPersonal = $("#<%= TestMeassures_DenverPersonal.ClientID %>").val();
+
+           formData.Tests_cmt = $("#<%= Tests_cmt.ClientID %>").val();
+
+            saveWithModal(formData, reloadAfterSave, "DENVERS");
+        }
+        function SaveTab14(reloadAfterSave) {
+
+            var formData = {};
+
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+           formData.TabNo = 14;
+           // Month dropdown
+           formData.MONTHS = $("#<%= SelectMonth.ClientID %>").val();
+           formData.questions = BuildQuestionsString();
+           // Textboxes (same as your C#)
+           formData.score_Communication_2 = $("#<%= score_Communication_2.ClientID %>").val();
+           formData.Inter_Communication_2 = $("#<%= Inter_Communication_2.ClientID %>").val();
+           formData.GROSS_2 = $("#<%= GROSS_2.ClientID %>").val();
+           formData.inter_Gross_2 = $("#<%= inter_Gross_2.ClientID %>").val();
+           formData.FINE_2 = $("#<%= FINE_2.ClientID %>").val();
+           formData.inter_FINE_2 = $("#<%= inter_FINE_2.ClientID %>").val();
+           formData.PROBLEM_2 = $("#<%= PROBLEM_2.ClientID %>").val();
+           formData.inter_PROBLEM_2 = $("#<%= inter_PROBLEM_2.ClientID %>").val();
+           formData.PERSONAL_2 = $("#<%= PERSONAL_2.ClientID %>").val();
+           formData.inter_PERSONAL_2 = $("#<%= inter_PERSONAL_2.ClientID %>").val();
+
+           formData.Comm_3 = $("#<%= Comm_3.ClientID %>").val();
+           formData.inter_3 = $("#<%= inter_3.ClientID %>").val();
+           formData.GROSS_3 = $("#<%= GROSS_3.ClientID %>").val();
+           formData.GROSS_inter_3 = $("#<%= GROSS_inter_3.ClientID %>").val();
+           formData.FINE_3 = $("#<%= FINE_3.ClientID %>").val();
+           formData.FINE_inter_3 = $("#<%= FINE_inter_3.ClientID %>").val();
+           formData.PROBLEM_3 = $("#<%= PROBLEM_3.ClientID %>").val();
+           formData.PROBLEM_inter_3 = $("#<%= PROBLEM_inter_3.ClientID %>").val();
+           formData.PERSONAL_3 = $("#<%= PERSONAL_3.ClientID %>").val();
+           formData.PERSONAL_inter_3 = $("#<%= PERSONAL_inter_3.ClientID %>").val();
+
+           formData.Communication_6 = $("#<%= Communication_6.ClientID %>").val();
+           formData.comm_inter_6 = $("#<%= comm_inter_6.ClientID %>").val();
+           formData.GROSS_6 = $("#<%= GROSS_6.ClientID %>").val();
+           formData.GROSS_inter_6 = $("#<%= GROSS_inter_6.ClientID %>").val();
+           formData.FINE_6 = $("#<%= FINE_6.ClientID %>").val();
+           formData.FINE_inter_6 = $("#<%= FINE_inter_6.ClientID %>").val();
+           formData.PROBLEM_6 = $("#<%= PROBLEM_6.ClientID %>").val();
+           formData.PROBLEM_inter_6 = $("#<%= PROBLEM_inter_6.ClientID %>").val();
+           formData.PERSONAL_6 = $("#<%= PERSONAL_6.ClientID %>").val();
+           formData.PERSONAL_inter_6 = $("#<%= PERSONAL_inter_6.ClientID %>").val();
+
+           formData.comm_7 = $("#<%= comm_7.ClientID %>").val();
+           formData.inter_7 = $("#<%= inter_7.ClientID %>").val();
+           formData.GROSS_7 = $("#<%= GROSS_7.ClientID %>").val();
+           formData.GROSS_inter_7 = $("#<%= GROSS_inter_7.ClientID %>").val();
+           formData.FINE_7 = $("#<%= FINE_7.ClientID %>").val();
+           formData.FINE_inter_7 = $("#<%= FINE_inter_7.ClientID %>").val();
+           formData.PROBLEM_7 = $("#<%= PROBLEM_7.ClientID %>").val();
+           formData.PROBLEM_inter_7 = $("#<%= PROBLEM_inter_7.ClientID %>").val();
+           formData.PERSONAL_7 = $("#<%= PERSONAL_7.ClientID %>").val();
+           formData.PERSONAL_inter_7 = $("#<%= PERSONAL_inter_7.ClientID %>").val();
+
+           formData.comm_9 = $("#<%= comm_9.ClientID %>").val();
+           formData.inter_9 = $("#<%= inter_9.ClientID %>").val();
+           formData.GROSS_9 = $("#<%= GROSS_9.ClientID %>").val();
+           formData.GROSS_inter_9 = $("#<%= GROSS_inter_9.ClientID %>").val();
+           formData.FINE_9 = $("#<%= FINE_9.ClientID %>").val();
+           formData.FINE_inter_9 = $("#<%= FINE_inter_9.ClientID %>").val();
+           formData.PROBLEM_9 = $("#<%= PROBLEM_9.ClientID %>").val();
+           formData.PROBLEM_inter_9 = $("#<%= PROBLEM_inter_9.ClientID %>").val();
+           formData.PERSONAL_9 = $("#<%= PERSONAL_9.ClientID %>").val();
+           formData.PERSONAL_inter_9 = $("#<%= PERSONAL_inter_9.ClientID %>").val();
+
+           formData.comm_10 = $("#<%= comm_10.ClientID %>").val();
+           formData.inter_10 = $("#<%= inter_10.ClientID %>").val();
+           formData.GROSS_10 = $("#<%= GROSS_10.ClientID %>").val();
+           formData.GROSS_inter_10 = $("#<%= GROSS_inter_10.ClientID %>").val();
+           formData.FINE_10 = $("#<%= FINE_10.ClientID %>").val();
+           formData.FINE_inter_10 = $("#<%= FINE_inter_10.ClientID %>").val();
+           formData.PROBLEM_10 = $("#<%= PROBLEM_10.ClientID %>").val();
+           formData.PROBLEM_inter_10 = $("#<%= PROBLEM_inter_10.ClientID %>").val();
+           formData.PERSONAL_10 = $("#<%= PERSONAL_10.ClientID %>").val();
+           formData.PERSONAL_inter_10 = $("#<%= PERSONAL_inter_10.ClientID %>").val();
+
+           formData.comm_11 = $("#<%= comm_11.ClientID %>").val();
+           formData.inter_11 = $("#<%= inter_11.ClientID %>").val();
+           formData.GROSS_11 = $("#<%= GROSS_11.ClientID %>").val();
+           formData.GROSS_inter_11 = $("#<%= GROSS_inter_11.ClientID %>").val();
+           formData.FINE_11 = $("#<%= FINE_11.ClientID %>").val();
+           formData.FINE_inter_11 = $("#<%= FINE_inter_11.ClientID %>").val();
+           formData.PROBLEM_11 = $("#<%= PROBLEM_11.ClientID %>").val();
+           formData.PROBLEM_inter_11 = $("#<%= PROBLEM_inter_11.ClientID %>").val();
+           formData.PERSONAL_11 = $("#<%= PERSONAL_11.ClientID %>").val();
+           formData.PERSONAL_inter_11 = $("#<%= PERSONAL_inter_11.ClientID %>").val();
+
+           formData.comm_13 = $("#<%= comm_13.ClientID %>").val();
+           formData.inter_13 = $("#<%= inter_13.ClientID %>").val();
+           formData.GROSS_13 = $("#<%= GROSS_13.ClientID %>").val();
+           formData.GROSS_inter_13 = $("#<%= GROSS_inter_13.ClientID %>").val();
+           formData.FINE_13 = $("#<%= FINE_13.ClientID %>").val();
+           formData.FINE_inter_13 = $("#<%= FINE_inter_13.ClientID %>").val();
+           formData.PROBLEM_13 = $("#<%= PROBLEM_13.ClientID %>").val();
+           formData.PROBLEM_inter_13 = $("#<%= PROBLEM_inter_13.ClientID %>").val();
+           formData.PERSONAL_13 = $("#<%= PERSONAL_13.ClientID %>").val();
+           formData.PERSONAL_inter_13 = $("#<%= PERSONAL_inter_13.ClientID %>").val();
+
+           formData.comm_15 = $("#<%= comm_15.ClientID %>").val();
+           formData.inter_15 = $("#<%= inter_15.ClientID %>").val();
+           formData.GROSS_15 = $("#<%= GROSS_15.ClientID %>").val();
+           formData.GROSS_inter_15 = $("#<%= GROSS_inter_15.ClientID %>").val();
+           formData.FINE_15 = $("#<%= FINE_15.ClientID %>").val();
+           formData.FINE_inter_15 = $("#<%= FINE_inter_15.ClientID %>").val();
+           formData.PROBLEM_15 = $("#<%= PROBLEM_15.ClientID %>").val();
+           formData.PROBLEM_inter_15 = $("#<%= PROBLEM_inter_15.ClientID %>").val();
+           formData.PERSONAL_15 = $("#<%= PERSONAL_15.ClientID %>").val();
+           formData.PERSONAL_inter_15 = $("#<%= PERSONAL_inter_15.ClientID %>").val();
+
+           formData.comm_17 = $("#<%= comm_17.ClientID %>").val();
+           formData.inter_17 = $("#<%= inter_17.ClientID %>").val();
+           formData.GROSS_17 = $("#<%= GROSS_17.ClientID %>").val();
+           formData.GROSS_inter_17 = $("#<%= GROSS_inter_17.ClientID %>").val();
+           formData.FINE_17 = $("#<%= FINE_17.ClientID %>").val();
+           formData.FINE_inter_17 = $("#<%= FINE_inter_17.ClientID %>").val();
+           formData.PROBLEM_17 = $("#<%= PROBLEM_17.ClientID %>").val();
+           formData.PROBLEM_inter_17 = $("#<%= PROBLEM_inter_17.ClientID %>").val();
+           formData.PERSONAL_17 = $("#<%= PERSONAL_17.ClientID %>").val();
+           formData.PERSONAL_inter_17 = $("#<%= PERSONAL_inter_17.ClientID %>").val();
+
+           formData.comm_19 = $("#<%= comm_19.ClientID %>").val();
+           formData.inter_19 = $("#<%= inter_19.ClientID %>").val();
+           formData.GROSS_19 = $("#<%= GROSS_19.ClientID %>").val();
+           formData.GROSS_inter_19 = $("#<%= GROSS_inter_19.ClientID %>").val();
+           formData.FINE_19 = $("#<%= FINE_19.ClientID %>").val();
+           formData.FINE_inter_19 = $("#<%= FINE_inter_19.ClientID %>").val();
+           formData.PROBLEM_19 = $("#<%= PROBLEM_19.ClientID %>").val();
+           formData.PROBLEM_inter_19 = $("#<%= PROBLEM_inter_19.ClientID %>").val();
+           formData.PERSONAL_19 = $("#<%= PERSONAL_19.ClientID %>").val();
+           formData.PERSONAL_inter_19 = $("#<%= PERSONAL_inter_19.ClientID %>").val();
+
+           formData.comm_21 = $("#<%= comm_21.ClientID %>").val();
+           formData.inter_21 = $("#<%= inter_21.ClientID %>").val();
+           formData.GROSS_21 = $("#<%= GROSS_21.ClientID %>").val();
+           formData.GROSS_inter_21 = $("#<%= GROSS_inter_21.ClientID %>").val();
+           formData.FINE_21 = $("#<%= FINE_21.ClientID %>").val();
+           formData.FINE_inter_21 = $("#<%= FINE_inter_21.ClientID %>").val();
+           formData.PROBLEM_21 = $("#<%= PROBLEM_21.ClientID %>").val();
+           formData.PROBLEM_inter_21 = $("#<%= PROBLEM_inter_21.ClientID %>").val();
+           formData.PERSONAL_21 = $("#<%= PERSONAL_21.ClientID %>").val();
+           formData.PERSONAL_inter_21 = $("#<%= PERSONAL_inter_21.ClientID %>").val();
+
+           formData.comm_23 = $("#<%= comm_23.ClientID %>").val();
+           formData.inter_23 = $("#<%= inter_23.ClientID %>").val();
+           formData.GROSS_23 = $("#<%= GROSS_23.ClientID %>").val();
+           formData.GROSS_inter_23 = $("#<%= GROSS_inter_23.ClientID %>").val();
+           formData.FINE_23 = $("#<%= FINE_23.ClientID %>").val();
+           formData.FINE_inter_23 = $("#<%= FINE_inter_23.ClientID %>").val();
+           formData.PROBLEM_23 = $("#<%= PROBLEM_23.ClientID %>").val();
+           formData.PROBLEM_inter_23 = $("#<%= PROBLEM_inter_23.ClientID %>").val();
+           formData.PERSONAL_23 = $("#<%= PERSONAL_23.ClientID %>").val();
+           formData.PERSONAL_inter_23 = $("#<%= PERSONAL_inter_23.ClientID %>").val();
+
+           formData.comm_25 = $("#<%= comm_25.ClientID %>").val();
+           formData.inter_25 = $("#<%= inter_25.ClientID %>").val();
+           formData.GROSS_25 = $("#<%= GROSS_25.ClientID %>").val();
+           formData.GROSS_inter_25 = $("#<%= GROSS_inter_25.ClientID %>").val();
+           formData.FINE_25 = $("#<%= FINE_25.ClientID %>").val();
+           formData.FINE_inter_25 = $("#<%= FINE_inter_25.ClientID %>").val();
+           formData.PROBLEM_25 = $("#<%= PROBLEM_25.ClientID %>").val();
+           formData.PROBLEM_inter_25 = $("#<%= PROBLEM_inter_25.ClientID %>").val();
+            formData.PERSONAL_25 = $("#<%= PERSONAL_25.ClientID %>").val();
+            formData.PERSONAL_inter_25 = $("#<%= inter_25.ClientID %>").val();
+
+           formData.comm_28 = $("#<%= comm_28.ClientID %>").val();
+           formData.inter_28 = $("#<%= inter_28.ClientID %>").val();
+           formData.GROSS_28 = $("#<%= GROSS_28.ClientID %>").val();
+           formData.GROSS_inter_28 = $("#<%= GROSS_inter_28.ClientID %>").val();
+           formData.FINE_28 = $("#<%= FINE_28.ClientID %>").val();
+           formData.FINE_inter_28 = $("#<%= FINE_inter_28.ClientID %>").val();
+           formData.PROBLEM_28 = $("#<%= PROBLEM_28.ClientID %>").val();
+           formData.PROBLEM_inter_28 = $("#<%= PROBLEM_inter_28.ClientID %>").val();
+           formData.PERSONAL_28 = $("#<%= PERSONAL_28.ClientID %>").val();
+           formData.PERSONAL_inter_28 = $("#<%= PERSONAL_inter_28.ClientID %>").val();
+
+           formData.comm_31 = $("#<%= comm_31.ClientID %>").val();
+           formData.inter_31 = $("#<%= inter_31.ClientID %>").val();
+           formData.GROSS_31 = $("#<%= GROSS_31.ClientID %>").val();
+           formData.GROSS_inter_31 = $("#<%= GROSS_inter_31.ClientID %>").val();
+           formData.FINE_31 = $("#<%= FINE_31.ClientID %>").val();
+           formData.FINE_inter_31 = $("#<%= FINE_inter_31.ClientID %>").val();
+           formData.PROBLEM_31 = $("#<%= PROBLEM_31.ClientID %>").val();
+           formData.PROBLEM_inter_31 = $("#<%= PROBLEM_inter_31.ClientID %>").val();
+           formData.PERSONAL_31 = $("#<%= PERSONAL_31.ClientID %>").val();
+           formData.PERSONAL_inter_31 = $("#<%= PERSONAL_inter_31.ClientID %>").val();
+
+           formData.comm_34 = $("#<%= comm_34.ClientID %>").val();
+           formData.inter_34 = $("#<%= inter_34.ClientID %>").val();
+           formData.GROSS_34 = $("#<%= GROSS_34.ClientID %>").val();
+           formData.GROSS_inter_34 = $("#<%= GROSS_inter_34.ClientID %>").val();
+           formData.FINE_34 = $("#<%= FINE_34.ClientID %>").val();
+           formData.FINE_inter_34 = $("#<%= FINE_inter_34.ClientID %>").val();
+           formData.PROBLEM_34 = $("#<%= PROBLEM_34.ClientID %>").val();
+           formData.PROBLEM_inter_34 = $("#<%= PROBLEM_inter_34.ClientID %>").val();
+           formData.PERSONAL_34 = $("#<%= PERSONAL_34.ClientID %>").val();
+           formData.PERSONAL_inter_34 = $("#<%= PERSONAL_inter_34.ClientID %>").val();
+
+           formData.comm_42 = $("#<%= comm_42.ClientID %>").val();
+           formData.inter_42 = $("#<%= inter_42.ClientID %>").val();
+           formData.GROSS_42 = $("#<%= GROSS_42.ClientID %>").val();
+           formData.GROSS_inter_42 = $("#<%= GROSS_inter_42.ClientID %>").val();
+           formData.FINE_42 = $("#<%= FINE_42.ClientID %>").val();
+           formData.FINE_inter_42 = $("#<%= FINE_inter_42.ClientID %>").val();
+           formData.PROBLEM_42 = $("#<%= PROBLEM_42.ClientID %>").val();
+           formData.PROBLEM_inter_42 = $("#<%= PROBLEM_inter_42.ClientID %>").val();
+           formData.PERSONAL_42 = $("#<%= PERSONAL_42.ClientID %>").val();
+           formData.PERSONAL_inter_42 = $("#<%= PERSONAL_inter_42.ClientID %>").val();
+
+           formData.comm_45 = $("#<%= comm_45.ClientID %>").val();
+           formData.inter_45 = $("#<%= inter_45.ClientID %>").val();
+           formData.GROSS_45 = $("#<%= GROSS_45.ClientID %>").val();
+           formData.GROSS_inter_45 = $("#<%= GROSS_inter_45.ClientID %>").val();
+           formData.FINE_45 = $("#<%= FINE_45.ClientID %>").val();
+           formData.FINE_inter_45 = $("#<%= FINE_inter_45.ClientID %>").val();
+           formData.PROBLEM_45 = $("#<%= PROBLEM_45.ClientID %>").val();
+           formData.PROBLEM_inter_45 = $("#<%= PROBLEM_inter_45.ClientID %>").val();
+           formData.PERSONAL_45 = $("#<%= PERSONAL_45.ClientID %>").val();
+           formData.PERSONAL_inter_45 = $("#<%= PERSONAL_inter_45.ClientID %>").val();
+
+           formData.comm_51 = $("#<%= comm_51.ClientID %>").val();
+           formData.inter_51 = $("#<%= inter_51.ClientID %>").val();
+           formData.GROSS_51 = $("#<%= GROSS_51.ClientID %>").val();
+           formData.GROSS_inter_51 = $("#<%= GROSS_inter_51.ClientID %>").val();
+           formData.FINE_51 = $("#<%= FINE_51.ClientID %>").val();
+           formData.FINE_inter_51 = $("#<%= FINE_inter_51.ClientID %>").val();
+           formData.PROBLEM_51 = $("#<%= PROBLEM_51.ClientID %>").val();
+           formData.PROBLEM_inter_51 = $("#<%= PROBLEM_inter_51.ClientID %>").val();
+           formData.PERSONAL_51 = $("#<%= PERSONAL_51.ClientID %>").val();
+           formData.PERSONAL_inter_51 = $("#<%= PERSONAL_inter_51.ClientID %>").val();
+
+           formData.comm_60 = $("#<%= comm_60.ClientID %>").val();
+           formData.inter_60 = $("#<%= inter_60.ClientID %>").val();
+           formData.GROSS_60 = $("#<%= GROSS_60.ClientID %>").val();
+           formData.GROSS_inter_60 = $("#<%= GROSS_inter_60.ClientID %>").val();
+           formData.FINE_60 = $("#<%= FINE_60.ClientID %>").val();
+           formData.FINE_inter_60 = $("#<%= FINE_inter_60.ClientID %>").val();
+           formData.PROBLEM_60 = $("#<%= PROBLEM_60.ClientID %>").val();
+           formData.PROBLEM_inter_60 = $("#<%= PROBLEM_inter_60.ClientID %>").val();
+           formData.PERSONAL_60 = $("#<%= PERSONAL_60.ClientID %>").val();
+           formData.PERSONAL_inter_60 = $("#<%= PERSONAL_inter_60.ClientID %>").val();
+            saveWithModal(formData, reloadAfterSave, "AGES AND STAGES");
+
+        }
+        function SaveTab15(reloadAfterSave) {
+
+            var formData = {};
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+           formData.TabNo = 15;
+
+           // 1) Sensory Profile-2 0-6 Months
+           formData.General_Processing = $("[id$='General_Processing']").val();
+           formData.AUDITORY_Processing = $("[id$='AUDITORY_Processing']").val();
+           formData.VISUAL_Processing = $("[id$='VISUAL_Processing']").val();
+           formData.TOUCH_Processing = $("[id$='TOUCH_Processing']").val();
+           formData.MOVEMENT_Processing = $("[id$='MOVEMENT_Processing']").val();
+           formData.ORAL_Processing = $("[id$='ORAL_Processing']").val();
+           formData.Raw_score = $("[id$='Raw_score']").val();
+
+           formData.Total_rawscore = $("[id$='Total_rawscore']").val();
+           formData.Interpretation = $("[id$='Interpretation']").val();
+           formData.Comments_1 = $("[id$='Comments_1']").val();
+
+           // 2) TODDLER
+           // 2) TODDLER
+           formData.Score_seeking = $("#<%= Score_seeking.ClientID %>").val();
+           formData.SEEKING = $("#<%= SEEKING.ClientID %>").val();
+
+           formData.Score_Avoiding = $("#<%= Score_Avoiding.ClientID %>").val();
+           formData.AVOIDING = $("#<%= AVOIDING.ClientID %>").val();
+
+           formData.Score_sensitivity = $("#<%= Score_sensitivity.ClientID %>").val();
+           formData.SENSITIVITY_2 = $("#<%= SENSITIVITY_2.ClientID %>").val();
+
+           formData.Score_Registration = $("#<%= Score_Registration.ClientID %>").val();
+           formData.REGISTRATION = $("#<%= REGISTRATION.ClientID %>").val();
+
+           formData.Score_general = $("#<%= Score_general.ClientID %>").val();
+           formData.GENERAL = $("#<%= GENERAL.ClientID %>").val();
+
+           formData.Score_Auditory = $("#<%= Score_Auditory.ClientID %>").val();
+           formData.AUDITORY = $("#<%= AUDITORY.ClientID %>").val();
+
+           formData.Score_visual = $("#<%= Score_visual.ClientID %>").val();
+           formData.VISUAL = $("#<%= VISUAL.ClientID %>").val();
+
+           formData.Score_touch = $("#<%= Score_touch.ClientID %>").val();
+           formData.TOUCH = $("#<%= TOUCH.ClientID %>").val();
+
+           formData.Score_movement = $("#<%= Score_movement.ClientID %>").val();
+           formData.MOVEMENT = $("#<%= MOVEMENT.ClientID %>").val();
+
+           formData.Score_oral = $("#<%= Score_oral.ClientID %>").val();
+           formData.ORAL = $("#<%= ORAL.ClientID %>").val();
+
+           formData.Score_behavioural = $("#<%= Score_behavioural.ClientID %>").val();
+           formData.BEHAVIORAL = $("#<%= BEHAVIORAL.ClientID %>").val();
+
+           formData.Comments_2 = $("#<%= Comments_2.ClientID %>").val();
+
+           // 3) CHILD
+           formData.SPchild_Seeker = $("#<%= SPchild_Seeker.ClientID %>").val();
+           formData.Seeking_Seeker = $("#<%= Seeking_Seeker.ClientID %>").val();
+
+           formData.SPchild_Avoider = $("#<%= SPchild_Avoider.ClientID %>").val();
+           formData.Avoiding_Avoider = $("#<%= Avoiding_Avoider.ClientID %>").val();
+
+           formData.SPchild_Sensor = $("#<%= SPchild_Sensor.ClientID %>").val();
+           formData.Sensitivity_Sensor = $("#<%= Sensitivity_Sensor.ClientID %>").val();
+
+           formData.SPchild_Bystander = $("#<%= SPchild_Bystander.ClientID %>").val();
+           formData.Registration_Bystander = $("#<%= Registration_Bystander.ClientID %>").val();
+
+           formData.SPchild_Auditory_3 = $("#<%= SPchild_Auditory_3.ClientID %>").val();
+           formData.Auditory_3 = $("#<%= Auditory_3.ClientID %>").val();
+
+           formData.SPchild_Visual_3 = $("#<%= SPchild_Visual_3.ClientID %>").val();
+           formData.Visual_3 = $("#<%= Visual_3.ClientID %>").val();
+
+           formData.SPchild_Touch_3 = $("#<%= SPchild_Touch_3.ClientID %>").val();
+           formData.Touch_3 = $("#<%= Touch_3.ClientID %>").val();
+
+           formData.SPchild_Movement_3 = $("#<%= SPchild_Movement_3.ClientID %>").val();
+           formData.Movement_3 = $("#<%= Movement_3.ClientID %>").val();
+
+           formData.SPchild_Body_position = $("#<%= SPchild_Body_position.ClientID %>").val();
+           formData.Body_position = $("#<%= Body_position.ClientID %>").val();
+
+           formData.SPchild_Oral_3 = $("#<%= SPchild_Oral_3.ClientID %>").val();
+           formData.Oral_3 = $("#<%= Oral_3.ClientID %>").val();
+
+           formData.SPchild_Conduct_3 = $("#<%= SPchild_Conduct_3.ClientID %>").val();
+           formData.Conduct_3 = $("#<%= Conduct_3.ClientID %>").val();
+
+           formData.SPchild_Social_emotional = $("#<%= SPchild_Social_emotional.ClientID %>").val();
+           formData.Social_emotional = $("#<%= Social_emotional.ClientID %>").val();
+
+           formData.SPchild_Attentional_3 = $("#<%= SPchild_Attentional_3.ClientID %>").val();
+           formData.Attentional_3 = $("#<%= Attentional_3.ClientID %>").val();
+
+           formData.Comments_3 = $("#<%= Comments_3.ClientID %>").val();
+
+           // 4) Adolescent and Adult (11-17)
+           formData.SPAdult_Low_Registration = $("#<%= SPAdult_Low_Registration.ClientID %>").val();
+           formData.Low_Registration = $("#<%= Low_Registration.ClientID %>").val();
+
+           formData.SPAdult_Sensory_seeking = $("#<%= SPAdult_Sensory_seeking.ClientID %>").val();
+           formData.Sensory_seeking = $("#<%= Sensory_seeking.ClientID %>").val();
+
+           formData.SPAdult_Sensory_Sensitivity = $("#<%= SPAdult_Sensory_Sensitivity.ClientID %>").val();
+           formData.Sensory_Sensitivity = $("#<%= Sensory_Sensitivity.ClientID %>").val();
+
+           formData.SPAdult_Sensory_Avoiding = $("#<%= SPAdult_Sensory_Avoiding.ClientID %>").val();
+           formData.Sensory_Avoiding = $("#<%= Sensory_Avoiding.ClientID %>").val();
+
+           formData.Comments_4 = $("#<%= Comments_4.ClientID %>").val();
+
+           // 5) 16-64
+           formData.SP_Low_Registration64 = $("#<%= SP_Low_Registration64.ClientID %>").val();
+           formData.Low_Registration_5 = $("#<%= Low_Registration_5.ClientID %>").val();
+
+           formData.SP_Sensory_seeking_64 = $("#<%= SP_Sensory_seeking_64.ClientID %>").val();
+           formData.Sensory_seeking_5 = $("#<%= Sensory_seeking_5.ClientID %>").val();
+
+           formData.SP_Sensory_Sensitivity64 = $("#<%= SP_Sensory_Sensitivity64.ClientID %>").val();
+           formData.Sensory_Sensitivity_5 = $("#<%= Sensory_Sensitivity_5.ClientID %>").val();
+
+           formData.SP_Sensory_Avoiding64 = $("#<%= SP_Sensory_Avoiding64.ClientID %>").val();
+           formData.Sensory_Avoiding_5 = $("#<%= Sensory_Avoiding_5.ClientID %>").val();
+
+           formData.Comments_5 = $("#<%= Comments_5.ClientID %>").val();
+
+           // 6) 65+
+           formData.Older_Low_Registration = $("#<%= Older_Low_Registration.ClientID %>").val();
+           formData.Low_Registration_6 = $("#<%= Low_Registration_6.ClientID %>").val();
+
+           formData.Older_Sensory_seeking = $("#<%= Older_Sensory_seeking.ClientID %>").val();
+           formData.Sensory_seeking_6 = $("#<%= Sensory_seeking_6.ClientID %>").val();
+
+           formData.Older_Sensory_Sensitivity = $("#<%= Older_Sensory_Sensitivity.ClientID %>").val();
+           formData.Sensory_Sensitivity_6 = $("#<%= Sensory_Sensitivity_6.ClientID %>").val();
+
+           formData.Older_Sensory_Avoiding = $("#<%= Older_Sensory_Avoiding.ClientID %>").val();
+           formData.Sensory_Avoiding_6 = $("#<%= Sensory_Avoiding_6.ClientID %>").val();
+
+           formData.Comments_6 = $("#<%= Comments_6.ClientID %>").val();
+
+            saveWithModal(formData, reloadAfterSave, "SENSORY PROFILE- 2");
+        }
+        function SaveTab16(reloadAfterSave) {
+
+            var formData = {};
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+           formData.TabNo = 16;
+
+           // WebForms safe selectors
+           formData.ABILITY_months = $("#<%= MonthSelect.ClientID %>").val();
+           formData.ability_TOTAL = $("#<%= ability_TOTAL.ClientID %>").val();
+           formData.ability_COMMENTS = $("#<%= ability_COMMENTS.ClientID %>").val();
+
+           var ABILITY_questions = "";
+
+           // loop ALL rows inside the ability table
+           $("#<%= updAbility.ClientID %> table tr").each(function () {
+
+                var questionNO = $(this).find("span[id*='abilityQuestionNo']").text().trim();
+                if (questionNO === "") return; // skip header/category rows
+
+                var categoryId = $(this).find("span[id*='lblCategoryId']").text().trim();
+
+                var Yes = $(this).find("input[id*='chkMonthYes']").is(":checked") ? "1" : "0";
+                var No = $(this).find("input[id*='chkMonthNo']").is(":checked") ? "1" : "0";
+
+                ABILITY_questions += categoryId + "#" + questionNO + "$" + Yes + "$" + No + "~";
+            });
+
+            // remove last "~"
+            if (ABILITY_questions.length > 0 && ABILITY_questions.endsWith("~")) {
+                ABILITY_questions = ABILITY_questions.slice(0, -1);
+            }
+
+
+            formData.ABILITY_questions = ABILITY_questions;
+
+            // Debug (optional)
+            // console.log(formData);
+            // console.log("ABILITY_questions:", ABILITY_questions);
+
+            saveWithModal(formData, reloadAfterSave, "ABILITY CHECKLIST");
+        }
+
+        function SaveTab17(reloadAfterSave) {
+
+            var formData = {};
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 17;
+
+            // Throws
+            formData.DCDQ_Throws1 = $("[id$='DCDQ_Throws1']").val();
+            formData.DCDQ_Throws2 = $("[id$='DCDQ_Throws2']").val();
+            formData.DCDQ_Throws3 = $("[id$='DCDQ_Throws3']").val();
+
+            // Catches
+            formData.DCDQ_Catches1 = $("[id$='DCDQ_Catches1']").val();
+            formData.DCDQ_Catches2 = $("[id$='DCDQ_Catches2']").val();
+            formData.DCDQ_Catches3 = $("[id$='DCDQ_Catches3']").val();
+
+            // Hits
+            formData.DCDQ_Hits1 = $("[id$='DCDQ_Hits1']").val();
+            formData.DCDQ_Hits2 = $("[id$='DCDQ_Hits2']").val();
+            formData.DCDQ_Hits3 = $("[id$='DCDQ_Hits3']").val();
+
+            // Jumps
+            formData.DCDQ_Jumps1 = $("[id$='DCDQ_Jumps1']").val();
+            formData.DCDQ_Jumps2 = $("[id$='DCDQ_Jumps2']").val();
+            formData.DCDQ_Jumps3 = $("[id$='DCDQ_Jumps3']").val();
+
+            // Runs
+            formData.DCDQ_Runs1 = $("[id$='DCDQ_Runs1']").val();
+            formData.DCDQ_Runs2 = $("[id$='DCDQ_Runs2']").val();
+            formData.DCDQ_Runs3 = $("[id$='DCDQ_Runs3']").val();
+
+            // Plans
+            formData.DCDQ_Plans1 = $("[id$='DCDQ_Plans1']").val();
+            formData.DCDQ_Plans2 = $("[id$='DCDQ_Plans2']").val();
+            formData.DCDQ_Plans3 = $("[id$='DCDQ_Plans3']").val();
+
+            // Writing
+            formData.DCDQ_Writing1 = $("[id$='DCDQ_Writing1']").val();
+            formData.DCDQ_Writing2 = $("[id$='DCDQ_Writing2']").val();
+            formData.DCDQ_Writing3 = $("[id$='DCDQ_Writing3']").val();
+
+            // Legibly
+            formData.DCDQ_legibly1 = $("[id$='DCDQ_legibly1']").val();
+            formData.DCDQ_legibly2 = $("[id$='DCDQ_legibly2']").val();
+            formData.DCDQ_legibly3 = $("[id$='DCDQ_legibly3']").val();
+
+            // Effort
+            formData.DCDQ_Effort1 = $("[id$='DCDQ_Effort1']").val();
+            formData.DCDQ_Effort2 = $("[id$='DCDQ_Effort2']").val();
+            formData.DCDQ_Effort3 = $("[id$='DCDQ_Effort3']").val();
+
+            // Cuts
+            formData.DCDQ_Cuts1 = $("[id$='DCDQ_Cuts1']").val();
+            formData.DCDQ_Cuts2 = $("[id$='DCDQ_Cuts2']").val();
+            formData.DCDQ_Cuts3 = $("[id$='DCDQ_Cuts3']").val();
+
+            // Likes
+            formData.DCDQ_Likes1 = $("[id$='DCDQ_Likes1']").val();
+            formData.DCDQ_Likes2 = $("[id$='DCDQ_Likes2']").val();
+            formData.DCDQ_Likes3 = $("[id$='DCDQ_Likes3']").val();
+
+            // Learning
+            formData.DCDQ_Learning1 = $("[id$='DCDQ_Learning1']").val();
+            formData.DCDQ_Learning2 = $("[id$='DCDQ_Learning2']").val();
+            formData.DCDQ_Learning3 = $("[id$='DCDQ_Learning3']").val();
+
+            // Quick
+            formData.DCDQ_Quick1 = $("[id$='DCDQ_Quick1']").val();
+            formData.DCDQ_Quick2 = $("[id$='DCDQ_Quick2']").val();
+            formData.DCDQ_Quick3 = $("[id$='DCDQ_Quick3']").val();
+
+            // Bull
+            formData.DCDQ_Bull1 = $("[id$='DCDQ_Bull1']").val();
+            formData.DCDQ_Bull2 = $("[id$='DCDQ_Bull2']").val();
+            formData.DCDQ_Bull3 = $("[id$='DCDQ_Bull3']").val();
+
+            // Does
+            formData.DCDQ_Does1 = $("[id$='DCDQ_Does1']").val();
+            formData.DCDQ_Does2 = $("[id$='DCDQ_Does2']").val();
+            formData.DCDQ_Does3 = $("[id$='DCDQ_Does3']").val();
+
+            // Totals
+            formData.DCDQ_Control = $("[id$='DCDQ_Control']").val();
+            formData.DCDQ_Fine = $("[id$='DCDQ_Fine']").val();
+            formData.DCDQ_General = $("[id$='DCDQ_General']").val();
+            formData.DCDQ_Total = $("[id$='DCDQ_Total']").val();
+
+            formData.DCDQ_INTERPRETATION = $("[id$='DCDQ_INTERPRETATION']").val();
+            formData.DCDQ_COMMENT = $("[id$='DCDQ_COMMENT']").val();
+
+            saveWithModal(formData, reloadAfterSave, "DCDQ");
+        }
+        function SaveTab18(reloadAfterSave) {
+
+            var formData = {};
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 18;
+
+            formData.SIPTInfo_History = $("[id$='SIPTInfo_History']").val();
+
+            // Hand Function 1
+            formData.SIPTInfo_HandFunction1_GraspRight = $("[id$='SIPTInfo_HandFunction1_GraspRight']").val();
+            formData.SIPTInfo_HandFunction1_GraspLeft = $("[id$='SIPTInfo_HandFunction1_GraspLeft']").val();
+            formData.SIPTInfo_HandFunction1_SphericalRight = $("[id$='SIPTInfo_HandFunction1_SphericalRight']").val();
+            formData.SIPTInfo_HandFunction1_SphericalLeft = $("[id$='SIPTInfo_HandFunction1_SphericalLeft']").val();
+            formData.SIPTInfo_HandFunction1_HookRight = $("[id$='SIPTInfo_HandFunction1_HookRight']").val();
+            formData.SIPTInfo_HandFunction1_HookLeft = $("[id$='SIPTInfo_HandFunction1_HookLeft']").val();
+            formData.SIPTInfo_HandFunction1_JawChuckRight = $("[id$='SIPTInfo_HandFunction1_JawChuckRight']").val();
+            formData.SIPTInfo_HandFunction1_JawChuckLeft = $("[id$='SIPTInfo_HandFunction1_JawChuckLeft']").val();
+            formData.SIPTInfo_HandFunction1_GripRight = $("[id$='SIPTInfo_HandFunction1_GripRight']").val();
+            formData.SIPTInfo_HandFunction1_GripLeft = $("[id$='SIPTInfo_HandFunction1_GripLeft']").val();
+            formData.SIPTInfo_HandFunction1_ReleaseRight = $("[id$='SIPTInfo_HandFunction1_ReleaseRight']").val();
+            formData.SIPTInfo_HandFunction1_ReleaseLeft = $("[id$='SIPTInfo_HandFunction1_ReleaseLeft']").val();
+
+            // Hand Function 2
+            formData.SIPTInfo_HandFunction2_OppositionLfR = $("[id$='SIPTInfo_HandFunction2_OppositionLfR']").val();
+            formData.SIPTInfo_HandFunction2_OppositionLfL = $("[id$='SIPTInfo_HandFunction2_OppositionLfL']").val();
+            formData.SIPTInfo_HandFunction2_OppositionMFR = $("[id$='SIPTInfo_HandFunction2_OppositionMFR']").val();
+            formData.SIPTInfo_HandFunction2_OppositionMFL = $("[id$='SIPTInfo_HandFunction2_OppositionMFL']").val();
+            formData.SIPTInfo_HandFunction2_OppositionRFR = $("[id$='SIPTInfo_HandFunction2_OppositionRFR']").val();
+            formData.SIPTInfo_HandFunction2_OppositionRFL = $("[id$='SIPTInfo_HandFunction2_OppositionRFL']").val();
+            formData.SIPTInfo_HandFunction2_PinchLfR = $("[id$='SIPTInfo_HandFunction2_PinchLfR']").val();
+            formData.SIPTInfo_HandFunction2_PinchLfL = $("[id$='SIPTInfo_HandFunction2_PinchLfL']").val();
+            formData.SIPTInfo_HandFunction2_PinchMFR = $("[id$='SIPTInfo_HandFunction2_PinchMFR']").val();
+            formData.SIPTInfo_HandFunction2_PinchMFL = $("[id$='SIPTInfo_HandFunction2_PinchMFL']").val();
+            formData.SIPTInfo_HandFunction2_PinchRFR = $("[id$='SIPTInfo_HandFunction2_PinchRFR']").val();
+            formData.SIPTInfo_HandFunction2_PinchRFL = $("[id$='SIPTInfo_HandFunction2_PinchRFL']").val();
+
+            // SIPT 3
+            formData.SIPTInfo_SIPT3_Spontaneous = $("[id$='SIPTInfo_SIPT3_Spontaneous']").val();
+            formData.SIPTInfo_SIPT3_Command = $("[id$='SIPTInfo_SIPT3_Command']").val();
+
+            // SIPT 4
+            formData.SIPTInfo_SIPT4_Kinesthesia = $("[id$='SIPTInfo_SIPT4_Kinesthesia']").val();
+            formData.SIPTInfo_SIPT4_Finger = $("[id$='SIPTInfo_SIPT4_Finger']").val();
+            formData.SIPTInfo_SIPT4_Localisation = $("[id$='SIPTInfo_SIPT4_Localisation']").val();
+            formData.SIPTInfo_SIPT4_DoubleTactile = $("[id$='SIPTInfo_SIPT4_DoubleTactile']").val();
+            formData.SIPTInfo_SIPT4_Tactile = $("[id$='SIPTInfo_SIPT4_Tactile']").val();
+            formData.SIPTInfo_SIPT4_Graphesthesia = $("[id$='SIPTInfo_SIPT4_Graphesthesia']").val();
+            formData.SIPTInfo_SIPT4_PostRotary = $("[id$='SIPTInfo_SIPT4_PostRotary']").val();
+            formData.SIPTInfo_SIPT4_Standing = $("[id$='SIPTInfo_SIPT4_Standing']").val();
+
+            // SIPT 5
+            formData.SIPTInfo_SIPT5_Color = $("[id$='SIPTInfo_SIPT5_Color']").val();
+            formData.SIPTInfo_SIPT5_Form = $("[id$='SIPTInfo_SIPT5_Form']").val();
+            formData.SIPTInfo_SIPT5_Size = $("[id$='SIPTInfo_SIPT5_Size']").val();
+            formData.SIPTInfo_SIPT5_Depth = $("[id$='SIPTInfo_SIPT5_Depth']").val();
+            formData.SIPTInfo_SIPT5_Figure = $("[id$='SIPTInfo_SIPT5_Figure']").val();
+            formData.SIPTInfo_SIPT5_Motor = $("[id$='SIPTInfo_SIPT5_Motor']").val();
+
+            // SIPT 6
+            formData.SIPTInfo_SIPT6_Design = $("[id$='SIPTInfo_SIPT6_Design']").val();
+            formData.SIPTInfo_SIPT6_Constructional = $("[id$='SIPTInfo_SIPT6_Constructional']").val();
+
+            // SIPT 7
+            formData.SIPTInfo_SIPT7_Scanning = $("[id$='SIPTInfo_SIPT7_Scanning']").val();
+            formData.SIPTInfo_SIPT7_Memory = $("[id$='SIPTInfo_SIPT7_Memory']").val();
+
+            // SIPT 8
+            formData.SIPTInfo_SIPT8_Postural = $("[id$='SIPTInfo_SIPT8_Postural']").val();
+            formData.SIPTInfo_SIPT8_Oral = $("[id$='SIPTInfo_SIPT8_Oral']").val();
+            formData.SIPTInfo_SIPT8_Sequencing = $("[id$='SIPTInfo_SIPT8_Sequencing']").val();
+            formData.SIPTInfo_SIPT8_Commands = $("[id$='SIPTInfo_SIPT8_Commands']").val();
+
+            // SIPT 9
+            formData.SIPTInfo_SIPT9_Bilateral = $("[id$='SIPTInfo_SIPT9_Bilateral']").val();
+            formData.SIPTInfo_SIPT9_Contralat = $("[id$='SIPTInfo_SIPT9_Contralat']").val();
+            formData.SIPTInfo_SIPT9_PreferredHand = $("[id$='SIPTInfo_SIPT9_PreferredHand']").val();
+            formData.SIPTInfo_SIPT9_CrossingMidline = $("[id$='SIPTInfo_SIPT9_CrossingMidline']").val();
+
+            // SIPT 10
+            formData.SIPTInfo_SIPT10_Draw = $("[id$='SIPTInfo_SIPT10_Draw']").val();
+            formData.SIPTInfo_SIPT10_ClockFace = $("[id$='SIPTInfo_SIPT10_ClockFace']").val();
+            formData.SIPTInfo_SIPT10_Filtering = $("[id$='SIPTInfo_SIPT10_Filtering']").val();
+            formData.SIPTInfo_SIPT10_MotorPlanning = $("[id$='SIPTInfo_SIPT10_MotorPlanning']").val();
+            formData.SIPTInfo_SIPT10_BodyImage = $("[id$='SIPTInfo_SIPT10_BodyImage']").val();
+            formData.SIPTInfo_SIPT10_BodySchema = $("[id$='SIPTInfo_SIPT10_BodySchema']").val();
+            formData.SIPTInfo_SIPT10_Laterality = $("[id$='SIPTInfo_SIPT10_Laterality']").val();
+
+            // Activity Given
+            formData.SIPTInfo_ActivityGiven_Remark = $("[id$='SIPTInfo_ActivityGiven_Remark']").val();
+            formData.SIPTInfo_ActivityGiven_InterestActivity = $("[id$='SIPTInfo_ActivityGiven_InterestActivity']").val();
+            formData.SIPTInfo_ActivityGiven_InterestCompletion = $("[id$='SIPTInfo_ActivityGiven_InterestCompletion']").val();
+            formData.SIPTInfo_ActivityGiven_Learning = $("[id$='SIPTInfo_ActivityGiven_Learning']").val();
+            formData.SIPTInfo_ActivityGiven_Complexity = $("[id$='SIPTInfo_ActivityGiven_Complexity']").val();
+            formData.SIPTInfo_ActivityGiven_ProblemSolving = $("[id$='SIPTInfo_ActivityGiven_ProblemSolving']").val();
+            formData.SIPTInfo_ActivityGiven_Concentration = $("[id$='SIPTInfo_ActivityGiven_Concentration']").val();
+            formData.SIPTInfo_ActivityGiven_Retension = $("[id$='SIPTInfo_ActivityGiven_Retension']").val();
+            formData.SIPTInfo_ActivityGiven_SpeedPerfom = $("[id$='SIPTInfo_ActivityGiven_SpeedPerfom']").val();
+            formData.SIPTInfo_ActivityGiven_Neatness = $("[id$='SIPTInfo_ActivityGiven_Neatness']").val();
+            formData.SIPTInfo_ActivityGiven_Frustation = $("[id$='SIPTInfo_ActivityGiven_Frustation']").val();
+            formData.SIPTInfo_ActivityGiven_Work = $("[id$='SIPTInfo_ActivityGiven_Work']").val();
+            formData.SIPTInfo_ActivityGiven_Reaction = $("[id$='SIPTInfo_ActivityGiven_Reaction']").val();
+            formData.SIPTInfo_ActivityGiven_SociabilityTherapist = $("[id$='SIPTInfo_ActivityGiven_SociabilityTherapist']").val();
+            formData.SIPTInfo_ActivityGiven_SociabilityStudents = $("[id$='SIPTInfo_ActivityGiven_SociabilityStudents']").val();
+
+            saveWithModal(formData, reloadAfterSave, "SIPT INFORMATION");
+        }
+        function SaveTab19(reloadAfterSave) {
+
+            var formData = {};
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 19;
+
+            formData.Evaluation_Strengths = $("[id$='Evaluation_Strengths']").val();
+
+            formData.Evaluation_Concern_Barriers = $("[id$='Evaluation_Concern_Barriers']").val();
+            formData.Evaluation_Concern_Limitations = $("[id$='Evaluation_Concern_Limitations']").val();
+            formData.Evaluation_Concern_Posture = $("[id$='Evaluation_Concern_Posture']").val();
+            formData.Evaluation_Concern_Impairment = $("[id$='Evaluation_Concern_Impairment']").val();
+
+            formData.Evaluation_Goal_Summary = $("[id$='Evaluation_Goal_Summary']").val();
+            formData.Evaluation_Goal_Previous = $("[id$='Evaluation_Goal_Previous']").val();
+            formData.Evaluation_Goal_LongTerm = $("[id$='Evaluation_Goal_LongTerm']").val();
+            formData.Evaluation_Goal_ShortTerm = $("[id$='Evaluation_Goal_ShortTerm']").val();
+            formData.Evaluation_Goal_Impairment = $("[id$='Evaluation_Goal_Impairment']").val();
+
+            formData.Evaluation_Plan_Frequency = $("[id$='Evaluation_Plan_Frequency']").val();
+            formData.Evaluation_Plan_Service = $("[id$='Evaluation_Plan_Service']").val();
+            formData.Evaluation_Plan_Strategies = $("[id$='Evaluation_Plan_Strategies']").val();
+            formData.Evaluation_Plan_Equipment = $("[id$='Evaluation_Plan_Equipment']").val();
+
+            saveWithModal(formData, reloadAfterSave, "EVALUATION");
+        }
+        function SaveTab20(reloadAfterSave) {
+
+            var formData = {};
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 20;
+
+            formData.Treatment_Home = $("[id$='Treatment_Home']").val();
+            formData.Treatment_School = $("[id$='Treatment_School']").val();
+            formData.Treatment_Threapy = $("[id$='Treatment_Threapy']").val();
+            formData.Treatment_cmt = $("[id$='Treatment_cmt']").val();
+
+            saveWithModal(formData, reloadAfterSave, "TREATMENT ADVICE");
+        }
+        function SaveTab21(reloadAfterSave) {
+
+            var formData = {};
+            formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+            formData.TabNo = 21;
+
+            formData.Doctor_Physioptherapist = $("[id$='Doctor_Physioptherapist']").val();
+            formData.Doctor_Occupational = $("[id$='Doctor_Occupational']").val();
+
+            // if you want always NULL in DB then do NOT send Doctor_EnterReport
+            // formData.Doctor_EnterReport = $("[id$='Doctor_EnterReport']").val();
+
+            saveWithModal(formData, reloadAfterSave, "DOCTOR");
+        }
+        $(document).ready(function () {
+
+            $("#confirmSaveBtn").off("click").on("click", function () {
+
+                if (saveInProgress) return;
+
+                if (!navigator.onLine) {
+                    alert("No internet connection!");
+                    return;
+                }
+
+                // ✅ LOG CONFIRM
+                logModalAction("CONFIRM", modalFormData);
+
+                if (pendingSaveCallback) {
+                    pendingSaveCallback();
+                }
+
+                // mark as confirmed
+                pendingSaveCallback = null;
+
+                $("#confirmSaveModal").modal("hide");
+            });
+
+        });
+        $('#confirmSaveModal').on('hidden.bs.modal', function () {
+
+            // if still has callback → means user cancelled
+            if (pendingSaveCallback !== null) {
+                logModalAction("CANCEL", modalFormData);
+            }
+
+            // reset everything
+            pendingSaveCallback = null;
+        });
+        var pendingSaveCallback = null;
+
+        function showConfirmPopup(formData, onConfirm) {
+
+            pendingSaveCallback = onConfirm;
+            modalFormData = formData;
+
+            // ✅ LOG OPEN
+            logModalAction("OPEN", formData);
+
+            var isOnline = navigator.onLine;
+            var statusText = isOnline
+                ? "<span style='color:green'>🟢 Online</span>"
+                : "<span style='color:red'>🔴 Offline</span>";
+
+            var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+            var speedText = "";
+
+            if (connection) {
+                var type = connection.effectiveType; // 'slow-2g', '2g', '3g', '4g'
+
+                if (type === "4g") {
+                    speedText = "<span style='color:green'>⚡ High Speed</span>";
+                } else if (type === "3g") {
+                    speedText = "<span style='color:orange'>🚀 Medium Speed</span>";
+                } else {
+                    speedText = "<span style='color:red'>🐢 Slow Network</span>";
+                }
+            } else {
+                speedText = "<span style='color:gray'>Speed: Unknown</span>";
+            }
+
+            updateInternetStatus(statusText, speedText);
+
+            var rows = "";
+            for (var key in formData) {
+                rows += "<tr><td><b>" + key + "</b></td><td>" + (formData[key] || "") + "</td></tr>";
+            }
+
+            $("#modalDataPreview").html(rows);
+
+            $("#confirmSaveModal").modal("show");
+        }
+        function logModalAction(action, data) {
+
+            data = data || {};
+
+            $.ajax({
+                type: "POST",
+                url: "<%= ResolveUrl("~/Handler/SaveReportSi_2023.ashx") %>",
+        data: {
+            ActionType: "MODAL_LOG",
+            LogAction: action,
+            ModalLog: JSON.stringify(data),
+                     Record: data.Record || "<%= Request.QueryString["record"] ?? "" %>",
+                     TabNo: data.TabNo || 0
+                 },
+
+                 success: function () {
+                     $("#logStatusMsg").html(
+                         "<span style='color:green'>✔ Log saved successfully</span>"
+                     );
+                 },
+
+                 error: function (xhr) {
+                     $("#logStatusMsg").html(
+                         "<span style='color:red'>❌ Log failed (" + xhr.status + ")</span>"
+                     );
+                 }
+             });
+        }
+
+        function saveWithModal(formData, reloadAfterSave, tabName) {
+            showConfirmPopup(formData, function () {
+                PostToHandler(formData, reloadAfterSave, tabName);
+            });
+        }
+        function updateInternetStatus(statusText, speedText) {
+            $("#modalInternetStatus").html(
+                "<div>" +
+                "<span><b>Internet:</b> " + statusText + "</span>" +
+                "<span style='margin-left:20px;'><b>Speed:</b> " + speedText + "</span>" +
+                "</div>" +
+                "<div id='logStatusMsg' style='margin-top:6px; font-size:12px;'></div>"
+            );
+        }
+        // =========================
+        // ALERT OVERLAY FUNCTION
+        // =========================
+        function showAlert(msg, type) {
+
+            // create placeholder if not exists
+            if ($("#MsgPlaceHolder").length === 0) {
+                $("body").append('<div id="MsgPlaceHolder"></div>');
+            }
+
+            // overlay container style
+            $("#MsgPlaceHolder").css({
+                position: "fixed",
+                top: "15px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 99999,
+                width: "auto",
+                maxWidth: "90%",
+                minWidth: "1000px"
+            });
+
+            var html = "";
+
+            if (type == 1) {
+                html = '<div class="alert alert-success alert-dismissible" style="box-shadow:0 8px 20px rgba(0,0,0,0.2);">' +
+                    '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>' +
+                    '<strong>Success !</strong> ' + msg +
+                    '</div>';
+            }
+            else if (type == 2) {
+                html = '<div class="alert alert-danger alert-dismissible" style="box-shadow:0 8px 20px rgba(0,0,0,0.2);">' +
+                    '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>' +
+                    '<strong>Error !</strong> ' + msg +
+                    '</div>';
+            }
+            else {
+                html = '<div class="alert alert-info alert-dismissible" style="box-shadow:0 8px 20px rgba(0,0,0,0.2);">' +
+                    '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>' +
+                    '<strong>Info !</strong> ' + msg +
+                    '</div>';
+            }
+
+            $("#MsgPlaceHolder").stop(true, true).hide().html(html).fadeIn(200);
+
+            // auto disappear after 10 sec
+            setTimeout(function () {
+                $("#MsgPlaceHolder").fadeOut(400, function () {
+                    $(this).html("").show();
+                });
+            }, 10000);
+        }
+        function getCheckedText() {
+            // arguments = checkbox selectors
+            for (var i = 0; i < arguments.length; i++) {
+
+                var cb = $(arguments[i]);
+                if (cb.length > 0 && cb.is(":checked")) {
+
+                    // ASP.NET checkbox text is usually in next sibling <label>
+                    var txt = cb.next("label").text();
+
+                    // fallback: if no label found, try parent text
+                    if (!txt) txt = cb.parent().text();
+
+                    return $.trim(txt);
+                }
+            }
+            return "";
+        }
+        function GetSingleCheckText(chk1Id, chk2Id, chk3Id, chk4Id) {
+            // returns checked checkbox Text (label) OR "" if none checked
+            if (chk1Id && $("#" + chk1Id).is(":checked")) return $("#" + chk1Id).next("label").text().trim() || $("#" + chk1Id).attr("value") || "1";
+            if (chk2Id && $("#" + chk2Id).is(":checked")) return $("#" + chk2Id).next("label").text().trim() || $("#" + chk2Id).attr("value") || "2";
+            if (chk3Id && $("#" + chk3Id).is(":checked")) return $("#" + chk3Id).next("label").text().trim() || $("#" + chk3Id).attr("value") || "3";
+            if (chk4Id && $("#" + chk4Id).is(":checked")) return $("#" + chk4Id).next("label").text().trim() || $("#" + chk4Id).attr("value") || "4";
+            return "";
+        }
+
+        function GetMultiCheckValues(arrIds) {
+            var list = [];
+            for (var i = 0; i < arrIds.length; i++) {
+                if ($("#" + arrIds[i]).is(":checked")) {
+                    // take checkbox text
+                    var txt = $("#" + arrIds[i]).next("label").text().trim();
+                    if (txt === "") txt = $("#" + arrIds[i]).attr("value") || arrIds[i];
+                    list.push(txt);
+                }
+            }
+            return list.join("|"); // same pattern like DiagnosisIDs
+        }
+        function BuildQuestionsString() {
+
+            var questions = "";
+
+            $("#<%= updAgeStage.ClientID %> table tr").each(function () {
+
+                 var row = $(this);
+
+                 var qNo = row.find("[id$='lblQuestionNo']").text().trim();
+                 if (!qNo) return; // skip header row
+
+                 var yes = row.find("[id$='chkMonthYes']").prop("checked") ? "1" : "0";
+                 var no = row.find("[id$='chkMonthNo']").prop("checked") ? "1" : "0";
+
+                 var comment = row.find("[id$='txtMonthComment']").val() || "";
+                 comment = comment.replace(/[~$]/g, "");
+
+                 questions += qNo + "$" + yes + "$" + no + "$" + comment + "~";
+             });
+
+             if (questions.endsWith("~")) {
+                 questions = questions.substring(0, questions.length - 1);
+             }
+
+             console.log("Questions String:", questions);
+
+             return questions;
+         }
+     </script>
+
+</asp:Content>
 

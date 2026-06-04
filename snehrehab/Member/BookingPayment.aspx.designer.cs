@@ -85,6 +85,33 @@ public partial class Member_BookingPayment
     protected global::System.Web.UI.WebControls.DropDownList txtPaymentMode;
 
     /// <summary>
+    /// tab_cash control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tab_cash;
+
+    /// <summary>
+    /// txtCashTransactionID control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtCashTransactionID;
+
+    /// <summary>
+    /// txtCashTransactionDate control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtCashTransactionDate;
+
+    /// <summary>
     /// tab_Cheque control.
     /// </summary>
     /// <remarks>
@@ -155,6 +182,24 @@ public partial class Member_BookingPayment
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtTransactionDate;
+
+    /// <summary>
+    /// txtonlinehostId control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtonlinehostId;
+
+    /// <summary>
+    /// txtonlinehostdate control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtonlinehostdate;
 
     /// <summary>
     /// tab_Bulk control.

@@ -702,10 +702,17 @@ namespace snehrehab.SessionRpt
                                 string positions = ds.Tables[1].Rows[0][columnName].ToString();
                                 if (!string.IsNullOrEmpty(positions))
                                 {
-                                    string[] values = positions.Split(',');
+                                    string[] values = positions.Split(',')
+                                                               .Select(v => v.Replace(" ", "").Trim())
+                                                               .ToArray();
+
                                     foreach (var checkbox in checkboxes)
                                     {
-                                        checkbox.Checked = values.Contains(checkbox.Text.Trim());
+                                        // Normalize checkbox text (remove spaces + trim)
+                                        string chkValue = checkbox.Text.Replace(" ", "").Trim();
+
+                                        checkbox.Checked = values.Any(v =>
+                                            v.Equals(chkValue, StringComparison.OrdinalIgnoreCase));
                                     }
                                 }
                             }
@@ -716,7 +723,7 @@ namespace snehrehab.SessionRpt
                         BindCheckboxes("Multi_posture_neck", chkNeck_BL, chkNeck_Right, chkNeck_Left, chkNeck_LateralTilt, chkNeck_Hyperextended, chkNeck_Flexed, chkNeck_ChinTuck, chkNeck_Neutral);
                         BindCheckboxes("Multi_posture_Shoulder", chkShoulder_BL, chkShoulder_Right, chkShoulder_Left, chkShoulder_InternallyRotated, chkShoulder_ExternallyRotated, chkShoulder_Elevated, chkShoulder_Depressed, chkShoulder_Protracted, chkShoulder_Retracted, chkShoulder_Abducted, chkShoulder_Adducted, chkShoulder_Neutral);
                         BindCheckboxes("Multi_posture_scapulae", chkScapulae_BL, chkScapulae_Right, chkScapulae_Left, chkScapulae_Protracted, chkScapulae_Retracted, chkScapulae_Abducted, chkScapulae_Adducted, chkScapulae_Elevated, chkScapulae_Depressed, chkScapulae_Winging, chkScapulae_Neutral);
-                        BindCheckboxes("Multi_posture_wrist", chkWrist_BL, chkWrist_Right, chkWrist_Left, chkWrist_Flexed, chkWrist_Extended);
+                        BindCheckboxes("Multi_posture_wrist", chkWrist_BL, chkWrist_Neutral, chkWrist_Right, chkWrist_Left, chkWrist_Flexed, chkWrist_Extended, chkWrist_UD, chkWrist_RD);
                         BindCheckboxes("Multi_posture_hand", chkHand_Fist, chkHand_BL, chkHand_Right, chkHand_Left, chkHand_Neutral);
                         BindCheckboxes("Multi_posture_finger", chkFingers_BL, chkFingers_Right, chkFingers_Left, chkFingers_Flexed, chkFingers_Extended, chkFingers_Neutral);
                         BindCheckboxes("Multi_posture_thumb", chkThumb_BL, chkThumb_Right, chkThumb_Left, chkThumb_Adducted, chkThumb_Abducted, chkThumb_Neutral);
@@ -1265,6 +1272,1194 @@ namespace snehrehab.SessionRpt
 
             }
         }
+        //private void LoadForm()
+        //{
+        //    SnehBLL.ReportNdtMst_Bll RDB = new SnehBLL.ReportNdtMst_Bll();
+        //    if (!RDB.IsValid(_appointmentID))
+        //    {
+        //        Response.Redirect(ResolveClientUrl("~" + _cancelUrl), true); return;
+        //    }
+        //    SnehBLL.Diagnosis_Bll DIB = new SnehBLL.Diagnosis_Bll();
+        //    foreach (SnehDLL.Diagnosis_Dll DMD in DIB.Dropdown())
+        //    {
+        //        txtDiagnosis.Items.Add(new ListItem(DMD.dName, DMD.DiagnosisID.ToString()));
+        //    }
+        //    SnehBLL.DoctorMast_Bll DMB = new SnehBLL.DoctorMast_Bll();
+        //    Doctor_Physioptherapist.Items.Clear(); Doctor_Physioptherapist.Items.Add(new ListItem("Select Doctor", "-1"));
+        //    Doctor_Occupational.Items.Clear(); Doctor_Occupational.Items.Add(new ListItem("Select Doctor", "-1"));
+        //    //Doctor_EnterReport.Items.Clear(); Doctor_EnterReport.Items.Add(new ListItem("Select Doctor", "-1"));
+        //    foreach (SnehDLL.DoctorMast_Dll DMD in DMB.GetForDropdown())
+        //    {
+        //        Doctor_Physioptherapist.Items.Add(new ListItem(DMD.PreFix + " " + DMD.FullName, DMD.DoctorID.ToString()));
+        //        Doctor_Occupational.Items.Add(new ListItem(DMD.PreFix + " " + DMD.FullName, DMD.DoctorID.ToString()));
+        //        //Doctor_EnterReport.Items.Add(new ListItem(DMD.PreFix + " " + DMD.FullName, DMD.DoctorID.ToString()));
+        //    }
+
+
+        //    string que = "SELECT 'Select Month' as Month, '0' as MONTHS UNION ALL SELECT distinct cast(MONTHS as varchar) + ' Month' as Month, MONTHS FROM QUESTIONNAIRE_SI order by MONTHS";
+        //    SqlCommand cmd = new SqlCommand(que, conn);
+        //    conn.Open();
+        //    DataSet dss = new DataSet();
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    da.Fill(dss);
+        //    conn.Close();
+
+        //    SelectMonth.DataSource = dss.Tables[0];
+        //    SelectMonth.DataTextField = "Month";
+        //    SelectMonth.DataValueField = "MONTHS";
+        //    SelectMonth.DataBind();
+
+        //    string que1 = "SELECT 'Select Month' as Month_Caption, 0 as MonthsQ, 0 as Sort_Order UNION ALL SELECT DISTINCT cast(Month_Caption as varchar), MonthsQ, Sort_Order FROM ABILITY_CHECKLIST_New ORDER BY Sort_Order";
+        //    SqlCommand cmd1 = new SqlCommand(que1, conn);
+        //    conn.Open();
+        //    DataSet dss1 = new DataSet();
+        //    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+        //    da1.Fill(dss1);
+        //    conn.Close();
+
+        //    //MonthSelect.Items.Clear();
+        //    //MonthSelect.Items.Add("select");
+        //    //MonthSelect.Items[0].Value = "0";
+        //    //MonthSelect.SelectedIndex = 0;
+        //    MonthSelect.DataSource = dss1.Tables[0];
+        //    MonthSelect.DataTextField = "Month_Caption";
+        //    MonthSelect.DataValueField = "MonthsQ";
+        //    MonthSelect.DataBind();
+        //    List<SelectionMotorControl_Muscle> _selectionMotorControl_Muscle = new List<SelectionMotorControl_Muscle>();
+        //    for (int i = 0; i < SelectionMotorControl_Muscle_size; i++)
+        //    {
+        //        _selectionMotorControl_Muscle.Add(new SelectionMotorControl_Muscle()
+        //        {
+        //            SR_NO = i + 1,
+        //            MUSCLE = string.Empty,
+        //            RIGHT = string.Empty,
+        //            LEFT = string.Empty,
+        //        });
+        //    }
+        //    txtSelectionMotorControl_Muscle.DataSource = _selectionMotorControl_Muscle;
+        //    txtSelectionMotorControl_Muscle.DataBind();
+
+        //    List<SelectionMotorControl_MAS> _selectionMotorControl_MAS = new List<SelectionMotorControl_MAS>();
+        //    for (int i = 0; i < SelectionMotorControl_MAS_Size; i++)
+        //    {
+        //        _selectionMotorControl_MAS.Add(new SelectionMotorControl_MAS()
+        //        {
+        //            SR_NO = i + 1,
+        //            MUSCLE = string.Empty,
+        //            MAS = string.Empty,
+        //        });
+        //    }
+        //    txtSelectionMotorControl_MAS.DataSource = _selectionMotorControl_MAS;
+        //    txtSelectionMotorControl_MAS.DataBind();
+
+        //    List<Sensory_Profile_NameResults_CL> _sensory_Profile_NameResults_CL = new List<Sensory_Profile_NameResults_CL>();
+        //    for (int i = 0; i < Sensory_Profile_NameResults_Size; i++)
+        //    {
+        //        _sensory_Profile_NameResults_CL.Add(new Sensory_Profile_NameResults_CL()
+        //        {
+        //            SR_NO = i + 1,
+        //            NAME = string.Empty,
+        //            RESULTS = string.Empty,
+        //        });
+        //    }
+
+        //    DataSet ds = RDB.Get_NDT(_appointmentID);
+        //    if (ds.Tables.Count > 0)
+        //    {
+        //        List<ListItem> selected = new List<ListItem>();
+        //        bool HasDiagnosisID = false;
+        //        if (ds.Tables[0].Rows.Count > 0)
+        //        {
+        //            txtPatient.Text = ds.Tables[0].Rows[0]["FullName"].ToString();
+        //            txtSession.Text = ds.Tables[0].Rows[0]["SessionName"].ToString();
+        //            int.TryParse(ds.Tables[0].Rows[0]["PatientID"].ToString(), out PatientID);
+        //            bool.TryParse(ds.Tables[0].Rows[0]["HasDiagnosisID"].ToString(), out HasDiagnosisID);
+
+        //            string[] DiagnosisIDs = ds.Tables[0].Rows[0]["DiagnosisID"].ToString().Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+        //            for (int i = 0; DiagnosisIDs != null && i < DiagnosisIDs.Length; i++)
+        //            {
+        //                for (int j = 0; j < txtDiagnosis.Items.Count; j++)
+        //                {
+        //                    if (txtDiagnosis.Items[j].Value == DiagnosisIDs[i])
+        //                    {
+        //                        txtDiagnosis.Items[j].Selected = true; break;
+        //                    }
+        //                }
+        //            }
+        //            txtDiagnosisOther.Text = ds.Tables[0].Rows[0]["DiagnosisOther"].ToString();
+        //        }
+        //        if (HasDiagnosisID) { PanelDiagnosis.Visible = true; } else { PanelDiagnosis.Visible = false; }
+        //        if (ds.Tables[1].Rows.Count > 0)
+        //        {
+
+        //            txtPrint.Value = "<a target='_blank' href='/SessionRpt/CreateRpt.ashx?type=ndt_new&record=" + Request.QueryString["record"].ToString() + "' class='btn btn-primary'>Print</a>&nbsp;";
+        //            #region*****Movemmetn***
+        //            Multi_Movement_TypeOf_1.Checked = false; Multi_Movement_TypeOf_2.Checked = false;
+        //            if (ds.Tables[1].Rows[0]["Multi_Movement_TypeOf_Quality"].ToString().Equals(Multi_Movement_TypeOf_1.Text.Trim(), StringComparison.InvariantCultureIgnoreCase))
+        //            {
+        //                Multi_Movement_TypeOf_1.Checked = true;
+        //            }
+        //            if (ds.Tables[1].Rows[0]["Multi_Movement_TypeOf_Quality"].ToString().Equals(Multi_Movement_TypeOf_2.Text.Trim(), StringComparison.InvariantCultureIgnoreCase))
+        //            {
+        //                Multi_Movement_TypeOf_2.Checked = true;
+        //            }
+        //            Multi_Movement_Sagittal.Checked = false; Multi_Movement_Coronal.Checked = false; Multi_Movement_Frontal.Checked = false;
+
+        //            string movementType = ds.Tables[1].Rows[0]["Multi_Movement_Plane"].ToString().Trim();
+        //            if (movementType.Equals(Multi_Movement_Sagittal.Text.Trim(), StringComparison.InvariantCultureIgnoreCase))
+        //            {
+        //                Multi_Movement_Sagittal.Checked = true;
+        //            }
+        //            if (movementType.Equals(Multi_Movement_Coronal.Text.Trim(), StringComparison.InvariantCultureIgnoreCase))
+        //            {
+        //                Multi_Movement_Coronal.Checked = true;
+        //            }
+        //            if (movementType.Equals(Multi_Movement_Frontal.Text.Trim(), StringComparison.InvariantCultureIgnoreCase))
+        //            {
+        //                Multi_Movement_Frontal.Checked = true;
+        //            }
+
+        //            if (ds.Tables[1].Rows.Count > 0 && ds.Tables[1].Rows[0]["Multi_Movement_WeightShift"] != DBNull.Value)
+        //            {
+        //                string selectedValues = ds.Tables[1].Rows[0]["Multi_Movement_WeightShift"].ToString();
+
+        //                if (!string.IsNullOrEmpty(selectedValues))
+        //                {
+        //                    string[] values = selectedValues.Split(',');
+
+        //                    // Loop through CheckBoxList items and match with stored values
+        //                    foreach (ListItem item in Movement_WeightShift.Items)
+        //                    {
+        //                        if (values.Contains(item.Value.Trim()))
+        //                        {
+        //                            item.Selected = true;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            Movement_Balance_Maintain.Text = ds.Tables[1].Rows[0]["Multi_Movement_Bal_maintain"].ToString();
+        //            Movement_Balance_During.Text = ds.Tables[1].Rows[0]["Multi_Movement_BAl_during"].ToString();
+        //            Movement_Inertia.Text = ds.Tables[1].Rows[0]["Movement_Inertia"].ToString();
+        //            if (ds.Tables[1].Rows.Count > 0)
+        //            {
+        //                void BindCheckboxes(string columnName, params CheckBox[] checkboxes)
+        //                {
+        //                    if (ds.Tables[1].Rows[0][columnName] != DBNull.Value)
+        //                    {
+        //                        string positions = ds.Tables[1].Rows[0][columnName].ToString();
+        //                        if (!string.IsNullOrEmpty(positions))
+        //                        {
+        //                            string[] values = positions.Split(',');
+        //                            foreach (var checkbox in checkboxes)
+        //                            {
+        //                                checkbox.Checked = values.Contains(checkbox.Text.Trim());
+        //                            }
+        //                        }
+        //                    }
+        //                }
+
+        //                // Binding checkboxes for all posture parameters
+        //                BindCheckboxes("Multi_Movement_interlimb", Movement_Interlimb_SpineToShoulder, Movement_Interlimb_Scapulohumeral, Movement_Interlimb_Pelvifemoral, Movement_Interlimb_WithinUL, Movement_Interlimb_WithinLL);
+        //                BindCheckboxes("Multi_Movement_intralimb", Movement_Intralimb_LE, Movement_Intralimb_UE, Movement_Intralimb_Spine);
+        //                BindCheckboxes("Multi_Movement_overuse", chkLeanMuscle, chkLockingJoints, chkBroadBOS, chkGeneralPosture);
+        //                BindCheckboxes("UpperLimb_Movement", Movement_UpperLimb_Inner, Movement_UpperLimb_Mid, Movement_UpperLimb_Outer);
+        //                BindCheckboxes("LowerLimb_Movement", Movement_LowerLimb_Inner, Movement_LowerLimb_Mid, Movement_LowerLimb_Outer);
+        //                BindCheckboxes("CervicalSpine_Movement", Movement_CervicalSpine_Inner, Movement_CervicalSpine_Mid, Movement_CervicalSpine_Outer);
+        //                BindCheckboxes("ThoracicSpine_Movement", Movement_ThoracicSpine_Inner, Movement_ThoracicSpine_Mid, Movement_ThoracicSpine_Outer);
+        //                BindCheckboxes("Multi_Movement_statbilty", chkOveruseMomentum, chkIncreasedBOS, chkIncreasingPosturalTone);
+        //            }
+        //            Gene_obsr_comments_txt.Text = ds.Tables[1].Rows[0]["Gene_obsr_comments"].ToString();
+
+        //            #endregion
+
+        //            FA_GrossMotor_Ability.Text = ds.Tables[1].Rows[0]["FA_GrossMotor_Ability"].ToString();
+        //            FA_GrossMotor_Limit.Text = ds.Tables[1].Rows[0]["FA_GrossMotor_Limit"].ToString();
+        //            FA_FineMotor_Ability.Text = ds.Tables[1].Rows[0]["FA_FineMotor_Ability"].ToString();
+        //            FA_FineMotor_Limit.Text = ds.Tables[1].Rows[0]["FA_FineMotor_Limit"].ToString();
+        //            FA_Communication_Ability.Text = ds.Tables[1].Rows[0]["FA_Communication_Ability"].ToString();
+        //            FA_Communication_Limit.Text = ds.Tables[1].Rows[0]["FA_Communication_Limit"].ToString();
+        //            FA_Cognition_Ability.Text = ds.Tables[1].Rows[0]["FA_Cognition_Ability"].ToString();
+        //            FA_Cognition_Limit.Text = ds.Tables[1].Rows[0]["FA_Cognition_Limit"].ToString();
+        //            ParticipationAbility_GrossMotor.Text = ds.Tables[1].Rows[0]["ParticipationAbility_GrossMotor"].ToString();
+        //            ParticipationAbility_GrossMotor_Limit.Text = ds.Tables[1].Rows[0]["ParticipationAbility_GrossMotor_Limit"].ToString();
+        //            ParticipationAbility_FineMotor.Text = ds.Tables[1].Rows[0]["ParticipationAbility_FineMotor"].ToString();
+        //            ParticipationAbility_FineMotor_Limit.Text = ds.Tables[1].Rows[0]["ParticipationAbility_FineMotor_Limit"].ToString();
+        //            ParticipationAbility_Communication.Text = ds.Tables[1].Rows[0]["ParticipationAbility_Communication"].ToString();
+        //            ParticipationAbility_Communication_Limit.Text = ds.Tables[1].Rows[0]["ParticipationAbility_Communication_Limit"].ToString();
+        //            ParticipationAbility_Cognition.Text = ds.Tables[1].Rows[0]["ParticipationAbility_Cognition"].ToString();
+        //            ParticipationAbility_Cognition_Limit.Text = ds.Tables[1].Rows[0]["ParticipationAbility_Cognition_Limit"].ToString();
+        //            Contextual_Personal_Positive.Text = ds.Tables[1].Rows[0]["Contextual_Personal_Positive"].ToString();
+        //            Contextual_Personal_Negative.Text = ds.Tables[1].Rows[0]["Contextual_Personal_Negative"].ToString();
+        //            Contextual_Enviremental_Positive.Text = ds.Tables[1].Rows[0]["Contextual_Environmental_Positive"].ToString();
+        //            Contextual_Enviremental_Negative.Text = ds.Tables[1].Rows[0]["Contextual_Environmental_Negative"].ToString();
+
+        //            chkSoinePoor.Checked = ds.Tables[1].Rows[0]["txtSoinePoor"].ToString() == "Poor";
+        //            chkSoineFair.Checked = ds.Tables[1].Rows[0]["txtSoineFair"].ToString() == "Fair";
+        //            chkSoineGood.Checked = ds.Tables[1].Rows[0]["txtSoineGood"].ToString() == "Good";
+
+        //            chkScapuloPoor.Checked = ds.Tables[1].Rows[0]["txtScapuloPoor"].ToString() == "Poor";
+        //            chkScapuloFair.Checked = ds.Tables[1].Rows[0]["txtScapuloFair"].ToString() == "Fair";
+        //            chkScapuloGood.Checked = ds.Tables[1].Rows[0]["txtScapuloGood"].ToString() == "Good";
+
+        //            chkPelviPoor.Checked = ds.Tables[1].Rows[0]["txtPelviPoor"].ToString() == "Poor";
+        //            chkPelviFair.Checked = ds.Tables[1].Rows[0]["txtPelviFair"].ToString() == "Fair";
+        //            chkPelviGood.Checked = ds.Tables[1].Rows[0]["txtPelviGood"].ToString() == "Good";
+
+        //            chkWithinUlPoor.Checked = ds.Tables[1].Rows[0]["txtWithinUlPoor"].ToString() == "Poor";
+        //            chkWithinUlFair.Checked = ds.Tables[1].Rows[0]["txtWithinUlFair"].ToString() == "Fair";
+        //            chkWithinUlGood.Checked = ds.Tables[1].Rows[0]["txtWithinUlGood"].ToString() == "Good";
+
+        //            chkWithinLlPoor.Checked = ds.Tables[1].Rows[0]["txtWithinLlPoor"].ToString() == "Poor";
+        //            chkWithinLlFair.Checked = ds.Tables[1].Rows[0]["txtWithinLlFair"].ToString() == "Fair";
+        //            chkWithinLlGood.Checked = ds.Tables[1].Rows[0]["txtWithinLlGood"].ToString() == "Good";
+
+        //            #region ***Neurometer**
+        //            Neuromotor_Recruitment_Initial.Text = ds.Tables[1].Rows[0]["Neuromotor_Recruitment_Initial"].ToString();
+        //            Neuromotor_Recruitment_Sustainance.Text = ds.Tables[1].Rows[0]["Neuromotor_Recruitment_Sustainance"].ToString();
+        //            Neuromotor_Recruitment_Termination.Text = ds.Tables[1].Rows[0]["Neuromotor_Recruitment_Termination"].ToString();
+        //            Neuromotor_Recruitment_Control.Text = ds.Tables[1].Rows[0]["Neuromotor_Recruitment_Control"].ToString();
+        //            Neuromotor_Contraction_Initial.Text = ds.Tables[1].Rows[0]["Neuromotor_Contraction_Initial"].ToString();
+        //            Neuromotor_Contraction_Sustainance.Text = ds.Tables[1].Rows[0]["Neuromotor_Contraction_Sustainance"].ToString();
+        //            Neuromotor_Contraction_Termination.Text = ds.Tables[1].Rows[0]["Neuromotor_Contraction_Termination"].ToString();
+        //            Neuromotor_Contraction_Control.Text = ds.Tables[1].Rows[0]["Neuromotor_Contraction_Control"].ToString();
+        //            Neuromotor_Coactivation_Initial.Text = ds.Tables[1].Rows[0]["Neuromotor_Coactivation_Initial"].ToString();
+        //            Neuromotor_Coactivation_Sustainance.Text = ds.Tables[1].Rows[0]["Neuromotor_Coactivation_Sustainance"].ToString();
+        //            Neuromotor_Coactivation_Termination.Text = ds.Tables[1].Rows[0]["Neuromotor_Coactivation_Termination"].ToString();
+        //            Neuromotor_Coactivation_Control.Text = ds.Tables[1].Rows[0]["Neuromotor_Coactivation_Control"].ToString();
+        //            Neuromotor_Synergy_Initial.Text = ds.Tables[1].Rows[0]["Neuromotor_Synergy_Initial"].ToString();
+        //            Neuromotor_Synergy_Sustainance.Text = ds.Tables[1].Rows[0]["Neuromotor_Synergy_Sustainance"].ToString();
+        //            Neuromotor_Synergy_Termination.Text = ds.Tables[1].Rows[0]["Neuromotor_Synergy_Termination"].ToString();
+        //            Neuromotor_Synergy_Control.Text = ds.Tables[1].Rows[0]["Neuromotor_Synergy_Control"].ToString();
+        //            Neuromotor_Stiffness_Initial.Text = ds.Tables[1].Rows[0]["Neuromotor_Stiffness_Initial"].ToString();
+        //            Neuromotor_Stiffness_Sustainance.Text = ds.Tables[1].Rows[0]["Neuromotor_Stiffness_Sustainance"].ToString();
+        //            Neuromotor_Stiffness_Termination.Text = ds.Tables[1].Rows[0]["Neuromotor_Stiffness_Termination"].ToString();
+        //            Neuromotor_Stiffness_Control.Text = ds.Tables[1].Rows[0]["Neuromotor_Stiffness_Control"].ToString();
+        //            Neuromotor_Extraneous_Initial.Text = ds.Tables[1].Rows[0]["Neuromotor_Extraneous_Initial"].ToString();
+        //            Neuromotor_Extraneous_Sustainance.Text = ds.Tables[1].Rows[0]["Neuromotor_Extraneous_Sustainance"].ToString();
+        //            Neuromotor_Extraneous_Termination.Text = ds.Tables[1].Rows[0]["Neuromotor_Extraneous_Termination"].ToString();
+        //            Neuromotor_Extraneous_Control.Text = ds.Tables[1].Rows[0]["Neuromotor_Extraneous_Control"].ToString();
+
+        //            string SelectionMotorControl_Muscle = ds.Tables[1].Rows[0]["SelectionMotorControl_Muscle"].ToString();
+
+        //            Neurometer_Initialigy_initial.Text = ds.Tables[1].Rows[0]["Neurometer_Initialigy_initial"].ToString();
+        //            Neurometer_Initialigy_Sustainance.Text = ds.Tables[1].Rows[0]["Neurometer_Initialigy_Sustainance"].ToString();
+        //            Neurometer_Initialigy_Termination.Text = ds.Tables[1].Rows[0]["Neurometer_Initialigy_Termination"].ToString();
+        //            Neurometer_Initialigy_Control.Text = ds.Tables[1].Rows[0]["Neurometer_Initialigy_Control"].ToString();
+
+        //            if (SelectionMotorControl_Muscle.Length > 0)
+        //            {
+        //                List<SelectionMotorControl_Muscle> DL = new List<SelectionMotorControl_Muscle>();
+        //                try
+        //                {
+        //                    DL = JsonConvert.DeserializeObject<List<SelectionMotorControl_Muscle>>(SelectionMotorControl_Muscle);
+        //                }
+        //                catch
+        //                {
+        //                }
+        //                if (DL == null) { DL = new List<SelectionMotorControl_Muscle>(); }
+        //                int tmp = SelectionMotorControl_Muscle_size - DL.Count;
+        //                for (int i = 0; i < tmp; i++)
+        //                {
+        //                    DL.Add(new SelectionMotorControl_Muscle()
+        //                    {
+        //                        SR_NO = i + 1,
+        //                        MUSCLE = string.Empty,
+        //                        RIGHT = string.Empty,
+        //                        LEFT = string.Empty,
+        //                    });
+        //                }
+
+        //                for (int i = 0; i < DL.Count; i++)
+        //                {
+        //                    DL[i].SR_NO = (i + 1);
+        //                }
+        //                txtSelectionMotorControl_Muscle.DataSource = DL;
+        //                txtSelectionMotorControl_Muscle.DataBind();
+        //            }
+        //            string SelectionMotorControl_Denvers = ds.Tables[1].Rows[0]["SelectionMotorControl_Denvers"].ToString();
+        //            if (SelectionMotorControl_Denvers.Length > 0)
+        //            {
+        //                try
+        //                {
+        //                    List<dynamic> _selectionMotorControl_Denvers = JsonConvert.DeserializeObject<List<dynamic>>(SelectionMotorControl_Denvers);
+        //                    if (_selectionMotorControl_Denvers != null && _selectionMotorControl_Denvers.Count > 0)
+        //                    {
+        //                        for (int i = 0; i < _selectionMotorControl_Denvers.Count; i++)
+        //                        {
+        //                            dynamic _denver = _selectionMotorControl_Denvers[i];
+        //                            if (((string)_denver.n).Equals("gross", StringComparison.InvariantCultureIgnoreCase) && ((string)_denver.t).Length > 0)
+        //                            {
+        //                                SelectionMotorControl_Denvers_Gross.Text = ((string)_denver.t);
+        //                                // break;
+        //                            }
+        //                            if (((string)_denver.n).Equals("fine", StringComparison.InvariantCultureIgnoreCase) && ((string)_denver.t).Length > 0)
+        //                            {
+        //                                SelectionMotorControl_Denvers_Fine.Text = ((string)_denver.t);
+        //                                // break;
+        //                            }
+        //                            if (((string)_denver.n).Equals("communication", StringComparison.InvariantCultureIgnoreCase) && ((string)_denver.t).Length > 0)
+        //                            {
+        //                                SelectionMotorControl_Denvers_Communication.Text = ((string)_denver.t);
+        //                                //  break;
+        //                            }
+        //                            if (((string)_denver.n).Equals("cognition", StringComparison.InvariantCultureIgnoreCase) && ((string)_denver.t).Length > 0)
+        //                            {
+        //                                SelectionMotorControl_Denvers_Cognition.Text = ((string)_denver.t);
+        //                                // break;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                catch
+        //                {
+        //                }
+        //            }
+        //            SelectionMotorControl_GMFM.Text = ds.Tables[1].Rows[0]["SelectionMotorControl_GMFM"].ToString();
+        //            string SelectionMotorControl_MAS = ds.Tables[1].Rows[0]["SelectionMotorControl_MAS"].ToString();
+        //            if (SelectionMotorControl_MAS.Length > 0)
+        //            {
+        //                List<SelectionMotorControl_MAS> DL = new List<SelectionMotorControl_MAS>();
+        //                try
+        //                {
+        //                    DL = JsonConvert.DeserializeObject<List<SelectionMotorControl_MAS>>(SelectionMotorControl_MAS);
+        //                }
+        //                catch
+        //                {
+        //                }
+        //                if (DL == null) { DL = new List<SelectionMotorControl_MAS>(); }
+        //                int tmp = SelectionMotorControl_MAS_Size - DL.Count;
+        //                for (int i = 0; i < tmp; i++)
+        //                {
+        //                    DL.Add(new SelectionMotorControl_MAS()
+        //                    {
+        //                        SR_NO = i + 1,
+        //                        MUSCLE = string.Empty,
+        //                        MAS = string.Empty,
+        //                    });
+        //                }
+        //                for (int i = 0; i < DL.Count; i++)
+        //                {
+        //                    DL[i].SR_NO = (i + 1);
+        //                }
+        //                txtSelectionMotorControl_MAS.DataSource = DL;
+        //                txtSelectionMotorControl_MAS.DataBind();
+        //            }
+        //            SelectionMotorControl_Observation.Text = ds.Tables[1].Rows[0]["SelectionMotorControl_Observation"].ToString();
+        //            TheFourA_Arousal.Text = ds.Tables[1].Rows[0]["TheFourA_Arousal"].ToString();
+        //            TheFourA_Attention.Text = ds.Tables[1].Rows[0]["TheFourA_Attention"].ToString();
+        //            TheFourA_Affect.Text = ds.Tables[1].Rows[0]["TheFourA_Affect"].ToString();
+        //            TheFourA_Action.Text = ds.Tables[1].Rows[0]["TheFourA_Action"].ToString();
+        //            TheFourA_StateRegulation.Text = ds.Tables[1].Rows[0]["TheFourA_StateRegulation"].ToString();
+        //            #endregion
+        //            #region*****************Morphology**********************
+        //            Morphology_Height.Text = ds.Tables[1].Rows[0]["Morphology_Height"].ToString();
+        //            Morphology_Weight.Text = ds.Tables[1].Rows[0]["Morphology_Weight"].ToString();
+        //            Morphology_LimbLength.Text = ds.Tables[1].Rows[0]["Morphology_LimbLength"].ToString();
+        //            Morphology_LimbLeft.Text = ds.Tables[1].Rows[0]["Morphology_LimbLeft"].ToString();
+        //            Morphology_LimbRight.Text = ds.Tables[1].Rows[0]["Morphology_LimbRight"].ToString();
+        //            Morphology_ArmLength.Text = ds.Tables[1].Rows[0]["Morphology_ArmLength"].ToString();
+        //            Morphology_ArmLeft.Text = ds.Tables[1].Rows[0]["Morphology_ArmLeft"].ToString();
+        //            Morphology_ArmRight.Text = ds.Tables[1].Rows[0]["Morphology_ArmRight"].ToString();
+        //            Morphology_Head.Text = ds.Tables[1].Rows[0]["Morphology_Head"].ToString();
+        //            Morphology_Nipple.Text = ds.Tables[1].Rows[0]["Morphology_Nipple"].ToString();
+        //            Morphology_Waist.Text = ds.Tables[1].Rows[0]["Morphology_Waist"].ToString();
+
+        //            Morphology_GirthUpperLimb_Above_ElbowLevel1.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowLevel1"].ToString();
+        //            Morphology_GirthUpperLimb_Above_ElbowLevel2.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowLevel2"].ToString();
+        //            Morphology_GirthUpperLimb_Above_ElbowLevel3.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowLevel3"].ToString();
+        //            Morphology_GirthUpperLimb_Above_ElbowLeft1.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowLeft1"].ToString();
+        //            Morphology_GirthUpperLimb_Above_ElbowLeft2.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowLeft2"].ToString();
+        //            Morphology_GirthUpperLimb_Above_ElbowLeft3.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowLeft3"].ToString();
+        //            Morphology_GirthUpperLimb_Above_ElbowRight1.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowRight1"].ToString();
+        //            Morphology_GirthUpperLimb_Above_ElbowRight2.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowRight2"].ToString();
+        //            Morphology_GirthUpperLimb_Above_ElbowRight3.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Above_ElbowRight3"].ToString();
+        //            Morphology_GirthUpperLimb_At_ElbowLevel.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_At_ElbowLevel"].ToString();
+        //            Morphology_GirthUpperLimb_At_ElbowLeft.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_At_ElbowLeft"].ToString();
+        //            Morphology_GirthUpperLimb_At_ElbowRight.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_At_ElbowRight"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowLevel1.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowLevel1"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowLevel2.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowLevel2"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowLevel3.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowLevel3"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowLeft1.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowLeft1"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowLeft2.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowLeft2"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowLeft3.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowLeft3"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowRight1.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowRight1"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowRight2.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowRight2"].ToString();
+        //            Morphology_GirthUpperLimb_Below_ElbowRight3.Text = ds.Tables[1].Rows[0]["Morphology_GirthUpperLimb_Below_ElbowRight3"].ToString();
+
+        //            Morphology_GirthLowerLimb_Above_KneeLevel1.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeLevel1"].ToString();
+        //            Morphology_GirthLowerLimb_Above_KneeLevel2.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeLevel2"].ToString();
+        //            Morphology_GirthLowerLimb_Above_KneeLevel3.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeLevel3"].ToString();
+        //            Morphology_GirthLowerLimb_Above_KneeLeft1.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeLeft1"].ToString();
+        //            Morphology_GirthLowerLimb_Above_KneeLeft2.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeLeft2"].ToString();
+        //            Morphology_GirthLowerLimb_Above_KneeLeft3.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeLeft3"].ToString();
+        //            Morphology_GirthLowerLimb_Above_KneeRight1.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeRight1"].ToString();
+        //            Morphology_GirthLowerLimb_Above_KneeRight2.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeRight2"].ToString();
+        //            Morphology_GirthLowerLimb_Above_KneeRight3.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Above_KneeRight3"].ToString();
+        //            Morphology_GirthLowerLimb_At_KneeLevel.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_At_KneeLevel"].ToString();
+        //            Morphology_GirthLowerLimb_At_KneeLeft.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_At_KneeLeft"].ToString();
+        //            Morphology_GirthLowerLimb_At_KneeRight.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_At_KneeRight"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeLevel1.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeLevel1"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeLevel2.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeLevel2"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeLevel3.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeLevel3"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeLeft1.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeLeft1"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeLeft2.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeLeft2"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeLeft3.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeLeft3"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeRight1.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeRight1"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeRight2.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeRight2"].ToString();
+        //            Morphology_GirthLowerLimb_Below_KneeRight3.Text = ds.Tables[1].Rows[0]["Morphology_GirthLowerLimb_Below_KneeRight3"].ToString();
+        //            //Morphology_UpperLimbLevelRight_ABV.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbLevelRight_ABV"].ToString();
+        //            //Morphology_UpperLimbLevelLeft_ABV.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbLevelLeft_ABV"].ToString();
+        //            //Morphology_UpperLimbGirthRight_ABV.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbGirthRight_ABV"].ToString();
+        //            //Morphology_UpperLimbGirthLeft_ABV.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbGirthLeft_ABV"].ToString();
+        //            //Morphology_UpperLimbLevelRight_AT.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbLevelRight_AT"].ToString();
+        //            //Morphology_UpperLimbLevelLeft_AT.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbLevelLeft_AT"].ToString();
+        //            //Morphology_UpperLimbGirthRight_AT.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbGirthRight_AT"].ToString();
+        //            //Morphology_UpperLimbGirthLeft_AT.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbGirthLeft_AT"].ToString();
+        //            //Morphology_UpperLimbLevelRight_BLW.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbLevelRight_BLW"].ToString();
+        //            //Morphology_UpperLimbLevelLeft_BLW.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbLevelLeft_BLW"].ToString();
+        //            //Morphology_UpperLimbGirthRight_BLW.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbGirthRight_BLW"].ToString();
+        //            //Morphology_UpperLimbGirthLeft_BLW.Text = ds.Tables[1].Rows[0]["Morphology_UpperLimbGirthLeft_BLW"].ToString();
+        //            //Morphology_LowerLimbLevelRight_ABV.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbLevelRight_ABV"].ToString();
+        //            //Morphology_LowerLimbLevelLeft_ABV.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbLevelLeft_ABV"].ToString();
+        //            //Morphology_LowerLimbGirthRight_ABV.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbGirthRight_ABV"].ToString();
+        //            //Morphology_LowerLimbGirthLeft_ABV.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbGirthLeft_ABV"].ToString();
+        //            //Morphology_LowerLimbLevelRight_AT.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbLevelRight_AT"].ToString();
+        //            //Morphology_LowerLimbLevelLeft_AT.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbLevelLeft_AT"].ToString();
+        //            //Morphology_LowerLimbGirthRight_AT.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbGirthRight_AT"].ToString();
+        //            //Morphology_LowerLimbGirthLeft_AT.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbGirthLeft_AT"].ToString();
+        //            //Morphology_LowerLimbLevelRight_BLW.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbLevelRight_BLW"].ToString();
+        //            //Morphology_LowerLimbLevelLeft_BLW.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbLevelLeft_BLW"].ToString();
+        //            //Morphology_LowerLimbGirthRight_BLW.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbGirthRight_BLW"].ToString();
+        //            //Morphology_LowerLimbGirthLeft_BLW.Text = ds.Tables[1].Rows[0]["Morphology_LowerLimbGirthLeft_BLW"].ToString();
+        //            Morphology_OralMotorFactors.Text = ds.Tables[1].Rows[0]["Morphology_OralMotorFactors"].ToString();
+        //            //FunctionalActivities_GrossMotor.Text = ds.Tables[1].Rows[0]["FunctionalActivities_GrossMotor"].ToString();
+        //            //FunctionalActivities_HandFunction.Text = ds.Tables[1].Rows[0]["FunctionalActivities_HandFunction"].ToString();
+        //            //FunctionalActivities_FineMotor.Text = ds.Tables[1].Rows[0]["FunctionalActivities_FineMotor"].ToString();
+        //            #endregion
+        //            #region*****Denver****
+        //            TestMeassures_GrossMotor.Text = ds.Tables[1].Rows[0]["TestMeassures_GrossMotor"].ToString();
+        //            TestMeassures_FineMotor.Text = ds.Tables[1].Rows[0]["TestMeassures_FineMotor"].ToString();
+        //            TestMeassures_DenverLanguage.Text = ds.Tables[1].Rows[0]["TestMeassures_DenverLanguage"].ToString();
+        //            TestMeassures_DenverPersonal.Text = ds.Tables[1].Rows[0]["TestMeassures_DenverPersonal"].ToString();
+        //            Tests_cmt.Text = ds.Tables[1].Rows[0]["Tests_cmt"].ToString();
+        //            #endregion
+        //            #region**********sensory Profile******
+        //            General_Processing.Text = ds.Tables[1].Rows[0]["General_Processing"].ToString();
+        //            AUDITORY_Processing.Text = ds.Tables[1].Rows[0]["AUDITORY_Processing"].ToString();
+        //            VISUAL_Processing.Text = ds.Tables[1].Rows[0]["VISUAL_Processing"].ToString();
+        //            TOUCH_Processing.Text = ds.Tables[1].Rows[0]["TOUCH_Processing"].ToString();
+        //            MOVEMENT_Processing.Text = ds.Tables[1].Rows[0]["MOVEMENT_Processing"].ToString();
+        //            ORAL_Processing.Text = ds.Tables[1].Rows[0]["ORAL_Processing"].ToString();
+        //            Raw_score.Text = ds.Tables[1].Rows[0]["Raw_score"].ToString();
+
+
+        //            //Percentile_Range.Text = ds.Tables[1].Rows[0]["Percentile_Range"].ToString();
+        //            Total_rawscore.Text = ds.Tables[1].Rows[0]["Total_rawscore"].ToString();
+        //            Interpretation.Text = ds.Tables[1].Rows[0]["Interpretation"].ToString();
+        //            Comments_1.Text = ds.Tables[1].Rows[0]["Comments_1"].ToString();
+
+        //            //Score_seeking.Text = ds.Tables[1].Rows[0]["Score_seeking"].ToString();
+        //            //Score_Avoiding.Text = ds.Tables[1].Rows[0]["Score_Avoiding"].ToString();
+        //            //Score_sensitivity.Text = ds.Tables[1].Rows[0]["Score_sensitivity"].ToString();
+        //            //Score_Registration.Text = ds.Tables[1].Rows[0]["Score_Registration"].ToString();
+
+
+        //            SEEKING.SelectedValue = ds.Tables[1].Rows[0]["SEEKING"].ToString();
+        //            AVOIDING.SelectedValue = ds.Tables[1].Rows[0]["AVOIDING"].ToString();
+        //            SENSITIVITY_2.SelectedValue = ds.Tables[1].Rows[0]["SENSITIVITY_2"].ToString();
+        //            REGISTRATION.SelectedValue = ds.Tables[1].Rows[0]["REGISTRATION"].ToString();
+        //            GENERAL.SelectedValue = ds.Tables[1].Rows[0]["GENERAL"].ToString();
+        //            AUDITORY.SelectedValue = ds.Tables[1].Rows[0]["AUDITORY"].ToString();
+        //            VISUAL.SelectedValue = ds.Tables[1].Rows[0]["VISUAL"].ToString();
+        //            TOUCH.SelectedValue = ds.Tables[1].Rows[0]["TOUCH"].ToString();
+        //            MOVEMENT.SelectedValue = ds.Tables[1].Rows[0]["MOVEMENT"].ToString();
+        //            ORAL.SelectedValue = ds.Tables[1].Rows[0]["ORAL"].ToString();
+        //            BEHAVIORAL.SelectedValue = ds.Tables[1].Rows[0]["BEHAVIORAL"].ToString();
+        //            Comments_2.Text = ds.Tables[1].Rows[0]["Comments_2"].ToString();
+
+        //            //  ability_TOTAL.Text = ds.Tables[1].Rows[0]["ability_TOTAL"].ToString();
+        //            // ability_COMMENTS.Text = ds.Tables[1].Rows[0]["ability_COMMENTS"].ToString();
+
+        //            Score_seeking.Text = ds.Tables[1].Rows[0]["Score_seeking"].ToString();
+        //            Score_Avoiding.Text = ds.Tables[1].Rows[0]["Score_Avoiding"].ToString();
+        //            Score_sensitivity.Text = ds.Tables[1].Rows[0]["Score_sensitivity"].ToString();
+        //            Score_Registration.Text = ds.Tables[1].Rows[0]["Score_Registration"].ToString();
+        //            Score_general.Text = ds.Tables[1].Rows[0]["Score_general"].ToString();
+        //            Score_Auditory.Text = ds.Tables[1].Rows[0]["Score_Auditory"].ToString();
+        //            Score_visual.Text = ds.Tables[1].Rows[0]["Score_visual"].ToString();
+        //            Score_touch.Text = ds.Tables[1].Rows[0]["Score_touch"].ToString();
+        //            Score_movement.Text = ds.Tables[1].Rows[0]["Score_movement"].ToString();
+        //            Score_oral.Text = ds.Tables[1].Rows[0]["Score_oral"].ToString();
+        //            Score_behavioural.Text = ds.Tables[1].Rows[0]["Score_behavioural"].ToString();
+
+        //            Seeking_Seeker.SelectedValue = ds.Tables[1].Rows[0]["Seeking_Seeker"].ToString();
+        //            SPchild_Seeker.Text = ds.Tables[1].Rows[0]["SPchild_Seeker"].ToString();
+        //            Avoiding_Avoider.SelectedValue = ds.Tables[1].Rows[0]["Avoiding_Avoider"].ToString();
+        //            SPchild_Avoider.Text = ds.Tables[1].Rows[0]["SPchild_Avoider"].ToString();
+        //            Sensitivity_Sensor.SelectedValue = ds.Tables[1].Rows[0]["Sensitivity_Sensor"].ToString();
+        //            SPchild_Sensor.Text = ds.Tables[1].Rows[0]["SPchild_Sensor"].ToString();
+        //            Registration_Bystander.SelectedValue = ds.Tables[1].Rows[0]["Registration_Bystander"].ToString();
+        //            SPchild_Bystander.Text = ds.Tables[1].Rows[0]["SPchild_Bystander"].ToString();
+        //            Auditory_3.SelectedValue = ds.Tables[1].Rows[0]["Auditory_3"].ToString();
+        //            SPchild_Auditory_3.Text = ds.Tables[1].Rows[0]["SPchild_Auditory_3"].ToString();
+        //            Visual_3.SelectedValue = ds.Tables[1].Rows[0]["Visual_3"].ToString();
+        //            SPchild_Visual_3.Text = ds.Tables[1].Rows[0]["SPchild_Visual_3"].ToString();
+        //            Touch_3.SelectedValue = ds.Tables[1].Rows[0]["Touch_3"].ToString();
+        //            SPchild_Touch_3.Text = ds.Tables[1].Rows[0]["SPchild_Touch_3"].ToString();
+        //            Movement_3.SelectedValue = ds.Tables[1].Rows[0]["Movement_3"].ToString();
+        //            SPchild_Movement_3.Text = ds.Tables[1].Rows[0]["SPchild_Movement_3"].ToString();
+        //            Body_position.SelectedValue = ds.Tables[1].Rows[0]["Body_position"].ToString();
+        //            SPchild_Body_position.Text = ds.Tables[1].Rows[0]["SPchild_Body_position"].ToString();
+        //            Oral_3.SelectedValue = ds.Tables[1].Rows[0]["Oral_3"].ToString();
+        //            SPchild_Oral_3.Text = ds.Tables[1].Rows[0]["SPchild_Oral_3"].ToString();
+        //            Conduct_3.SelectedValue = ds.Tables[1].Rows[0]["Conduct_3"].ToString();
+        //            SPchild_Conduct_3.Text = ds.Tables[1].Rows[0]["SPchild_Conduct_3"].ToString();
+        //            Social_emotional.SelectedValue = ds.Tables[1].Rows[0]["Social_emotional"].ToString();
+        //            SPchild_Social_emotional.Text = ds.Tables[1].Rows[0]["SPchild_Social_emotional"].ToString();
+        //            Attentional_3.SelectedValue = ds.Tables[1].Rows[0]["Attentional_3"].ToString();
+        //            SPchild_Attentional_3.Text = ds.Tables[1].Rows[0]["SPchild_Attentional_3"].ToString();
+
+
+        //            Comments_3.Text = ds.Tables[1].Rows[0]["Comments_3"].ToString();
+
+        //            SPAdult_Low_Registration.Text = ds.Tables[1].Rows[0]["SPAdult_Low_Registration"].ToString();
+        //            SPAdult_Sensory_seeking.Text = ds.Tables[1].Rows[0]["SPAdult_Sensory_seeking"].ToString();
+        //            SPAdult_Sensory_Sensitivity.Text = ds.Tables[1].Rows[0]["SPAdult_Sensory_Sensitivity"].ToString();
+        //            SPAdult_Sensory_Avoiding.Text = ds.Tables[1].Rows[0]["SPAdult_Sensory_Avoiding"].ToString();
+
+
+
+        //            Low_Registration.SelectedValue = ds.Tables[1].Rows[0]["Low_Registration"].ToString();
+        //            SP_Low_Registration64.Text = ds.Tables[1].Rows[0]["SP_Low_Registration64"].ToString();
+        //            Sensory_seeking.SelectedValue = ds.Tables[1].Rows[0]["Sensory_seeking"].ToString();
+        //            SP_Sensory_seeking_64.Text = ds.Tables[1].Rows[0]["SP_Sensory_seeking_64"].ToString();
+        //            Sensory_Sensitivity.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Sensitivity"].ToString();
+        //            SP_Sensory_Sensitivity64.Text = ds.Tables[1].Rows[0]["SP_Sensory_Sensitivity64"].ToString();
+        //            Sensory_Avoiding.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Avoiding"].ToString();
+        //            SP_Sensory_Avoiding64.Text = ds.Tables[1].Rows[0]["SP_Sensory_Avoiding64"].ToString();
+        //            Comments_4.Text = ds.Tables[1].Rows[0]["Comments_4"].ToString();
+
+
+
+        //            Low_Registration_5.SelectedValue = ds.Tables[1].Rows[0]["Low_Registration_5"].ToString();
+        //            Sensory_seeking_5.SelectedValue = ds.Tables[1].Rows[0]["Sensory_seeking_5"].ToString();
+        //            Sensory_Sensitivity_5.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Sensitivity_5"].ToString();
+        //            Sensory_Avoiding_5.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Avoiding_5"].ToString();
+        //            Comments_5.Text = ds.Tables[1].Rows[0]["Comments_5"].ToString();
+
+        //            Older_Low_Registration.Text = ds.Tables[1].Rows[0]["Older_Low_Registration"].ToString();
+        //            Older_Sensory_seeking.Text = ds.Tables[1].Rows[0]["Older_Sensory_seeking"].ToString();
+        //            Older_Sensory_Sensitivity.Text = ds.Tables[1].Rows[0]["Older_Sensory_Sensitivity"].ToString();
+        //            Older_Sensory_Avoiding.Text = ds.Tables[1].Rows[0]["Older_Sensory_Avoiding"].ToString();
+
+
+        //            Low_Registration_6.SelectedValue = ds.Tables[1].Rows[0]["Low_Registration_6"].ToString();
+        //            Sensory_seeking_6.SelectedValue = ds.Tables[1].Rows[0]["Sensory_seeking_6"].ToString();
+        //            Sensory_Sensitivity_6.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Sensitivity_6"].ToString();
+        //            Sensory_Avoiding_6.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Avoiding_6"].ToString();
+        //            Comments_6.Text = ds.Tables[1].Rows[0]["Comments_6"].ToString();
+        //            #endregion
+        //            #region*****MutisystemPosture***
+        //            if (ds.Tables[1].Rows.Count > 0 && ds.Tables[1].Rows[0]["Multi_posture_head"] != DBNull.Value)
+        //            {
+        //                string position_head = ds.Tables[1].Rows[0]["Multi_posture_head"].ToString();
+        //                if (!string.IsNullOrEmpty(position_head))
+        //                {
+        //                    string[] values = position_head.Split(',');
+        //                    chkHead_Forward.Checked = values.Contains("ForwardHead");
+        //                    chkHead_Neutral.Checked = values.Contains("Neutral");
+        //                    chkHead_PlagiocephalyRight.Checked = values.Contains("PlagiocephalyRight");
+        //                    chkHead_PlagiocephalyLeft.Checked = values.Contains("PlagiocephalyLeft");
+        //                    chkHead_FrontalBossing.Checked = values.Contains("FrontalBossing");
+        //                }
+        //            }
+        //            if (ds.Tables[1].Rows.Count > 0 && ds.Tables[1].Rows[0]["Multi_posture_elbow"] != DBNull.Value)
+        //            {
+        //                string position_elbow = ds.Tables[1].Rows[0]["Multi_posture_elbow"].ToString();
+        //                if (!string.IsNullOrEmpty(position_elbow))
+        //                {
+        //                    string[] values = position_elbow.Split(',');
+        //                    chkElbow_BL.Checked = values.Contains("B/L");
+        //                    chkElbow_Right.Checked = values.Contains("Right");
+        //                    chkElbow_Left.Checked = values.Contains("Left");
+        //                    chkElbow_Flexed.Checked = values.Contains("Flexed");
+        //                    chkElbow_Extended.Checked = values.Contains("Extended");
+        //                    chkElbow_Neutral.Checked = values.Contains("Neutral");
+        //                }
+        //            }
+
+        //            if (ds.Tables[1].Rows.Count > 0)
+        //            {
+        //                void BindCheckboxes(string columnName, params CheckBox[] checkboxes)
+        //                {
+        //                    if (ds.Tables[1].Rows[0][columnName] != DBNull.Value)
+        //                    {
+        //                        string positions = ds.Tables[1].Rows[0][columnName].ToString();
+        //                        if (!string.IsNullOrEmpty(positions))
+        //                        {
+        //                            string[] values = positions.Split(',');
+        //                            foreach (var checkbox in checkboxes)
+        //                            {
+        //                                checkbox.Checked = values.Contains(checkbox.Text.Trim());
+        //                            }
+        //                        }
+        //                    }
+        //                }
+
+        //                // Binding checkboxes for all posture parameters
+        //                BindCheckboxes("Multi_posture_forarm", chkForearm_BL, chkForearm_Right, chkForearm_Left, chkForearm_Supinated, chkForearm_Pronated, chkForearm_Neutral);
+        //                BindCheckboxes("Multi_posture_neck", chkNeck_BL, chkNeck_Right, chkNeck_Left, chkNeck_LateralTilt, chkNeck_Hyperextended, chkNeck_Flexed, chkNeck_ChinTuck, chkNeck_Neutral);
+        //                BindCheckboxes("Multi_posture_Shoulder", chkShoulder_BL, chkShoulder_Right, chkShoulder_Left, chkShoulder_InternallyRotated, chkShoulder_ExternallyRotated, chkShoulder_Elevated, chkShoulder_Depressed, chkShoulder_Protracted, chkShoulder_Retracted, chkShoulder_Abducted, chkShoulder_Adducted, chkShoulder_Neutral);
+        //                BindCheckboxes("Multi_posture_scapulae", chkScapulae_BL, chkScapulae_Right, chkScapulae_Left, chkScapulae_Protracted, chkScapulae_Retracted, chkScapulae_Abducted, chkScapulae_Adducted, chkScapulae_Elevated, chkScapulae_Depressed, chkScapulae_Winging, chkScapulae_Neutral);
+        //                BindCheckboxes("Multi_posture_wrist", chkWrist_BL, chkWrist_Right, chkWrist_Left, chkWrist_Flexed, chkWrist_Extended);
+        //                BindCheckboxes("Multi_posture_hand", chkHand_Fist, chkHand_BL, chkHand_Right, chkHand_Left, chkHand_Neutral);
+        //                BindCheckboxes("Multi_posture_finger", chkFingers_BL, chkFingers_Right, chkFingers_Left, chkFingers_Flexed, chkFingers_Extended, chkFingers_Neutral);
+        //                BindCheckboxes("Multi_posture_thumb", chkThumb_BL, chkThumb_Right, chkThumb_Left, chkThumb_Adducted, chkThumb_Abducted, chkThumb_Neutral);
+        //                BindCheckboxes("Multi_posture_thoracicspine", chkThoracicSpine_Rounded, chkThoracicSpine_Hyperextended, chkThoracicSpine_LaterallyFlexed, chkThoracicSpine_Neutral);
+        //                BindCheckboxes("Multi_posture_lumbarspine", chkLumbarSpine_Flattened, chkLumbarSpine_Hyperextended, chkLumbarSpine_Neutral);
+        //                BindCheckboxes("Multi_posture_pelvis", chkPelvis_Neutral, chkPelvis_AnteriorTilted, chkPelvis_PosteriorTilted);
+        //                BindCheckboxes("Multi_posture_hips", chkHips_BL, chkHips_Right, chkHips_Left, chkHips_LaterallyRotated, chkHips_Abducted, chkHips_InternallyRotated, chkHips_Adducted, chkHips_Flexed, chkHips_Neutral);
+        //                BindCheckboxes("Multi_posture_knees", chkKnees_BL, chkKnees_Hyperextended, chkKnees_Flexed, chkKnees_Neutral);
+        //                BindCheckboxes("Multi_posture_ankle", chkAnkle_BL, chkAnkle_Plantarflexed, chkAnkle_Dorsiflexed, chkAnkle_Inverted, chkAnkle_Everted, chkAnkle_Neutral);
+        //                BindCheckboxes("Multi_posture_feet", chkFeet_BL, chkFeet_Right, chkFeet_Left, chkFeet_Pronated, chkFeet_Supinated, chkFeet_Neutral);
+        //                BindCheckboxes("Multi_posture_toes", chkToes_BL, chkToes_Right, chkToes_Left, chkToes_Curled, chkToes_Extended, chkToes_Neutral);
+        //                BindCheckboxes("Multi_posture_bos", chkBOS_Narrow, chkBOS_Wide);
+        //                BindCheckboxes("Multi_posture_stabiltymethod", chkStability_PosturalTone, chkStability_LockingJoints, chkStability_BroadeningBOS);
+        //                BindCheckboxes("Multi_posture_hand", chkHand_Fist, chkHand_BL, chkHand_Right, chkHand_Left);
+
+        //            }
+        //            txtCOM_COG.Text = ds.Tables[1].Rows[0]["Multi_posture_com_cog"].ToString();
+        //            //txtRight.Text = ds.Tables[1].Rows[0]["Multi_posture_Alligmnet_right"].ToString();
+        //            //txtLeft.Text = ds.Tables[1].Rows[0]["Multi_posture_headAlligmnet_left"].ToString();
+        //            string alignmentType = ds.Tables[1].Rows[0]["Multi_posture_headAlignment_AlignmentType"].ToString();
+
+        //            chkSymmetric.Checked = alignmentType.Equals("Symmetric", StringComparison.OrdinalIgnoreCase);
+        //            chkAsymmetric.Checked = alignmentType.Equals("Asymmetric", StringComparison.OrdinalIgnoreCase);
+        //            txtCheeks.Text = ds.Tables[1].Rows[0]["Multi_posture_cheeks"].ToString();
+        //            txtChin.Text = ds.Tables[1].Rows[0]["Multi_posture_chin"].ToString();
+        //            txtTeeth.Text = ds.Tables[1].Rows[0]["Multi_posture_teeth"].ToString();
+        //            txtTongue.Text = ds.Tables[1].Rows[0]["Multi_posture_toungh"].ToString();
+        //            txtMouth.Text = ds.Tables[1].Rows[0]["Multi_posture_mouth"].ToString();
+        //            txtLips.Text = ds.Tables[1].Rows[0]["Multi_posture_lips"].ToString();
+        //            txtStability_Comments.Text = ds.Tables[1].Rows[0]["Multi_posture_Stability"].ToString();
+        //            txtAnticipatoryControl.Text = ds.Tables[1].Rows[0]["Multi_posture_anticipatory"].ToString();
+        //            txtPosturalCounterBalance.Text = ds.Tables[1].Rows[0]["Multi_posture_postural"].ToString();
+        //            Posture_Gen_Ribcage.Text = ds.Tables[1].Rows[0]["Multi_posture_ribcage"].ToString();
+
+        //            #endregion
+        //            #region****ability checklist***
+        //            Session["Ability"] = ds.Tables[1];
+        //            ability_TOTAL.Text = ds.Tables[1].Rows[0]["ability_TOTAL"].ToString();
+        //            ability_COMMENTS.Text = ds.Tables[1].Rows[0]["ability_COMMENTS"].ToString();
+        //            #endregion
+        //            #region**ages and stages***
+        //            Session["AgeState"] = ds.Tables[1];
+
+        //            score_Communication_2.Text = ds.Tables[1].Rows[0]["score_Communication_2"].ToString();
+        //            Inter_Communication_2.Text = ds.Tables[1].Rows[0]["Inter_Communication_2"].ToString();
+        //            GROSS_2.Text = ds.Tables[1].Rows[0]["GROSS_2"].ToString();
+        //            inter_Gross_2.Text = ds.Tables[1].Rows[0]["inter_Gross_2"].ToString();
+        //            FINE_2.Text = ds.Tables[1].Rows[0]["FINE_2"].ToString();
+        //            inter_FINE_2.Text = ds.Tables[1].Rows[0]["inter_FINE_2"].ToString();
+        //            PROBLEM_2.Text = ds.Tables[1].Rows[0]["PROBLEM_2"].ToString();
+        //            inter_PROBLEM_2.Text = ds.Tables[1].Rows[0]["inter_PROBLEM_2"].ToString();
+        //            PERSONAL_2.Text = ds.Tables[1].Rows[0]["PERSONAL_2"].ToString();
+        //            inter_PERSONAL_2.Text = ds.Tables[1].Rows[0]["inter_PERSONAL_2"].ToString();
+
+        //            Low_Registration_5.SelectedValue = ds.Tables[1].Rows[0]["Low_Registration_5"].ToString();
+        //            Sensory_seeking_5.SelectedValue = ds.Tables[1].Rows[0]["Sensory_seeking_5"].ToString();
+        //            Sensory_Sensitivity_5.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Sensitivity_5"].ToString();
+        //            Sensory_Avoiding_5.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Avoiding_5"].ToString();
+        //            Comments_5.Text = ds.Tables[1].Rows[0]["Comments_5"].ToString();
+
+        //            Older_Low_Registration.Text = ds.Tables[1].Rows[0]["Older_Low_Registration"].ToString();
+        //            Older_Sensory_seeking.Text = ds.Tables[1].Rows[0]["Older_Sensory_seeking"].ToString();
+        //            Older_Sensory_Sensitivity.Text = ds.Tables[1].Rows[0]["Older_Sensory_Sensitivity"].ToString();
+        //            Older_Sensory_Avoiding.Text = ds.Tables[1].Rows[0]["Older_Sensory_Avoiding"].ToString();
+
+
+        //            Low_Registration_6.SelectedValue = ds.Tables[1].Rows[0]["Low_Registration_6"].ToString();
+        //            Sensory_seeking_6.SelectedValue = ds.Tables[1].Rows[0]["Sensory_seeking_6"].ToString();
+        //            Sensory_Sensitivity_6.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Sensitivity_6"].ToString();
+        //            Sensory_Avoiding_6.SelectedValue = ds.Tables[1].Rows[0]["Sensory_Avoiding_6"].ToString();
+        //            Comments_6.Text = ds.Tables[1].Rows[0]["Comments_6"].ToString();
+
+        //            Comm_3.Text = ds.Tables[1].Rows[0]["Comm_3"].ToString();
+        //            inter_3.Text = ds.Tables[1].Rows[0]["inter_3"].ToString();
+        //            GROSS_3.Text = ds.Tables[1].Rows[0]["GROSS_3"].ToString();
+        //            GROSS_inter_3.Text = ds.Tables[1].Rows[0]["GROSS_inter_3"].ToString();
+        //            FINE_3.Text = ds.Tables[1].Rows[0]["FINE_3"].ToString();
+        //            PROBLEM_3.Text = ds.Tables[1].Rows[0]["PROBLEM_3"].ToString();
+        //            FINE_inter_3.Text = ds.Tables[1].Rows[0]["FINE_inter_3"].ToString();
+        //            PROBLEM_inter_3.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_3"].ToString();
+        //            PERSONAL_3.Text = ds.Tables[1].Rows[0]["PERSONAL_3"].ToString();
+        //            PERSONAL_inter_3.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_3"].ToString();
+        //            Communication_6.Text = ds.Tables[1].Rows[0]["Communication_6"].ToString();
+        //            comm_inter_6.Text = ds.Tables[1].Rows[0]["comm_inter_6"].ToString();
+        //            GROSS_6.Text = ds.Tables[1].Rows[0]["GROSS_6"].ToString();
+        //            GROSS_inter_6.Text = ds.Tables[1].Rows[0]["GROSS_inter_6"].ToString();
+        //            FINE_6.Text = ds.Tables[1].Rows[0]["FINE_6"].ToString();
+        //            FINE_inter_6.Text = ds.Tables[1].Rows[0]["FINE_inter_6"].ToString();
+        //            PROBLEM_6.Text = ds.Tables[1].Rows[0]["PROBLEM_6"].ToString();
+        //            PROBLEM_inter_6.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_6"].ToString();
+        //            PERSONAL_6.Text = ds.Tables[1].Rows[0]["PERSONAL_6"].ToString();
+        //            PERSONAL_inter_6.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_6"].ToString();
+        //            comm_7.Text = ds.Tables[1].Rows[0]["comm_7"].ToString();
+        //            inter_7.Text = ds.Tables[1].Rows[0]["inter_7"].ToString();
+        //            GROSS_7.Text = ds.Tables[1].Rows[0]["GROSS_7"].ToString();
+        //            GROSS_inter_7.Text = ds.Tables[1].Rows[0]["GROSS_inter_7"].ToString();
+        //            FINE_7.Text = ds.Tables[1].Rows[0]["FINE_7"].ToString();
+        //            FINE_inter_7.Text = ds.Tables[1].Rows[0]["FINE_inter_7"].ToString();
+        //            PROBLEM_7.Text = ds.Tables[1].Rows[0]["PROBLEM_7"].ToString();
+        //            PROBLEM_inter_7.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_7"].ToString();
+        //            PERSONAL_7.Text = ds.Tables[1].Rows[0]["PERSONAL_7"].ToString();
+        //            PERSONAL_inter_7.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_7"].ToString();
+        //            comm_9.Text = ds.Tables[1].Rows[0]["comm_9"].ToString();
+        //            inter_9.Text = ds.Tables[1].Rows[0]["inter_9"].ToString();
+        //            GROSS_9.Text = ds.Tables[1].Rows[0]["GROSS_9"].ToString();
+        //            GROSS_inter_9.Text = ds.Tables[1].Rows[0]["GROSS_inter_9"].ToString();
+        //            FINE_9.Text = ds.Tables[1].Rows[0]["FINE_9"].ToString();
+        //            FINE_inter_9.Text = ds.Tables[1].Rows[0]["FINE_inter_9"].ToString();
+        //            PROBLEM_9.Text = ds.Tables[1].Rows[0]["PROBLEM_9"].ToString();
+        //            PROBLEM_inter_9.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_9"].ToString();
+        //            PERSONAL_9.Text = ds.Tables[1].Rows[0]["PERSONAL_9"].ToString();
+        //            PERSONAL_inter_9.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_9"].ToString();
+        //            comm_10.Text = ds.Tables[1].Rows[0]["comm_10"].ToString();
+        //            inter_10.Text = ds.Tables[1].Rows[0]["inter_10"].ToString();
+        //            GROSS_10.Text = ds.Tables[1].Rows[0]["GROSS_10"].ToString();
+        //            GROSS_inter_10.Text = ds.Tables[1].Rows[0]["GROSS_inter_10"].ToString();
+        //            FINE_10.Text = ds.Tables[1].Rows[0]["FINE_10"].ToString();
+        //            FINE_inter_10.Text = ds.Tables[1].Rows[0]["FINE_inter_10"].ToString();
+        //            PROBLEM_10.Text = ds.Tables[1].Rows[0]["PROBLEM_10"].ToString();
+        //            PROBLEM_inter_10.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_10"].ToString();
+        //            PERSONAL_10.Text = ds.Tables[1].Rows[0]["PERSONAL_10"].ToString();
+        //            PERSONAL_inter_10.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_10"].ToString();
+        //            comm_11.Text = ds.Tables[1].Rows[0]["comm_11"].ToString();
+        //            inter_11.Text = ds.Tables[1].Rows[0]["inter_11"].ToString();
+        //            GROSS_11.Text = ds.Tables[1].Rows[0]["GROSS_11"].ToString();
+        //            GROSS_inter_11.Text = ds.Tables[1].Rows[0]["GROSS_inter_11"].ToString();
+        //            FINE_11.Text = ds.Tables[1].Rows[0]["FINE_11"].ToString();
+        //            FINE_inter_11.Text = ds.Tables[1].Rows[0]["FINE_inter_11"].ToString();
+        //            PROBLEM_11.Text = ds.Tables[1].Rows[0]["PROBLEM_11"].ToString();
+        //            PROBLEM_inter_11.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_11"].ToString();
+        //            PERSONAL_11.Text = ds.Tables[1].Rows[0]["PERSONAL_11"].ToString();
+        //            PERSONAL_inter_11.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_11"].ToString();
+        //            comm_13.Text = ds.Tables[1].Rows[0]["comm_13"].ToString();
+        //            inter_13.Text = ds.Tables[1].Rows[0]["inter_13"].ToString();
+        //            GROSS_13.Text = ds.Tables[1].Rows[0]["GROSS_13"].ToString();
+        //            GROSS_inter_13.Text = ds.Tables[1].Rows[0]["GROSS_inter_13"].ToString();
+        //            FINE_13.Text = ds.Tables[1].Rows[0]["FINE_13"].ToString();
+        //            FINE_inter_13.Text = ds.Tables[1].Rows[0]["FINE_inter_13"].ToString();
+        //            PROBLEM_13.Text = ds.Tables[1].Rows[0]["PROBLEM_13"].ToString();
+        //            PROBLEM_inter_13.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_13"].ToString();
+        //            PERSONAL_13.Text = ds.Tables[1].Rows[0]["PERSONAL_13"].ToString();
+        //            PERSONAL_inter_13.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_13"].ToString();
+        //            comm_15.Text = ds.Tables[1].Rows[0]["comm_15"].ToString();
+        //            inter_15.Text = ds.Tables[1].Rows[0]["inter_15"].ToString();
+        //            GROSS_15.Text = ds.Tables[1].Rows[0]["GROSS_15"].ToString();
+        //            GROSS_inter_15.Text = ds.Tables[1].Rows[0]["GROSS_inter_15"].ToString();
+        //            FINE_15.Text = ds.Tables[1].Rows[0]["FINE_15"].ToString();
+        //            FINE_inter_15.Text = ds.Tables[1].Rows[0]["FINE_inter_15"].ToString();
+        //            PROBLEM_15.Text = ds.Tables[1].Rows[0]["PROBLEM_15"].ToString();
+        //            PROBLEM_inter_15.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_15"].ToString();
+        //            PERSONAL_15.Text = ds.Tables[1].Rows[0]["PERSONAL_15"].ToString();
+        //            PERSONAL_inter_15.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_15"].ToString();
+        //            comm_17.Text = ds.Tables[1].Rows[0]["comm_17"].ToString();
+        //            inter_17.Text = ds.Tables[1].Rows[0]["inter_17"].ToString();
+        //            GROSS_17.Text = ds.Tables[1].Rows[0]["GROSS_17"].ToString();
+        //            GROSS_inter_17.Text = ds.Tables[1].Rows[0]["GROSS_inter_17"].ToString();
+        //            FINE_17.Text = ds.Tables[1].Rows[0]["FINE_17"].ToString();
+        //            FINE_inter_17.Text = ds.Tables[1].Rows[0]["FINE_inter_17"].ToString();
+        //            PROBLEM_17.Text = ds.Tables[1].Rows[0]["PROBLEM_17"].ToString();
+        //            PROBLEM_inter_17.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_17"].ToString();
+        //            PERSONAL_17.Text = ds.Tables[1].Rows[0]["PERSONAL_17"].ToString();
+        //            PERSONAL_inter_17.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_17"].ToString();
+        //            comm_19.Text = ds.Tables[1].Rows[0]["comm_19"].ToString();
+        //            inter_19.Text = ds.Tables[1].Rows[0]["inter_19"].ToString();
+        //            GROSS_19.Text = ds.Tables[1].Rows[0]["GROSS_19"].ToString();
+        //            GROSS_inter_19.Text = ds.Tables[1].Rows[0]["GROSS_inter_19"].ToString();
+        //            FINE_19.Text = ds.Tables[1].Rows[0]["FINE_19"].ToString();
+        //            FINE_inter_19.Text = ds.Tables[1].Rows[0]["FINE_inter_19"].ToString();
+        //            PROBLEM_19.Text = ds.Tables[1].Rows[0]["PROBLEM_19"].ToString();
+        //            PROBLEM_inter_19.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_19"].ToString();
+        //            PERSONAL_19.Text = ds.Tables[1].Rows[0]["PERSONAL_19"].ToString();
+        //            PERSONAL_inter_19.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_19"].ToString();
+        //            comm_21.Text = ds.Tables[1].Rows[0]["comm_21"].ToString();
+        //            inter_21.Text = ds.Tables[1].Rows[0]["inter_21"].ToString();
+        //            GROSS_21.Text = ds.Tables[1].Rows[0]["GROSS_21"].ToString();
+        //            GROSS_inter_21.Text = ds.Tables[1].Rows[0]["GROSS_inter_21"].ToString();
+        //            FINE_21.Text = ds.Tables[1].Rows[0]["FINE_21"].ToString();
+        //            FINE_inter_21.Text = ds.Tables[1].Rows[0]["FINE_inter_21"].ToString();
+        //            PROBLEM_21.Text = ds.Tables[1].Rows[0]["PROBLEM_21"].ToString();
+        //            PROBLEM_inter_21.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_21"].ToString();
+        //            PERSONAL_21.Text = ds.Tables[1].Rows[0]["PERSONAL_21"].ToString();
+        //            PERSONAL_inter_21.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_21"].ToString();
+        //            comm_23.Text = ds.Tables[1].Rows[0]["comm_23"].ToString();
+        //            inter_23.Text = ds.Tables[1].Rows[0]["inter_23"].ToString();
+        //            GROSS_23.Text = ds.Tables[1].Rows[0]["GROSS_23"].ToString();
+        //            GROSS_inter_23.Text = ds.Tables[1].Rows[0]["GROSS_inter_23"].ToString();
+        //            FINE_23.Text = ds.Tables[1].Rows[0]["FINE_23"].ToString();
+        //            FINE_inter_23.Text = ds.Tables[1].Rows[0]["FINE_inter_23"].ToString();
+        //            PROBLEM_23.Text = ds.Tables[1].Rows[0]["PROBLEM_23"].ToString();
+        //            PROBLEM_inter_23.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_23"].ToString();
+        //            PERSONAL_23.Text = ds.Tables[1].Rows[0]["PERSONAL_23"].ToString();
+        //            PERSONAL_inter_23.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_23"].ToString();
+        //            comm_25.Text = ds.Tables[1].Rows[0]["comm_25"].ToString();
+        //            inter_25.Text = ds.Tables[1].Rows[0]["inter_25"].ToString();
+        //            GROSS_25.Text = ds.Tables[1].Rows[0]["GROSS_25"].ToString();
+        //            GROSS_inter_25.Text = ds.Tables[1].Rows[0]["GROSS_inter_25"].ToString();
+        //            FINE_25.Text = ds.Tables[1].Rows[0]["FINE_25"].ToString();
+        //            FINE_inter_25.Text = ds.Tables[1].Rows[0]["FINE_inter_25"].ToString();
+        //            PROBLEM_25.Text = ds.Tables[1].Rows[0]["PROBLEM_25"].ToString();
+        //            PROBLEM_inter_25.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_25"].ToString();
+        //            PERSONAL_25.Text = ds.Tables[1].Rows[0]["PERSONAL_25"].ToString();
+        //            PERSONAL_inter_25.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_25"].ToString();
+        //            comm_28.Text = ds.Tables[1].Rows[0]["comm_28"].ToString();
+        //            inter_28.Text = ds.Tables[1].Rows[0]["inter_28"].ToString();
+        //            GROSS_28.Text = ds.Tables[1].Rows[0]["GROSS_28"].ToString();
+        //            GROSS_inter_28.Text = ds.Tables[1].Rows[0]["GROSS_inter_28"].ToString();
+        //            FINE_28.Text = ds.Tables[1].Rows[0]["FINE_28"].ToString();
+        //            FINE_inter_28.Text = ds.Tables[1].Rows[0]["FINE_inter_28"].ToString();
+        //            PROBLEM_28.Text = ds.Tables[1].Rows[0]["PROBLEM_28"].ToString();
+        //            PROBLEM_inter_28.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_28"].ToString();
+        //            PERSONAL_28.Text = ds.Tables[1].Rows[0]["PERSONAL_28"].ToString();
+        //            PERSONAL_inter_28.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_28"].ToString();
+        //            comm_31.Text = ds.Tables[1].Rows[0]["comm_31"].ToString();
+        //            inter_31.Text = ds.Tables[1].Rows[0]["inter_31"].ToString();
+        //            GROSS_31.Text = ds.Tables[1].Rows[0]["GROSS_31"].ToString();
+        //            GROSS_inter_31.Text = ds.Tables[1].Rows[0]["GROSS_inter_31"].ToString();
+        //            FINE_31.Text = ds.Tables[1].Rows[0]["FINE_31"].ToString();
+        //            FINE_inter_31.Text = ds.Tables[1].Rows[0]["FINE_inter_31"].ToString();
+        //            PROBLEM_31.Text = ds.Tables[1].Rows[0]["PROBLEM_31"].ToString();
+        //            PROBLEM_inter_31.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_31"].ToString();
+        //            PERSONAL_31.Text = ds.Tables[1].Rows[0]["PERSONAL_31"].ToString();
+        //            PERSONAL_inter_31.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_31"].ToString();
+        //            comm_34.Text = ds.Tables[1].Rows[0]["comm_34"].ToString();
+        //            inter_34.Text = ds.Tables[1].Rows[0]["inter_34"].ToString();
+        //            GROSS_34.Text = ds.Tables[1].Rows[0]["GROSS_34"].ToString();
+        //            GROSS_inter_34.Text = ds.Tables[1].Rows[0]["GROSS_inter_34"].ToString();
+        //            FINE_34.Text = ds.Tables[1].Rows[0]["FINE_34"].ToString();
+        //            FINE_inter_34.Text = ds.Tables[1].Rows[0]["FINE_inter_34"].ToString();
+        //            PROBLEM_34.Text = ds.Tables[1].Rows[0]["PROBLEM_34"].ToString();
+        //            PROBLEM_inter_34.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_34"].ToString();
+        //            PERSONAL_34.Text = ds.Tables[1].Rows[0]["PERSONAL_34"].ToString();
+        //            PERSONAL_inter_34.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_34"].ToString();
+        //            comm_42.Text = ds.Tables[1].Rows[0]["comm_42"].ToString();
+        //            inter_42.Text = ds.Tables[1].Rows[0]["inter_42"].ToString();
+        //            GROSS_42.Text = ds.Tables[1].Rows[0]["GROSS_42"].ToString();
+        //            GROSS_inter_42.Text = ds.Tables[1].Rows[0]["GROSS_inter_42"].ToString();
+        //            FINE_42.Text = ds.Tables[1].Rows[0]["FINE_42"].ToString();
+        //            FINE_inter_42.Text = ds.Tables[1].Rows[0]["FINE_inter_42"].ToString();
+        //            PROBLEM_42.Text = ds.Tables[1].Rows[0]["PROBLEM_42"].ToString();
+        //            PROBLEM_inter_42.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_42"].ToString();
+        //            PERSONAL_42.Text = ds.Tables[1].Rows[0]["PERSONAL_42"].ToString();
+        //            PERSONAL_inter_42.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_42"].ToString();
+        //            comm_45.Text = ds.Tables[1].Rows[0]["comm_45"].ToString();
+        //            inter_45.Text = ds.Tables[1].Rows[0]["inter_45"].ToString();
+        //            GROSS_45.Text = ds.Tables[1].Rows[0]["GROSS_45"].ToString();
+        //            GROSS_inter_45.Text = ds.Tables[1].Rows[0]["GROSS_inter_45"].ToString();
+        //            FINE_45.Text = ds.Tables[1].Rows[0]["FINE_45"].ToString();
+        //            FINE_inter_45.Text = ds.Tables[1].Rows[0]["FINE_inter_45"].ToString();
+        //            PROBLEM_45.Text = ds.Tables[1].Rows[0]["PROBLEM_45"].ToString();
+        //            PROBLEM_inter_45.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_45"].ToString();
+        //            PERSONAL_45.Text = ds.Tables[1].Rows[0]["PERSONAL_45"].ToString();
+        //            PERSONAL_inter_45.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_45"].ToString();
+        //            comm_51.Text = ds.Tables[1].Rows[0]["comm_51"].ToString();
+        //            inter_51.Text = ds.Tables[1].Rows[0]["inter_51"].ToString();
+        //            GROSS_51.Text = ds.Tables[1].Rows[0]["GROSS_51"].ToString();
+        //            GROSS_inter_51.Text = ds.Tables[1].Rows[0]["GROSS_inter_51"].ToString();
+        //            FINE_51.Text = ds.Tables[1].Rows[0]["FINE_51"].ToString();
+        //            FINE_inter_51.Text = ds.Tables[1].Rows[0]["FINE_inter_51"].ToString();
+        //            PROBLEM_51.Text = ds.Tables[1].Rows[0]["PROBLEM_51"].ToString();
+        //            PROBLEM_inter_51.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_51"].ToString();
+        //            PERSONAL_51.Text = ds.Tables[1].Rows[0]["PERSONAL_51"].ToString();
+        //            PERSONAL_inter_51.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_51"].ToString();
+        //            comm_60.Text = ds.Tables[1].Rows[0]["comm_60"].ToString();
+        //            inter_60.Text = ds.Tables[1].Rows[0]["inter_60"].ToString();
+        //            GROSS_60.Text = ds.Tables[1].Rows[0]["GROSS_60"].ToString();
+        //            GROSS_inter_60.Text = ds.Tables[1].Rows[0]["GROSS_inter_60"].ToString();
+        //            FINE_60.Text = ds.Tables[1].Rows[0]["FINE_60"].ToString();
+        //            FINE_inter_60.Text = ds.Tables[1].Rows[0]["FINE_inter_60"].ToString();
+        //            PROBLEM_60.Text = ds.Tables[1].Rows[0]["PROBLEM_60"].ToString();
+        //            PROBLEM_inter_60.Text = ds.Tables[1].Rows[0]["PROBLEM_inter_60"].ToString();
+        //            PERSONAL_60.Text = ds.Tables[1].Rows[0]["PERSONAL_60"].ToString();
+        //            PERSONAL_inter_60.Text = ds.Tables[1].Rows[0]["PERSONAL_inter_60"].ToString();
+
+        //            #endregion
+        //            #region*** sesory system***
+        //            SensorySystem_Vision.Text = ds.Tables[1].Rows[0]["SensorySystem_Vision"].ToString();
+        //            SensorySystem_Auditory.Text = ds.Tables[1].Rows[0]["SensorySystem_Auditory"].ToString();
+        //            SensorySystem_Propioceptive.Text = ds.Tables[1].Rows[0]["SensorySystem_Propioceptive"].ToString();
+        //            SensorySystem_Oromotpor.Text = ds.Tables[1].Rows[0]["SensorySystem_Oromotpor"].ToString();
+        //            SensorySystem_Vestibular.Text = ds.Tables[1].Rows[0]["SensorySystem_Vestibular"].ToString();
+        //            SensorySystem_Tactile.Text = ds.Tables[1].Rows[0]["SensorySystem_Tactile"].ToString();
+        //            SensorySystem_Olfactory.Text = ds.Tables[1].Rows[0]["SensorySystem_Olfactory"].ToString();
+        //            #endregion
+        //            #region****evaluation ***
+        //            Evaluation_Goal_Summary.Text = ds.Tables[1].Rows[0]["Evaluation_Goal_Summary"].ToString();
+        //            Evaluation_System_Impairment.Text = ds.Tables[1].Rows[0]["Evaluation_System_Impairment"].ToString();
+        //            Evaluation_LTG.Text = ds.Tables[1].Rows[0]["Evaluation_LTG"].ToString();
+        //            Evaluation_STG.Text = ds.Tables[1].Rows[0]["Evaluation_STG"].ToString();
+        //            Evalution_Plan_advice.Text = ds.Tables[1].Rows[0]["Evalution_Plan_advice"].ToString();
+        //            Evalution_Plan__Frequency.Text = ds.Tables[1].Rows[0]["Evalution_Plan__Frequency"].ToString();
+        //            Evalution_Plan_Adjuncts.Text = ds.Tables[1].Rows[0]["Evalution_Plan_Adjuncts"].ToString();
+        //            Evalution_Plan__Education.Text = ds.Tables[1].Rows[0]["Evalution_Plan__Education"].ToString();
+        //            #endregion
+        //            #region***single system**
+        //            Low_Registration_6.SelectedValue = ds.Tables[1].Rows[0]["Low_Registration_6"].ToString();
+        //            txtSelfRegulation.Text = ds.Tables[1].Rows[0]["SelfRegulation"].ToString();
+        //            txtArousal.Text = ds.Tables[1].Rows[0]["Arousal"].ToString();
+        //            txtAttention.Text = ds.Tables[1].Rows[0]["Attention"].ToString();
+        //            txtAffect.Text = ds.Tables[1].Rows[0]["Affect"].ToString();
+        //            txtAction.Text = ds.Tables[1].Rows[0]["Action"].ToString();
+        //            txtCognition.Text = ds.Tables[1].Rows[0]["Cognition"].ToString();
+        //            txtGI.Text = ds.Tables[1].Rows[0]["GI"].ToString();
+        //            txtRespiratory.Text = ds.Tables[1].Rows[0]["Respiratory"].ToString();
+        //            txtCardiovascular.Text = ds.Tables[1].Rows[0]["Cardiovascular"].ToString();
+        //            txtSkinIntegumentary.Text = ds.Tables[1].Rows[0]["SkinIntegumentary"].ToString();
+        //            txtNutrition.Text = ds.Tables[1].Rows[0]["Nutrition"].ToString();
+        //            #endregion
+        //            #region***test and measure***
+        //            DataRow row = ds.Tables[1].Rows[0];
+
+        //            GMFCSCheckBoxI.Checked = GetBool(row["GMFCS_I"]);
+        //            GMFCSCheckBoxII.Checked = GetBool(row["GMFCS_II"]);
+        //            GMFCSCheckBoxIII.Checked = GetBool(row["GMFCS_III"]);
+        //            GMFCSCheckBoxIV.Checked = GetBool(row["GMFCS_IV"]);
+        //            GMFCSCheckBoxV.Checked = GetBool(row["GMFCS_V"]);
+
+        //            txtGmfm_LyingRolling.Text = ds.Tables[1].Rows[0]["Gmfm_LyingRolling"].ToString();
+        //            //chkI_LyingRolling.Checked = GetBool(row["chkI_LyingRolling"]);
+        //            //chkII_LyingRolling.Checked = GetBool(row["chkII_LyingRolling"]);
+        //            //chkIII_LyingRolling.Checked = GetBool(row["chkIII_LyingRolling"]);
+        //            //chkIV_LyingRolling.Checked = GetBool(row["chkIV_LyingRolling"]);
+        //            //chkV_LyingRolling.Checked = GetBool(row["chkV_LyingRolling"]);
+
+
+        //            txtGmfm_Sitting.Text = ds.Tables[1].Rows[0]["Gmfm_Sitting"].ToString();
+        //            //chkI_Sitting.Checked = GetBool(row["chkI_Sitting"]);
+        //            //chkII_Sitting.Checked = GetBool(row["chkII_Sitting"]);
+        //            //chkIII_Sitting.Checked = GetBool(row["chkIII_Sitting"]);
+        //            //chkIV_Sitting.Checked = GetBool(row["chkIV_Sitting"]);
+        //            //chkV_Sitting.Checked = GetBool(row["chkV_Sitting"]);
+
+        //            txtGmfm_KneelingCrawling.Text = ds.Tables[1].Rows[0]["Gmfm_KneelingCrawling"].ToString();
+        //            //chkI_KneelingCrawling.Checked = GetBool(row["chkI_KneelingCrawling"]);
+        //            //chkII_KneelingCrawling.Checked = GetBool(row["chkII_KneelingCrawling"]);
+        //            //chkIII_KneelingCrawling.Checked = GetBool(row["chkIII_KneelingCrawling"]);
+        //            //chkIV_KneelingCrawling.Checked = GetBool(row["chkIV_KneelingCrawling"]);
+        //            //chkV_KneelingCrawling.Checked = GetBool(row["chkV_KneelingCrawling"]);
+
+
+        //            txtGmfm_Standing.Text = ds.Tables[1].Rows[0]["Gmfm_Standing"].ToString();
+        //            //chkI_Standing.Checked = GetBool(row["chkI_Standing"]);
+        //            //chkII_Standing.Checked = GetBool(row["chkII_Standing"]);
+        //            //chkIII_Standing.Checked = GetBool(row["chkIII_Standing"]);
+        //            //chkIV_Standing.Checked = GetBool(row["chkIV_Standing"]);
+        //            //chkV_Standing.Checked = GetBool(row["chkV_Standing"]);
+
+        //            txtGmfm_RunningJumping.Text = ds.Tables[1].Rows[0]["Gmfm_RunningJumping"].ToString();
+        //            txtGmfm_TotalScore.Text = ds.Tables[1].Rows[0]["txtGmfm_TotalScore"].ToString();
+        //            //chkI_RunningJumping.Checked = GetBool(row["chkI_RunningJumping"]);
+        //            //chkII_RunningJumping.Checked = GetBool(row["chkII_RunningJumping"]);
+        //            //chkIII_RunningJumping.Checked = GetBool(row["chkIII_RunningJumping"]);
+        //            //chkIV_RunningJumping.Checked = GetBool(row["chkIV_RunningJumping"]);
+        //            //chkV_RunningJumping.Checked = GetBool(row["chkV_RunningJumping"]);
+
+        //            chkMACs_I.Checked = GetBool(row["MACs_I"]);
+        //            chkMACs_II.Checked = GetBool(row["MACs_II"]);
+        //            chkMACs_III.Checked = GetBool(row["MACs_III"]);
+        //            chkMACs_IV.Checked = GetBool(row["MACs_IV"]);
+        //            chkMACs_V.Checked = GetBool(row["MACs_V"]);
+
+        //            // FMS
+
+        //            chkFMS_I.Checked = GetBool(row["FMS_I"]);
+        //            chkFMS_II.Checked = GetBool(row["FMS_II"]);
+        //            chkFMS_III.Checked = GetBool(row["FMS_III"]);
+        //            chkFMS_IV.Checked = GetBool(row["FMS_IV"]);
+        //            chkFMS_V.Checked = GetBool(row["FMS_V"]);
+
+        //            // Barry
+
+        //            chkBarry_I.Checked = GetBool(row["Barry_I"]);
+        //            chkBarry_II.Checked = GetBool(row["Barry_II"]);
+        //            chkBarry_III.Checked = GetBool(row["Barry_III"]);
+        //            chkBarry_IV.Checked = GetBool(row["Barry_IV"]);
+        //            chkBarry_V.Checked = GetBool(row["Barry_V"]);
+        //            chkBarry_VI.Checked = GetBool(row["Barry_VI"]);
+
+        //            Barry_albright_txt.Text = ds.Tables[1].Rows[0]["Barry_albright_txt"].ToString();
+        //            #endregion
+        //            #region***muscoskeleton***
+        //            Musculoskeletal_Rom1_HipFlexionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipFlexionLeft"].ToString();
+        //            Musculoskeletal_Rom1_HipFlexionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipFlexionRight"].ToString();
+        //            Musculoskeletal_Rom1_HipExtensionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipExtensionLeft"].ToString();
+        //            Musculoskeletal_Rom1_HipExtensionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipExtensionRight"].ToString();
+        //            Musculoskeletal_Rom1_HipAbductionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipAbductionLeft"].ToString();
+        //            Musculoskeletal_Rom1_HipAbductionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipAbductionRight"].ToString();
+        //            Musculoskeletal_Rom1_HipExternalLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipExternalLeft"].ToString();
+        //            Musculoskeletal_Rom1_HipExternalRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipExternalRight"].ToString();
+        //            Musculoskeletal_Rom1_HipInternalLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipInternalLeft"].ToString();
+        //            Musculoskeletal_Rom1_HipInternalRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_HipInternalRight"].ToString();
+        //            Musculoskeletal_Rom1_PoplitealLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_PoplitealLeft"].ToString();
+        //            Musculoskeletal_Rom1_PoplitealRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_PoplitealRight"].ToString();
+        //            Musculoskeletal_Rom1_KneeFlexionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_KneeFlexionLeft"].ToString();
+        //            Musculoskeletal_Rom1_KneeFlexionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_KneeFlexionRight"].ToString();
+        //            Musculoskeletal_Rom1_KneeExtensionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_KneeExtensionLeft"].ToString();
+        //            Musculoskeletal_Rom1_KneeExtensionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_KneeExtensionRight"].ToString();
+        //            Musculoskeletal_Rom1_DorsiflexionFlexionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_DorsiflexionFlexionLeft"].ToString();
+        //            Musculoskeletal_Rom1_DorsiflexionFlexionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_DorsiflexionFlexionRight"].ToString();
+        //            Musculoskeletal_Rom1_DorsiflexionExtensionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_DorsiflexionExtensionLeft"].ToString();
+        //            Musculoskeletal_Rom1_DorsiflexionExtensionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_DorsiflexionExtensionRight"].ToString();
+        //            Musculoskeletal_Rom1_PlantarFlexionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_PlantarFlexionLeft"].ToString();
+        //            Musculoskeletal_Rom1_PlantarFlexionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_PlantarFlexionRight"].ToString();
+        //            Musculoskeletal_Rom1_OthersLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_OthersLeft"].ToString();
+        //            Musculoskeletal_Rom1_OthersRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom1_OthersRight"].ToString();
+        //            Musculoskeletal_Rom2_ShoulderFlexionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ShoulderFlexionLeft"].ToString();
+        //            Musculoskeletal_Rom2_ShoulderFlexionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ShoulderFlexionRight"].ToString();
+        //            Musculoskeletal_Rom2_ShoulderExtensionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ShoulderExtensionLeft"].ToString();
+        //            Musculoskeletal_Rom2_ShoulderExtensionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ShoulderExtensionRight"].ToString();
+        //            Musculoskeletal_Rom2_HorizontalAbductionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_HorizontalAbductionLeft"].ToString();
+        //            Musculoskeletal_Rom2_HorizontalAbductionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_HorizontalAbductionRight"].ToString();
+        //            Musculoskeletal_Rom2_ExternalRotationLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ExternalRotationLeft"].ToString();
+        //            Musculoskeletal_Rom2_ExternalRotationRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ExternalRotationRight"].ToString();
+        //            Musculoskeletal_Rom2_InternalRotationLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_InternalRotationLeft"].ToString();
+        //            Musculoskeletal_Rom2_InternalRotationRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_InternalRotationRight"].ToString();
+        //            Musculoskeletal_Rom2_ElbowFlexionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ElbowFlexionLeft"].ToString();
+        //            Musculoskeletal_Rom2_ElbowFlexionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ElbowFlexionRight"].ToString();
+        //            Musculoskeletal_Rom2_ElbowExtensionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ElbowExtensionLeft"].ToString();
+        //            Musculoskeletal_Rom2_ElbowExtensionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_ElbowExtensionRight"].ToString();
+        //            Musculoskeletal_Rom2_SupinationLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_SupinationLeft"].ToString();
+        //            Musculoskeletal_Rom2_SupinationRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_SupinationRight"].ToString();
+        //            Musculoskeletal_Rom2_PronationLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_PronationLeft"].ToString();
+        //            Musculoskeletal_Rom2_PronationRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_PronationRight"].ToString();
+        //            Musculoskeletal_Rom2_WristFlexionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_WristFlexionLeft"].ToString();
+        //            Musculoskeletal_Rom2_WristFlexionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_WristFlexionRight"].ToString();
+        //            Musculoskeletal_Rom2_WristExtesionLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_WristExtesionLeft"].ToString();
+        //            Musculoskeletal_Rom2_WristExtesionRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_WristExtesionRight"].ToString();
+        //            Musculoskeletal_Rom2_OthersLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_OthersLeft"].ToString();
+        //            Musculoskeletal_Rom2_OthersRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rom2_OthersRight"].ToString();
+        //            Musculoskeletal_Strengthlp.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Strengthlp"].ToString();
+        //            Musculoskeletal_StrengthCC.Text = ds.Tables[1].Rows[0]["Musculoskeletal_StrengthCC"].ToString();
+        //            Musculoskeletal_StrengthMuscle.Text = ds.Tables[1].Rows[0]["Musculoskeletal_StrengthMuscle"].ToString();
+        //            Musculoskeletal_StrengthSkeletal.Text = ds.Tables[1].Rows[0]["Musculoskeletal_StrengthSkeletal"].ToString();
+        //            Musculoskeletal_Mmt_HipflexorsLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_HipflexorsLeft"].ToString();
+        //            Musculoskeletal_Mmt_HipflexorsRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_HipflexorsRight"].ToString();
+        //            Musculoskeletal_Mmt_AbductorsLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_AbductorsLeft"].ToString();
+        //            Musculoskeletal_Mmt_AbductorsRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_AbductorsRight"].ToString();
+        //            Musculoskeletal_Mmt_ExtensorsLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExtensorsLeft"].ToString();
+        //            Musculoskeletal_Mmt_ExtensorsRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExtensorsRight"].ToString();
+        //            Musculoskeletal_Mmt_HamsLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_HamsLeft"].ToString();
+        //            Musculoskeletal_Mmt_HamsRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_HamsRight"].ToString();
+        //            Musculoskeletal_Mmt_QuadsLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_QuadsLeft"].ToString();
+        //            Musculoskeletal_Mmt_QuadsRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_QuadsRight"].ToString();
+        //            Musculoskeletal_Mmt_TibialisAnteriorLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_TibialisAnteriorLeft"].ToString();
+        //            Musculoskeletal_Mmt_TibialisAnteriorRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_TibialisAnteriorRight"].ToString();
+        //            Musculoskeletal_Mmt_TibialisPosteriorLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_TibialisPosteriorLeft"].ToString();
+        //            Musculoskeletal_Mmt_TibialisPosteriorRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_TibialisPosteriorRight"].ToString();
+        //            Musculoskeletal_Mmt_ExtensorDigitorumLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExtensorDigitorumLeft"].ToString();
+        //            Musculoskeletal_Mmt_ExtensorDigitorumRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExtensorDigitorumRight"].ToString();
+        //            Musculoskeletal_Mmt_ExtensorHallucisLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExtensorHallucisLeft"].ToString();
+        //            Musculoskeletal_Mmt_ExtensorHallucisRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExtensorHallucisRight"].ToString();
+        //            Musculoskeletal_Mmt_PeroneiLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_PeroneiLeft"].ToString();
+        //            Musculoskeletal_Mmt_PeroneiRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_PeroneiRight"].ToString();
+        //            Musculoskeletal_Mmt_FlexorDigitorumLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FlexorDigitorumLeft"].ToString();
+        //            Musculoskeletal_Mmt_FlexorDigitorumRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FlexorDigitorumRight"].ToString();
+        //            Musculoskeletal_Mmt_FlexorHallucisLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FlexorHallucisLeft"].ToString();
+        //            Musculoskeletal_Mmt_FlexorHallucisRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FlexorHallucisRight"].ToString();
+        //            Musculoskeletal_Mmt_AnteriorDeltoidLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_AnteriorDeltoidLeft"].ToString();
+        //            Musculoskeletal_Mmt_AnteriorDeltoidRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_AnteriorDeltoidRight"].ToString();
+        //            Musculoskeletal_Mmt_PosteriorDeltoidLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_PosteriorDeltoidLeft"].ToString();
+        //            Musculoskeletal_Mmt_PosteriorDeltoidRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_PosteriorDeltoidRight"].ToString();
+        //            Musculoskeletal_Mmt_MiddleDeltoidLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_MiddleDeltoidLeft"].ToString();
+        //            Musculoskeletal_Mmt_MiddleDeltoidRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_MiddleDeltoidRight"].ToString();
+        //            Musculoskeletal_Mmt_SupraspinatusLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_SupraspinatusLeft"].ToString();
+        //            Musculoskeletal_Mmt_SupraspinatusRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_SupraspinatusRight"].ToString();
+        //            Musculoskeletal_Mmt_SerratusAnteriorLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_SerratusAnteriorLeft"].ToString();
+        //            Musculoskeletal_Mmt_SerratusAnteriorRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_SerratusAnteriorRight"].ToString();
+        //            Musculoskeletal_Mmt_RhomboidsLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_RhomboidsLeft"].ToString();
+        //            Musculoskeletal_Mmt_RhomboidsRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_RhomboidsRight"].ToString();
+        //            Musculoskeletal_Mmt_BicepsLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_BicepsLeft"].ToString();
+        //            Musculoskeletal_Mmt_BicepsRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_BicepsRight"].ToString();
+        //            Musculoskeletal_Mmt_TricepsLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_TricepsLeft"].ToString();
+        //            Musculoskeletal_Mmt_TricepsRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_TricepsRight"].ToString();
+        //            Musculoskeletal_Mmt_SupinatorLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_SupinatorLeft"].ToString();
+        //            Musculoskeletal_Mmt_SupinatorRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_SupinatorRight"].ToString();
+        //            Musculoskeletal_Mmt_PronatorLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_PronatorLeft"].ToString();
+        //            Musculoskeletal_Mmt_PronatorRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_PronatorRight"].ToString();
+        //            Musculoskeletal_Mmt_ECULeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ECULeft"].ToString();
+        //            Musculoskeletal_Mmt_ECURight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ECURight"].ToString();
+        //            Musculoskeletal_Mmt_ECRLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ECRLeft"].ToString();
+        //            Musculoskeletal_Mmt_ECRRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ECRRight"].ToString();
+        //            Musculoskeletal_Mmt_ECSLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ECSLeft"].ToString();
+        //            Musculoskeletal_Mmt_ECSRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ECSRight"].ToString();
+        //            Musculoskeletal_Mmt_FCULeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FCULeft"].ToString();
+        //            Musculoskeletal_Mmt_FCURight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FCURight"].ToString();
+        //            Musculoskeletal_Mmt_FCRLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FCRLeft"].ToString();
+        //            Musculoskeletal_Mmt_FCRRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FCRRight"].ToString();
+        //            Musculoskeletal_Mmt_FCSLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FCSLeft"].ToString();
+        //            Musculoskeletal_Mmt_FCSRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FCSRight"].ToString();
+        //            Musculoskeletal_Mmt_OpponensPollicisLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_OpponensPollicisLeft"].ToString();
+        //            Musculoskeletal_Mmt_OpponensPollicisRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_OpponensPollicisRight"].ToString();
+        //            Musculoskeletal_Mmt_FlexorPollicisLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FlexorPollicisLeft"].ToString();
+        //            Musculoskeletal_Mmt_FlexorPollicisRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_FlexorPollicisRight"].ToString();
+        //            Musculoskeletal_Mmt_AbductorPollicisLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_AbductorPollicisLeft"].ToString();
+        //            Musculoskeletal_Mmt_AbductorPollicisRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_AbductorPollicisRight"].ToString();
+        //            Musculoskeletal_Mmt_ExtensorPollicisLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExtensorPollicisLeft"].ToString();
+        //            Musculoskeletal_Mmt_ExtensorPollicisRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExtensorPollicisRight"].ToString();
+
+        //            Musculoskeletal_Mmt_ExternalObliquesRight.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExternalObliquesRight"].ToString();
+        //            Musculoskeletal_Mmt_ExternalObliquesLeft.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_ExternalObliquesLeft"].ToString();
+        //            Musculoskeletal_Back_Extensors_cmt.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Back_Extensors_cmt"].ToString();
+        //            Musculoskeletal_Rectus_Abdominis_cmt.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Rectus_Abdominis_cmt"].ToString();
+
+
+        //            Musculoskeletal_Mmt_Ta_Left.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_Ta_Left"].ToString();
+        //            Musculoskeletal_Mmt_Ta_Right.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_Ta_Right"].ToString();
+        //            Musculoskeletal_Mmt_Hamstring_left.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_Hamstring_left"].ToString();
+        //            Musculoskeletal_Mmt_Hamstring_Right.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_Hamstring_Right"].ToString();
+        //            Musculoskeletal_Mmt_adductors_left.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_adductors_left"].ToString();
+        //            Musculoskeletal_Mmt_adductors_right.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_adductors_right"].ToString();
+        //            Musculoskeletal_Mmt_hipFlexor_left.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_hipFlexor_left"].ToString();
+        //            Musculoskeletal_Mmt_hipFlexor_Right.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_hipFlexor_Right"].ToString();
+        //            Musculoskeletal_Mmt_biceps_left.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_biceps_left"].ToString();
+        //            Musculoskeletal_Mmt_biceps_right.Text = ds.Tables[1].Rows[0]["Musculoskeletal_Mmt_biceps_right"].ToString();
+
+        //            #endregion
+        //            bool IsFinal = false; bool.TryParse(ds.Tables[1].Rows[0]["IsFinal"].ToString(), out IsFinal);
+        //            txtFinal.Checked = IsFinal;
+        //            bool IsGiven = false; bool.TryParse(ds.Tables[1].Rows[0]["IsGiven"].ToString(), out IsGiven);
+        //            txtGiven.Checked = IsGiven;
+        //            DateTime _givenDate = new DateTime(); DateTime.TryParseExact(ds.Tables[1].Rows[0]["GivenDate"].ToString(), DbHelper.Configuration.dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _givenDate);
+        //            if (_givenDate > DateTime.MinValue)
+        //            {
+        //                txtGivenDate.Text = _givenDate.ToString(DbHelper.Configuration.showDateFormat);
+        //            }
+        //            int Physioptherapist = 0; int.TryParse(ds.Tables[1].Rows[0]["Doctor_Physioptherapist"].ToString(), out Physioptherapist);
+        //            if (Doctor_Physioptherapist.Items.FindByValue(Physioptherapist.ToString()) != null)
+        //            {
+        //                Doctor_Physioptherapist.SelectedValue = Physioptherapist.ToString();
+        //            }
+        //            int Occupational = 0; int.TryParse(ds.Tables[1].Rows[0]["Doctor_Occupational"].ToString(), out Occupational);
+        //            if (Doctor_Occupational.Items.FindByValue(Occupational.ToString()) != null)
+        //            {
+        //                Doctor_Occupational.SelectedValue = Occupational.ToString();
+        //            }
+        //            for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+        //            {
+
+        //                SelectMonth.SelectedValue = ds.Tables[1].Rows[i]["MONTHS"].ToString();
+        //                SelectMonth_SelectedIndexChanged(null, null);
+        //                MonthSelect.SelectedValue = ds.Tables[1].Rows[i]["ABILITY_months"].ToString();
+        //                MonthSelect_SelectedIndexChanged(null, null);
+        //            }
+        //            updAgeStage.Update();
+        //            updAbility.Update();
+        //        }
+
+        //    }
+        //}
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             SnehBLL.ReportNdtMst_Bll RDB = new SnehBLL.ReportNdtMst_Bll();
@@ -2673,7 +3868,84 @@ namespace snehrehab.SessionRpt
             Session[DbHelper.Configuration.messageTextSession] = "NDT Report Save Succesfully";
             Session[DbHelper.Configuration.messageTypeSession] = "1";
         }
+        protected void lnkFinalSave_Click(object sender, EventArgs e)
+        {
+            SnehBLL.ReportNdtMst_Bll RDB = new SnehBLL.ReportNdtMst_Bll();
+            try
+            {
 
+                // ---- Same logic as SaveFinalOnly() ----
+                bool isFinal = txtFinal.Checked;
+                bool isGiven = txtGiven.Checked;
+
+                DateTime givenDate = DateTime.MinValue;
+
+                if (isGiven)
+                {
+                    if (string.IsNullOrWhiteSpace(txtGivenDate.Text))
+                    {
+                        DbHelper.Configuration.setAlert(Page, "Given Date is Required...", 2);
+                        return;
+                    }
+
+                    DateTime.TryParseExact(
+                        txtGivenDate.Text.Trim(),
+                        DbHelper.Configuration.showDateFormat,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        System.Globalization.DateTimeStyles.None,
+                        out givenDate
+                    );
+                }
+
+                DbHelper.SqlDb db = new DbHelper.SqlDb();
+
+                using (SqlCommand cmd1 = new SqlCommand("SET_NDt_FLags"))
+                {
+                    cmd1.CommandType = CommandType.StoredProcedure;
+                    cmd1.Parameters.AddWithValue("@AppointmentID", _appointmentID);
+                    cmd1.Parameters.AddWithValue("@IsGiven", isGiven);
+                    cmd1.Parameters.AddWithValue("@IsFinal", isFinal);
+                    cmd1.Parameters.AddWithValue("@GivenDate", isGiven ? (object)givenDate : DBNull.Value);
+
+                    db.DbUpdate(cmd1);
+                }
+
+                // DiagnosisIDs
+                string diagnosisIDs = "";
+                for (int k = 0; k < txtDiagnosis.Items.Count; k++)
+                {
+                    if (txtDiagnosis.Items[k].Selected)
+                    {
+                        if (string.IsNullOrEmpty(diagnosisIDs))
+                            diagnosisIDs = txtDiagnosis.Items[k].Value;
+                        else
+                            diagnosisIDs += "|" + txtDiagnosis.Items[k].Value;
+                    }
+                }
+
+                string diagnosisOther = txtDiagnosisOther.Text.Trim();
+
+                DataSet ds = RDB.GetReval(_appointmentID);
+                int patientID = 0;
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    int.TryParse(ds.Tables[0].Rows[0]["PatientID"].ToString(), out patientID);
+
+                SnehBLL.Diagnosis_Bll DIB = new SnehBLL.Diagnosis_Bll();
+                int g = DIB.setFromOther(diagnosisIDs, diagnosisOther, patientID);
+
+                if (g < 0)
+                {
+                    DbHelper.Configuration.setAlert(Page, "Diagnosis already exist...", 2);
+                    return;
+                }
+
+                DbHelper.Configuration.setAlert(Page, "Diagonis and Mark date Saved Successfully", 1);
+            }
+            catch (Exception ex)
+            {
+                DbHelper.Configuration.setAlert(Page, ex.Message, 2);
+            }
+        }
         protected void Button1_Click(object sender, EventArgs e)
         {
             SnehBLL.ReportNdtMst_Bll RDB = new SnehBLL.ReportNdtMst_Bll();

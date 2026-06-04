@@ -72,7 +72,7 @@ namespace snehrehab.Member
                 DbHelper.Configuration.setAlert(Page, "Please select correct financial dates.", 2); return;
             }
             //SqlCommand cmd = new SqlCommand("Receipt_PrintSearch"); cmd.CommandType = CommandType.StoredProcedure;
-            SqlCommand cmd = new SqlCommand("Receipt_PrintSearch_ALL_NEW"); cmd.CommandType = CommandType.StoredProcedure;
+            SqlCommand cmd = new SqlCommand("Receipt_PrintSearch_AllNew_NoDel"); cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = txtSearch.Text.Trim();
             if (_fromDate > DateTime.MinValue)
                 cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;

@@ -26,7 +26,7 @@
             <asp:GridView ID="BookingGV" runat="server" CssClass="table table-bordered" 
                 PagerStyle-CssClass="custome-pagination" AutoGenerateColumns="false"
                 OnPageIndexChanging="BookingGV_PageIndexChanging" PageSize="30" 
-                AllowPaging="true">
+                AllowPaging="true" OnRowCommand="gvPatientPackage_RowCommand" OnRowDataBound="gvPatientPackage_RowDataBound">
                 <EmptyDataTemplate>No records found...</EmptyDataTemplate>
                 <Columns>
                 <asp:TemplateField HeaderText="SR NO"><ItemTemplate><%#Container.DataItemIndex + 1 %></ItemTemplate><HeaderStyle Width="40px"/></asp:TemplateField>
@@ -45,7 +45,16 @@
 
                      <br />
                    <%# CHECKUSAGELINK(Eval("BookingID").ToString(), Eval("CanDelete").ToString()) %>
-
+                      <asp:LinkButton
+                                ID="lnkToggleActive"
+                                runat="server"
+                                CommandName="ToggleActive"
+                                CommandArgument='<%# Eval("BookingID") + "|" + (Eval("IsActive") == DBNull.Value ? "0" : Eval("IsActive").ToString()) %>'
+                                Text='<%# (Eval("IsActive") != DBNull.Value && Convert.ToBoolean(Eval("IsActive")) ? "Disable" : "Enable") %>'
+                                ForeColor='<%# (Eval("IsActive") != DBNull.Value && Convert.ToBoolean(Eval("IsActive")) ? System.Drawing.Color.Red : System.Drawing.Color.Green) %>'
+                                OnClientClick="return confirm('Are you sure ?');"
+                                Visible="false">                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                            </asp:LinkButton>
                 </ItemTemplate>
                 <ItemStyle CssClass="text-center" />
                 <HeaderStyle CssClass="text-center" Width="110px"/>

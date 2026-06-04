@@ -67,7 +67,7 @@
                                                 <%--<asp:ListItem Value="2">Credit</asp:ListItem>--%>
                                                 <asp:ListItem Value="3">Cheque</asp:ListItem>
                                                 <asp:ListItem Value="4">Online</asp:ListItem>
-                                                <asp:ListItem Value="100">Bulk Package</asp:ListItem>
+                                             <%--   <asp:ListItem Value="100">Bulk Package</asp:ListItem>--%>
                                             </asp:DropDownList>
                                         </div>
                                     </div>
@@ -75,6 +75,33 @@
                                 <div class="clearfix">
                                 </div>
                             </div>
+                            <div id="tab_cash" runat="server" visible="false">
+
+                               <div class="formRow">
+                                   <div class="span5" style="margin: 0px;">
+                                       <span class="span2"><b>Hospital Transaction ID:</b></span>
+                                       <div class="control-group">
+                                           <div class="span2">
+                                               <asp:TextBox ID="txtCashTransactionID" runat="server" CssClass="span3"></asp:TextBox>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="clearfix"></div>
+                               </div>
+                           
+                               <div class="formRow">
+                                   <div class="span5" style="margin: 0px;">
+                                       <span class="span2"><b>Hospital Transaction Date:</b></span>
+                                       <div class="control-group">
+                                           <div class="span2">
+                                               <asp:TextBox ID="txtCashTransactionDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="clearfix"></div>
+                               </div>
+                           
+                           </div>
                             <div id="tab_Cheque" runat="server" visible="false">
                             <div class="formRow">
                                 <div class="span5" style="margin: 0px;">
@@ -145,6 +172,30 @@
                                         <div class="control-group">
                                             <div class="span2">
                                                 <asp:TextBox ID="txtTransactionDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
+                                </div>
+                                <div class="formRow">
+                                    <div class="span5" style="margin: 0px;">
+                                        <span class="span2"><b>Hospital Transaction ID:</b></span>
+                                        <div class="control-group">
+                                            <div class="span2">
+                                                <asp:TextBox ID="txtonlinehostId" runat="server" CssClass="span3"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
+                                </div>
+                                <div class="formRow">
+                                    <div class="span5" style="margin: 0px;">
+                                        <span class="span2"><b> Hospital Transaction Date:</b></span>
+                                        <div class="control-group">
+                                            <div class="span2">
+                                                <asp:TextBox ID="txtonlinehostdate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>

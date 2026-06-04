@@ -50,7 +50,41 @@ public partial class Member_PackageBookings : System.Web.UI.Page
     {
         BookingGV.PageIndex = e.NewPageIndex; LoadData();
     }
+    protected void gvPatientPackage_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            LinkButton lnkToggle = (LinkButton)e.Row.FindControl("lnkToggleActive");
 
+            if (lnkToggle != null)
+            {
+                SnehBLL.UserAccount_Bll ua = new SnehBLL.UserAccount_Bll();
+
+                // show only for Auth Manager
+                lnkToggle.Visible = (_loginID == ua.AuthManager());
+            }
+        }
+    }
+    protected void gvPatientPackage_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+        if (e.CommandName == "ToggleActive")
+        {
+            string[] args = e.CommandArgument.ToString().Split('|');
+
+            int bookingId = Convert.ToInt32(args[0]);
+            bool currentIsActive = args.Length > 1 && args[1] == "True";
+
+            bool newIsActive = !currentIsActive; // toggle
+
+            SnehBLL.PatientPackage_Bll DB = new SnehBLL.PatientPackage_Bll();
+            DB.SetPackageIsActive(bookingId, newIsActive);
+
+            DbHelper.Configuration.setAlert(Page, "Status updated successfully.", 1);
+
+            LoadData();
+        }
+    }
     private void LoadData()
     {
         DateTime _fromDate = new DateTime(); DateTime.TryParseExact(txtFrom.Text.Trim(), DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _fromDate);

@@ -60,13 +60,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox txtGivenDate;
 
         /// <summary>
-        /// btnSubmit control.
+        /// lnkFinalSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSubmit;
+        protected global::System.Web.UI.WebControls.LinkButton lnkFinalSave;
 
         /// <summary>
         /// txtPrint control.
@@ -85,6 +85,33 @@ namespace snehrehab.SessionRpt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfdTabs;
+
+        /// <summary>
+        /// hfdCallFrom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfdCallFrom;
+
+        /// <summary>
+        /// hfdCurTab control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfdCurTab;
+
+        /// <summary>
+        /// hfdPrevTab control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfdPrevTab;
 
         /// <summary>
         /// tb_Contents control.
@@ -3811,23 +3838,5 @@ namespace snehrehab.SessionRpt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Doctor_Occupational;
-
-        /// <summary>
-        /// Doctor_EnterReport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList Doctor_EnterReport;
-
-        /// <summary>
-        /// Button1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }

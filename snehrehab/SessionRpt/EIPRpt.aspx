@@ -752,7 +752,7 @@
                 <div class="clearfix">
                 </div>
             </div>
-
+     <asp:HiddenField ID="Hdnrange2" runat="server" /> <asp:HiddenField ID="hdnrange" runat="server" />
 
       <script>
           // Check if the page is already open in another tab
@@ -771,4 +771,452 @@
               });
           }
       </script>
+
+     <script type="text/javascript">
+
+         var preTabId = ""; var CurTabId = "";
+
+         var nextAfterSave = false;
+         let saveInProgress = false;
+         $(document).ready(function () {
+             if (!$("#hfdPrevTab").val())
+                 $("#hfdPrevTab").val("tb_Report1");
+
+             if (!$("#hfdCurTab").val())
+                 $("#hfdCurTab").val("tb_Report1");
+
+             // ✅ show message after reload (Final Submit)
+             var msg = sessionStorage.getItem("afterReloadMsg");
+             var type = sessionStorage.getItem("afterReloadType");
+
+             if (msg) {
+                 showAlert(msg, parseInt(type || "1"));
+                 sessionStorage.removeItem("afterReloadMsg");
+                 sessionStorage.removeItem("afterReloadType");
+             }
+
+             // =========================
+             // Range 1
+             // =========================
+             $("#range1").on("input change", function () {
+                 $("#<%= hdnrange.ClientID %>").val($(this).val());
+             });
+
+             $("#range2").on("input change", function () {
+                 $("#<%= Hdnrange2.ClientID %>").val($(this).val());
+            });
+
+             $("#btnSaveNext").on("click", function (e) {
+                 e.preventDefault();
+
+                 var curTab = getCurrentTabId();
+
+                 nextAfterSave = true;
+                 $("#hfdTabs").val(curTab);
+                 $("#hfdCurTab").val(curTab);
+                 $("#hfdCallFrom").val("SaveNext");
+
+                 SaveTabById(curTab, false); // ✅ modal handled inside SaveTab
+             });
+
+             $("#btnFinalSubmit").off("click").on("click", function (e) {
+                 e.preventDefault();
+
+
+
+                 nextAfterSave = false;
+
+                 var curTab = getCurrentTabId();
+
+                 $("#hfdTabs").val(curTab);
+                 $("#hfdCurTab").val(curTab);
+                 $("#hfdCallFrom").val("Submit");
+
+                 SaveTabById(curTab, true);
+             });
+
+         });
+
+         function clientActiveTabChanged(sender, args) {
+
+             try {
+
+                 var tab = sender.get_tabs()[sender.get_activeTabIndex()];
+                 CurTabId = tab.get_id();
+
+                 $("#hfdCurTab").val(CurTabId);
+
+                 var prevTab = $("#hfdPrevTab").val();
+
+                 if (!prevTab || prevTab === "undefined")
+                     prevTab = "tb_Report1";
+
+                 if (prevTab !== CurTabId) {
+
+                     $("#hfdTabs").val(prevTab);
+                     $("#hfdCallFrom").val("Tab");
+                     $("#hfdPrevTab").val(CurTabId);
+
+                     var formData = { Tab: prevTab };
+
+                     if (saveInProgress) return;
+
+                     SaveTabById(prevTab, false);
+                 }
+
+             } catch (ex) {
+                 console.log("clientActiveTabChanged error:", ex);
+             }
+         }
+
+
+         // =========================
+         // TAB HELPERS
+         // =========================
+         function getCurrentTabId() {
+             var cur = $("#hfdCurTab").val();
+             if (!cur || cur === "undefined") cur = "tb_Report1";
+             return cur;
+         }
+
+         function getPreviousTabId() {
+             var prev = $("#hfdPrevTab").val();
+             if (!prev || prev === "undefined") prev = "tb_Report1";
+             return prev;
+         }
+
+         // =========================
+         // MAIN TAB SAVE SWITCH
+         // =========================
+         function SaveTabById(tabId, reloadAfterSave) {
+             if (saveInProgress) {
+                 console.warn("Save blocked: already in progress");
+                 return;
+             }
+
+             switch (tabId) {
+
+                 case "tb_Report1":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report1":
+                 case "ctl00_ContentPlaceHolder1_tb_Contents_tb_Report1_tab":
+                     SaveTab1(reloadAfterSave);
+                     break;
+
+                 default:
+                     console.log("No save function for tab:", tabId);
+                     break;
+             }
+
+         }
+
+         // =========================
+         // ONE COMMON AJAX FUNCTION
+         // =========================
+         function PostToHandler(formData, reloadAfterSave, tabName) {
+             if (saveInProgress) return;
+
+             saveInProgress = true;
+             $("#btnSaveNext").prop("disabled", true);
+             $("#btnFinalSubmit").prop("disabled", true);
+
+             $.ajax({
+                 type: "POST",
+                 url: "<%= ResolveUrl("~/Handler/SaveReportSi_2023.ashx") %>",
+                 data: formData,
+
+                 success: function (res) {
+
+                     var arr = (res || "").split("|");
+
+                     if (arr[0] === "OK") {
+
+                         // ✅ If Final Submit -> reload first, then show message
+                         if (reloadAfterSave === true) {
+                             sessionStorage.setItem("afterReloadMsg", (tabName || "Tab") + " Saved Successfully");
+                             sessionStorage.setItem("afterReloadType", "1");
+                             location.reload();
+                             return;
+                         }
+
+                         // ✅ Normal save -> show message now
+                         showAlert((tabName || "Tab") + " Saved Successfully", 1);
+
+                         // ✅ Save&Next -> go next tab
+                         if (nextAfterSave === true) {
+                             nextAfterSave = false;
+
+                             try {
+                                 var tabStrip = $find("<%= tb_Contents.ClientID %>"); // ajaxToolkit TabContainer
+                                 if (tabStrip) {
+                                     var idx = tabStrip.get_activeTabIndex();
+                                     var tabs = tabStrip.get_tabs();
+                                     var total = tabs.length;
+
+                                     if (idx < total - 1) {
+                                         tabStrip.set_activeTabIndex(idx + 1);
+                                     }
+                                 }
+                             } catch (ex) {
+                                 console.log("Next tab error:", ex);
+                             }
+                         }
+
+                     } else {
+                         showAlert(arr[1] || res, 2);
+                     }
+
+                     $("#btnSaveNext").prop("disabled", false);
+                     $("#btnFinalSubmit").prop("disabled", false);
+                     isSaving = false;
+                 },
+
+                 error: function (xhr) {
+
+                     $("#btnSaveNext").prop("disabled", false);
+                     $("#btnFinalSubmit").prop("disabled", false);
+
+                     console.log("AJAX ERROR:", xhr.status, xhr.responseText);
+                     showAlert((tabName || "Tab") + " Save Failed!", 2);
+                     isSaving = false;
+                 },
+                 complete: function () {
+                     saveInProgress = false; // ✅ keep only this
+                 }
+             });
+         }
+
+         // =========================
+         // TAB 1 SAVE FUNCTION
+         // =========================
+         function SaveTab1(reloadAfterSave) {
+
+             var formData = {};
+             formData.Record = "<%= Request.QueryString["record"] ?? "" %>";
+             formData.TabNo = 1;
+
+             formData.ClinicalObsevation = $("#<%= DataCollection_EDD.ClientID %>").val();
+
+             var list = [];
+
+
+             formData.TimelineJson = JSON.stringify(list);
+
+             saveWithModal(formData, reloadAfterSave, "CLINICAL_OBSERVATION AND DAILY SCHEDULE ");
+         }
+     
+        $(document).ready(function () {
+
+            $("#confirmSaveBtn").off("click").on("click", function () {
+
+                if (saveInProgress) return;
+
+                if (!navigator.onLine) {
+                    alert("No internet connection!");
+                    return;
+                }
+
+                // ✅ LOG CONFIRM
+                logModalAction("CONFIRM", modalFormData);
+
+                if (pendingSaveCallback) {
+                    pendingSaveCallback();
+                }
+
+                // mark as confirmed
+                pendingSaveCallback = null;
+
+                $("#confirmSaveModal").modal("hide");
+            });
+
+        });
+        $('#confirmSaveModal').on('hidden.bs.modal', function () {
+
+            // if still has callback → means user cancelled
+            if (pendingSaveCallback !== null) {
+                logModalAction("CANCEL", modalFormData);
+            }
+
+            // reset everything
+            pendingSaveCallback = null;
+        });
+        var pendingSaveCallback = null;
+
+        function showConfirmPopup(formData, onConfirm) {
+
+            pendingSaveCallback = onConfirm;
+            modalFormData = formData;
+
+            // ✅ LOG OPEN
+            logModalAction("OPEN", formData);
+
+            var isOnline = navigator.onLine;
+            var statusText = isOnline
+                ? "<span style='color:green'>🟢 Online</span>"
+                : "<span style='color:red'>🔴 Offline</span>";
+
+            var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+            var speedText = "";
+
+            if (connection) {
+                var type = connection.effectiveType; // 'slow-2g', '2g', '3g', '4g'
+
+                if (type === "4g") {
+                    speedText = "<span style='color:green'>⚡ High Speed</span>";
+                } else if (type === "3g") {
+                    speedText = "<span style='color:orange'>🚀 Medium Speed</span>";
+                } else {
+                    speedText = "<span style='color:red'>🐢 Slow Network</span>";
+                }
+            } else {
+                speedText = "<span style='color:gray'>Speed: Unknown</span>";
+            }
+
+            updateInternetStatus(statusText, speedText);
+
+            var rows = "";
+            for (var key in formData) {
+                rows += "<tr><td><b>" + key + "</b></td><td>" + (formData[key] || "") + "</td></tr>";
+            }
+
+            $("#modalDataPreview").html(rows);
+
+            $("#confirmSaveModal").modal("show");
+        }
+        function logModalAction(action, data) {
+
+            data = data || {};
+
+            $.ajax({
+                type: "POST",
+                url: "<%= ResolveUrl("~/Handler/SaveReportSi_2023.ashx") %>",
+        data: {
+            ActionType: "MODAL_LOG",
+            LogAction: action,
+            ModalLog: JSON.stringify(data),
+                     Record: data.Record || "<%= Request.QueryString["record"] ?? "" %>",
+                     TabNo: data.TabNo || 0
+                 },
+
+                 success: function () {
+                     $("#logStatusMsg").html(
+                         "<span style='color:green'>✔ Log saved successfully</span>"
+                     );
+                 },
+
+                 error: function (xhr) {
+                     $("#logStatusMsg").html(
+                         "<span style='color:red'>❌ Log failed (" + xhr.status + ")</span>"
+                     );
+                 }
+             });
+        }
+
+        function saveWithModal(formData, reloadAfterSave, tabName) {
+            showConfirmPopup(formData, function () {
+                PostToHandler(formData, reloadAfterSave, tabName);
+            });
+        }
+        function updateInternetStatus(statusText, speedText) {
+            $("#modalInternetStatus").html(
+                "<div>" +
+                "<span><b>Internet:</b> " + statusText + "</span>" +
+                "<span style='margin-left:20px;'><b>Speed:</b> " + speedText + "</span>" +
+                "</div>" +
+                "<div id='logStatusMsg' style='margin-top:6px; font-size:12px;'></div>"
+            );
+        }
+        // =========================
+        // ALERT OVERLAY FUNCTION
+        // =========================
+        function showAlert(msg, type) {
+
+            // create placeholder if not exists
+            if ($("#MsgPlaceHolder").length === 0) {
+                $("body").append('<div id="MsgPlaceHolder"></div>');
+            }
+
+            // overlay container style
+            $("#MsgPlaceHolder").css({
+                position: "fixed",
+                top: "15px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 99999,
+                width: "auto",
+                maxWidth: "90%",
+                minWidth: "1000px"
+            });
+
+            var html = "";
+
+            if (type == 1) {
+                html = '<div class="alert alert-success alert-dismissible" style="box-shadow:0 8px 20px rgba(0,0,0,0.2);">' +
+                    '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>' +
+                    '<strong>Success !</strong> ' + msg +
+                    '</div>';
+            }
+            else if (type == 2) {
+                html = '<div class="alert alert-danger alert-dismissible" style="box-shadow:0 8px 20px rgba(0,0,0,0.2);">' +
+                    '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>' +
+                    '<strong>Error !</strong> ' + msg +
+                    '</div>';
+            }
+            else {
+                html = '<div class="alert alert-info alert-dismissible" style="box-shadow:0 8px 20px rgba(0,0,0,0.2);">' +
+                    '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>' +
+                    '<strong>Info !</strong> ' + msg +
+                    '</div>';
+            }
+
+            $("#MsgPlaceHolder").stop(true, true).hide().html(html).fadeIn(200);
+
+            // auto disappear after 10 sec
+            setTimeout(function () {
+                $("#MsgPlaceHolder").fadeOut(400, function () {
+                    $(this).html("").show();
+                });
+            }, 10000);
+        }
+        function getCheckedText() {
+            // arguments = checkbox selectors
+            for (var i = 0; i < arguments.length; i++) {
+
+                var cb = $(arguments[i]);
+                if (cb.length > 0 && cb.is(":checked")) {
+
+                    // ASP.NET checkbox text is usually in next sibling <label>
+                    var txt = cb.next("label").text();
+
+                    // fallback: if no label found, try parent text
+                    if (!txt) txt = cb.parent().text();
+
+                    return $.trim(txt);
+                }
+            }
+            return "";
+        }
+        function GetSingleCheckText(chk1Id, chk2Id, chk3Id, chk4Id) {
+            // returns checked checkbox Text (label) OR "" if none checked
+            if (chk1Id && $("#" + chk1Id).is(":checked")) return $("#" + chk1Id).next("label").text().trim() || $("#" + chk1Id).attr("value") || "1";
+            if (chk2Id && $("#" + chk2Id).is(":checked")) return $("#" + chk2Id).next("label").text().trim() || $("#" + chk2Id).attr("value") || "2";
+            if (chk3Id && $("#" + chk3Id).is(":checked")) return $("#" + chk3Id).next("label").text().trim() || $("#" + chk3Id).attr("value") || "3";
+            if (chk4Id && $("#" + chk4Id).is(":checked")) return $("#" + chk4Id).next("label").text().trim() || $("#" + chk4Id).attr("value") || "4";
+            return "";
+        }
+
+        function GetMultiCheckValues(arrIds) {
+            var list = [];
+            for (var i = 0; i < arrIds.length; i++) {
+                if ($("#" + arrIds[i]).is(":checked")) {
+                    // take checkbox text
+                    var txt = $("#" + arrIds[i]).next("label").text().trim();
+                    if (txt === "") txt = $("#" + arrIds[i]).attr("value") || arrIds[i];
+                    list.push(txt);
+                }
+            }
+            return list.join("|"); // same pattern like DiagnosisIDs
+        }
+        
+     </script>
 </asp:Content>

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Data;
 using System.Globalization;
+using System.Linq;
+using System.Web.UI.WebControls;
 
 namespace snehrehab.Member
 {
@@ -107,7 +105,7 @@ namespace snehrehab.Member
             if (dt.Rows.Count > 0)
             {
                 int.TryParse(dt.Rows[o]["AppointmentID"].ToString(), out _appointmentId);
-                foreach (SnehDLL.DoctorMast_Dll DM in PPBB.get_newapp(_appointmentId))
+                foreach (SnehDLL.DoctorMast_Dll DM in PPBB.get_newapp(_appointmentId, _fromDate))
                 {
                     bool found = false;
                     for (int j = 0; j < doct.Count; j++)
@@ -119,7 +117,6 @@ namespace snehrehab.Member
                     }
                     if (!found)
                     {
-
                         cal_resources.Add(new
                         {
                             id = DM.DoctorID.ToString(),
@@ -239,7 +236,7 @@ namespace snehrehab.Member
                     table = (_appointmentStatusID == 50 ? 1 : 0),
                 });
 
-                foreach (SnehDLL.DoctorMast_Dll DM in PBB.get_newapp(_appointmentId))
+                foreach (SnehDLL.DoctorMast_Dll DM in PBB.get_newapp(_appointmentId, _fromDate))
                 {
                     bool found = false;
                     for (int j = 0; j < doct.Count; j++)

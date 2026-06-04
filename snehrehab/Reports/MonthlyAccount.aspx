@@ -44,7 +44,29 @@
         });
     }
     </script>
-
+    <style type="text/css">
+    th {
+        position: sticky;
+        top: -2px;
+        z-index: 100;
+        left:-2px;
+    }
+    th:first-child{
+        position:sticky;
+        top:-2px;
+        left:-2px;
+        z-index:110;
+    }
+    .sticky_tbl{
+        height: 450px;
+        overflow:scroll;
+    }
+    td:first-child{ 
+        position:sticky; 
+        left:-2px; 
+        background-color:white;
+    }
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="grid">
@@ -76,7 +98,7 @@
             <div class="clearfix">
             </div>
             <br />
-            <div style="white-space: nowrap; overflow-x: auto;">
+            <div class="sticky_tbl"style="white-space: nowrap; overflow-x: auto;">
                 <asp:GridView ID="ReportGV" runat="server" CssClass="table table-bordered" PagerStyle-CssClass="custome-pagination"
                     AutoGenerateColumns="false" OnPageIndexChanging="ReportGV_PageIndexChanging"
                     PageSize="31" AllowPaging="true" OnRowDataBound="ReportGV_RowDataBound" ShowFooter="true">

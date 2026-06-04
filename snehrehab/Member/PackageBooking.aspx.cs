@@ -210,7 +210,7 @@ public partial class Member_PackageBooking : System.Web.UI.Page
         }
         if (_paymentMode == 2)
         {
-            tab_cash_Credit.Visible = true;
+            tab_cash_Credit.Visible = false;
         }
         if (_paymentMode == 3)
         {
@@ -248,7 +248,7 @@ public partial class Member_PackageBooking : System.Web.UI.Page
         int _bankID = 0; DateTime _chequeDate = new DateTime(); string BankBranch = string.Empty; string ChequeTxnNo = string.Empty;
         string HospitalReceiptID = string.Empty; DateTime HospitalReceiptDate = DateTime.MinValue;
         
-        if (_paymentMode == 1 || _paymentMode == 2)   
+        if (_paymentMode == 1)   
         {
             HospitalReceiptID = txtHospitalReceiptID.Text.Trim();
 

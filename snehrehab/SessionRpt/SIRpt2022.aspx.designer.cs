@@ -51,33 +51,6 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.CheckBox txtGiven;
 
         /// <summary>
-        /// txtGivenDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGivenDate;
-
-        /// <summary>
-        /// btnSubmit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSubmit;
-
-        /// <summary>
-        /// txtPrint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField txtPrint;
-
-        /// <summary>
         /// PanelDiagnosis control.
         /// </summary>
         /// <remarks>
@@ -103,6 +76,33 @@ namespace snehrehab.SessionRpt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDiagnosisOther;
+
+        /// <summary>
+        /// txtGivenDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtGivenDate;
+
+        /// <summary>
+        /// lnkFinalSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkFinalSave;
+
+        /// <summary>
+        /// txtPrint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField txtPrint;
 
         /// <summary>
         /// hfdTabs control.
@@ -6252,13 +6252,13 @@ namespace snehrehab.SessionRpt
         protected global::AjaxControlToolkit.TabContainer TabContainer2;
 
         /// <summary>
-        /// TabPanel15 control.
+        /// tb_SubReport1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel15;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport1;
 
         /// <summary>
         /// SIPTInfo_History control.
@@ -6270,13 +6270,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_History;
 
         /// <summary>
-        /// TabPanel16 control.
+        /// tb_SubReport2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel16;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport2;
 
         /// <summary>
         /// SIPTInfo_HandFunction1_GraspRight control.
@@ -6387,13 +6387,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_HandFunction1_ReleaseLeft;
 
         /// <summary>
-        /// TabPanel13 control.
+        /// tb_SubReport3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel13;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport3;
 
         /// <summary>
         /// SIPTInfo_HandFunction2_OppositionLfR control.
@@ -6504,13 +6504,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_HandFunction2_PinchRFL;
 
         /// <summary>
-        /// TabPanel14 control.
+        /// tb_SubReport4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel14;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport4;
 
         /// <summary>
         /// SIPTInfo_SIPT3_Spontaneous control.
@@ -6531,13 +6531,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_SIPT3_Command;
 
         /// <summary>
-        /// TabPanel5 control.
+        /// tb_SubReport5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel5;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport5;
 
         /// <summary>
         /// SIPTInfo_SIPT4_Kinesthesia control.
@@ -6612,13 +6612,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_SIPT4_Standing;
 
         /// <summary>
-        /// TabPanel6 control.
+        /// tb_SubReport6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel6;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport6;
 
         /// <summary>
         /// SIPTInfo_SIPT5_Color control.
@@ -6675,13 +6675,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_SIPT5_Motor;
 
         /// <summary>
-        /// TabPanel7 control.
+        /// tb_SubReport7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel7;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport7;
 
         /// <summary>
         /// SIPTInfo_SIPT6_Design control.
@@ -6702,13 +6702,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_SIPT6_Constructional;
 
         /// <summary>
-        /// TabPanel8 control.
+        /// tb_SubReport8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel8;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport8;
 
         /// <summary>
         /// SIPTInfo_SIPT7_Scanning control.
@@ -6729,13 +6729,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_SIPT7_Memory;
 
         /// <summary>
-        /// TabPanel9 control.
+        /// tb_SubReport9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel9;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport9;
 
         /// <summary>
         /// SIPTInfo_SIPT8_Postural control.
@@ -6774,13 +6774,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_SIPT8_Commands;
 
         /// <summary>
-        /// TabPanel10 control.
+        /// tb_SubReport10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel10;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport10;
 
         /// <summary>
         /// SIPTInfo_SIPT9_Bilateral control.
@@ -6819,13 +6819,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_SIPT9_CrossingMidline;
 
         /// <summary>
-        /// TabPanel11 control.
+        /// tb_SubReport11 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel11;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport11;
 
         /// <summary>
         /// SIPTInfo_SIPT10_Draw control.
@@ -6891,13 +6891,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox SIPTInfo_SIPT10_Laterality;
 
         /// <summary>
-        /// TabPanel12 control.
+        /// tb_SubReport12 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel12;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReport12;
 
         /// <summary>
         /// SIPTInfo_ActivityGiven_Remark control.
@@ -7053,13 +7053,13 @@ namespace snehrehab.SessionRpt
         protected global::AjaxControlToolkit.TabContainer TabContainer3;
 
         /// <summary>
-        /// TabPanel17 control.
+        /// tb_SubReporteval13 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel17;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReporteval13;
 
         /// <summary>
         /// Evaluation_Strengths control.
@@ -7071,13 +7071,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox Evaluation_Strengths;
 
         /// <summary>
-        /// TabPanel18 control.
+        /// tb_SubReporteval14 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel18;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReporteval14;
 
         /// <summary>
         /// Evaluation_Concern_Barriers control.
@@ -7116,13 +7116,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox Evaluation_Concern_Impairment;
 
         /// <summary>
-        /// TabPanel113 control.
+        /// tb_SubReporteval15 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel113;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReporteval15;
 
         /// <summary>
         /// Evaluation_Goal_Summary control.
@@ -7170,13 +7170,13 @@ namespace snehrehab.SessionRpt
         protected global::System.Web.UI.WebControls.TextBox Evaluation_Goal_Impairment;
 
         /// <summary>
-        /// TabPanel114 control.
+        /// tb_SubReporteval16 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TabPanel TabPanel114;
+        protected global::AjaxControlToolkit.TabPanel tb_SubReporteval16;
 
         /// <summary>
         /// Evaluation_Plan_Frequency control.
@@ -7294,14 +7294,5 @@ namespace snehrehab.SessionRpt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Doctor_Occupational;
-
-        /// <summary>
-        /// Button1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }

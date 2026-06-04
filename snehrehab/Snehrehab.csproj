@@ -269,11 +269,26 @@
     <Compile Include="Handler\Ndt_Report_MailPDF_new.ashx.cs">
       <DependentUpon>Ndt_Report_MailPDF_new.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handler\PreconstRpt_2021.ashx.cs">
+      <DependentUpon>PreconstRpt_2021.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handler\Presc_Report_MailPDF.ashx.cs">
       <DependentUpon>Presc_Report_MailPDF.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handler\ReportNdt_2025.ashx.cs">
+      <DependentUpon>ReportNdt_2025.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handler\Reval_Report_MailPDF.ashx.cs">
       <DependentUpon>Reval_Report_MailPDF.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\SaveReportSi_2023.ashx.cs">
+      <DependentUpon>SaveReportSi_2023.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\SaveRptNDTReval_New.ashx.cs">
+      <DependentUpon>SaveRptNDTReval_New.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Save_EIP_Report.ashx.cs">
+      <DependentUpon>Save_EIP_Report.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handler\Si2022_mailaPdf.ashx.cs">
       <DependentUpon>Si2022_mailaPdf.ashx</DependentUpon>
@@ -2010,6 +2025,11 @@
     <Content Include="Handler\Presc_Report_MailPDF.ashx" />
     <Content Include="Handler\Si2022_mailaPdf.ashx" />
     <Content Include="Handler\Ndt_Report_MailPDF_new.ashx" />
+    <Content Include="Handler\PreconstRpt_2021.ashx" />
+    <Content Include="Handler\ReportNdt_2025.ashx" />
+    <Content Include="Handler\SaveReportSi_2023.ashx" />
+    <Content Include="Handler\SaveRptNDTReval_New.ashx" />
+    <Content Include="Handler\Save_EIP_Report.ashx" />
     <None Include="js\elfinder\connectors\php\connector.php" />
     <None Include="js\jquery.qtip.min.js.map" />
     <None Include="js\tiny_mce\plugins\contextmenu\ScriptGates.com.url" />

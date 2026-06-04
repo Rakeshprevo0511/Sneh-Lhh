@@ -27,7 +27,7 @@ public partial class Member_BookingPayment : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            txtPaymentMode.DataBind();
+            txtPaymentMode.DataBind(); tab_cash.Visible = true;
             SnehBLL.Banks_Bll BNB = new SnehBLL.Banks_Bll();
             txtPaymentBankName.Items.Clear(); txtPaymentBankName.Items.Add(new ListItem("Select Bank", "-1"));
             foreach (SnehDLL.Banks_Dll PSD in BNB.GetList())
@@ -93,6 +93,31 @@ public partial class Member_BookingPayment : System.Web.UI.Page
         }
         int _paymentMode = 0; if (txtPaymentMode.SelectedItem != null) { int.TryParse(txtPaymentMode.SelectedItem.Value, out _paymentMode); }
         int _bankID = 0; DateTime _chequeDate = new DateTime(); string ChequeTxnNo = string.Empty; string BankBranch = string.Empty;
+        string _hospitalReceiptID = string.Empty; DateTime _hospitalReceiptDate = new DateTime();
+        if (_paymentMode == 1)
+        {
+            _hospitalReceiptID = txtCashTransactionID.Text.Trim();
+
+            DateTime.TryParseExact(txtCashTransactionDate.Text.Trim(), DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None,out _hospitalReceiptDate);
+
+            if (string.IsNullOrEmpty(_hospitalReceiptID))
+            {
+                DbHelper.Configuration.setAlert(txtMsg, "Please enter hospital receipt id...", 2);
+                return;
+            }
+
+            if (_hospitalReceiptDate <= DateTime.MinValue)
+            {
+                DbHelper.Configuration.setAlert(txtMsg, "Please select correct hospital receipt date...", 2);
+                return;
+            }
+
+            if (_hospitalReceiptDate >= DateTime.MaxValue)
+            {
+                DbHelper.Configuration.setAlert(txtMsg, "Please select correct hospital receipt date...", 2); return;
+            }
+        }
+
         if (_paymentMode == 3)
         {
             if (txtPaymentBankName.SelectedItem != null) { int.TryParse(txtPaymentBankName.SelectedItem.Value, out _bankID); }
@@ -115,6 +140,17 @@ public partial class Member_BookingPayment : System.Web.UI.Page
         {
             ChequeTxnNo = txtTransactionID.Text.Trim();
             DateTime.TryParseExact(txtTransactionDate.Text.Trim(), DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _chequeDate);
+             _hospitalReceiptID = txtonlinehostId.Text.Trim();
+
+            DateTime.TryParseExact(  txtonlinehostdate.Text.Trim(), DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture,  DateTimeStyles.None, out _hospitalReceiptDate );
+            if (string.IsNullOrEmpty(_hospitalReceiptID))
+            {
+                DbHelper.Configuration.setAlert(txtMsg, "Please enter hospital receipt id...", 2); return;
+            }
+            if (_hospitalReceiptDate <= DateTime.MinValue || _hospitalReceiptDate >= DateTime.MaxValue)
+            {
+                DbHelper.Configuration.setAlert(txtMsg, "Please select correct hospital receipt date...", 2); return;
+            }
             if (string.IsNullOrEmpty(ChequeTxnNo))
             {
                 DbHelper.Configuration.setAlert(txtMsg, "Please enter transaction id...", 2); return;
@@ -145,7 +181,7 @@ public partial class Member_BookingPayment : System.Web.UI.Page
         string _narration = txtPaymentNarration.Text.Trim();
 
         SnehBLL.PatientLedger_Bll PLB = new SnehBLL.PatientLedger_Bll();
-        int i = PLB.PayPackage(_ledgerID, _amount, _payDate, _paymentMode, _bankID, BankBranch, ChequeTxnNo, _chequeDate, _narration);
+        int i = PLB.PayPackage(_ledgerID, _amount, _payDate, _paymentMode, _bankID, BankBranch, ChequeTxnNo, _chequeDate, _narration, _hospitalReceiptID, _hospitalReceiptDate);
         if (i > 0)
         {
             Session[DbHelper.Configuration.messageTextSession] = "Payment entry added successfully.";
@@ -172,10 +208,11 @@ public partial class Member_BookingPayment : System.Web.UI.Page
     protected void txtPaymentMode_SelectedIndexChanged(object sender, EventArgs e)
     {
         int _paymentMode = 0; if (txtPaymentMode.SelectedItem != null) { int.TryParse(txtPaymentMode.SelectedItem.Value, out _paymentMode); }
-        tab_Cheque.Visible = false; tab_online.Visible = false;
+        tab_Cheque.Visible = false; tab_online.Visible = false; tab_cash.Visible = false;
         if (txtPaymentBankName.Items.Count > 0) { txtPaymentBankName.SelectedIndex = 0; }
         txtBankBranch.Text = ""; txtChequeNo.Text = ""; txtPaymentChequeDate.Text = "";
         txtTransactionID.Text = ""; txtTransactionDate.Text = "";
+        if (_paymentMode == 1) tab_cash.Visible = true;
         if (_paymentMode == 3)
         {
             tab_Cheque.Visible = true;

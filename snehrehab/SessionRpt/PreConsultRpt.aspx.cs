@@ -679,9 +679,6 @@ namespace snehrehab.SessionRpt
                         });
                     }
 
-
-
-
                     int temp = qls.Count; txtVisibleOption.Value = qls.Count.ToString();
                     for (int jl = 0; jl < (OptionCount - temp); jl++)
                     {
@@ -693,346 +690,431 @@ namespace snehrehab.SessionRpt
                 }
             }
         }
-
-        protected void btnSubmit_Click(object sender, EventArgs e)
+        protected void lnkFinalSave_Click(object sender, EventArgs e)
         {
-            SnehBLL.ReportPreConsultMst_Bll RDB = new SnehBLL.ReportPreConsultMst_Bll();
-
-            int HidPreConsultID = 0;
-            string Option1 = string.Empty;
-            string Option2 = string.Empty;
-            string Option3 = string.Empty;
-            string Option4 = string.Empty;
-            string Option5 = string.Empty;
-
-            for (int j = 1; j <= OptionCount; j++)
+            SnehBLL.ReportNdtMst_Bll RDB = new SnehBLL.ReportNdtMst_Bll();
+            try
             {
-                RepeaterItem item = txtSignleChoice.Items.Count >= j ? txtSignleChoice.Items[j - 1] : null;
-                if (item != null)
+                bool isFinal = txtFinal.Checked;
+                bool isGiven = txtGiven.Checked;
+
+                DateTime givenDate = DateTime.MinValue;
+
+                if (isGiven)
                 {
-                    HiddenField PreConsultID = item.FindControl("txtPreConsultID") as HiddenField;
-                    TextBox DateMonth = item.FindControl("txtDateMonth") as TextBox;
-                    TextBox RelevantHistory = item.FindControl("txtRelevantHistory") as TextBox;
-                    TextBox HospitalDoctorsVisited = item.FindControl("txtHospitalDoctorsVisited") as TextBox;
-                    TextBox DoctorsRecommendations = item.FindControl("txtDoctorsRecommendations") as TextBox;
-                    TextBox InvestigationsRecordsResults = item.FindControl("txtInvestigationsRecordsResults") as TextBox;
-                    if (DateMonth.Text != "" || RelevantHistory.Text != "" || HospitalDoctorsVisited.Text != "" || DoctorsRecommendations.Text != "" || InvestigationsRecordsResults.Text != "")
+                    if (string.IsNullOrWhiteSpace(txtGivenDate.Text))
                     {
-                        int.TryParse(PreConsultID.Value.ToString(), out HidPreConsultID);
-
-                        Option1 = DateMonth.Text.Trim();
-
-                        Option2 = RelevantHistory.Text.Trim();
-
-                        Option3 = HospitalDoctorsVisited.Text.Trim();
-
-                        Option4 = DoctorsRecommendations.Text.Trim();
-
-                        Option5 = InvestigationsRecordsResults.Text.Trim();
-
-                        int k = RDB.SetTimeLine(_appointmentID, HidPreConsultID, Option1, Option2, Option3, Option4, Option5, DateTime.UtcNow.AddMinutes(330), _loginID);
-
+                        DbHelper.Configuration.setAlert(Page, "Given Date is Required...", 2);
+                        return;
                     }
-                    else if (DateMonth.Text == "" && RelevantHistory.Text == "" && HospitalDoctorsVisited.Text == "" && DoctorsRecommendations.Text == "" && InvestigationsRecordsResults.Text == "")
-                    {
-                        int.TryParse(PreConsultID.Value.ToString(), out HidPreConsultID);
-                        int P = RDB.DeleteRow(HidPreConsultID);
-                    }
+
+                    DateTime.TryParseExact(txtGivenDate.Text.Trim(), DbHelper.Configuration.showDateFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out givenDate
+                    );
                 }
-            }
 
+                DbHelper.SqlDb db = new DbHelper.SqlDb();
 
-
-
-            bool IsFinal = txtFinal.Checked;
-            bool IsGiven = txtGiven.Checked;
-            DateTime GivenDate = new DateTime();
-            if (IsGiven)
-            {
-                if (txtGivenDate.Text.Trim().Length > 0)
+                using (SqlCommand cmd1 = new SqlCommand("SET_PRECONS_2021_FLAGS"))
                 {
-                    DateTime.TryParseExact(txtGivenDate.Text.Trim(), DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out GivenDate);
+                    cmd1.CommandType = CommandType.StoredProcedure;
+                    cmd1.Parameters.AddWithValue("@AppointmentID", _appointmentID);
+                    cmd1.Parameters.AddWithValue("@IsGiven", isGiven);
+                    cmd1.Parameters.AddWithValue("@IsFinal", isFinal);
+                    cmd1.Parameters.AddWithValue("@GivenDate", isGiven ? (object)givenDate : DBNull.Value);
+
+                    db.DbUpdate(cmd1);
                 }
+
+
+                DbHelper.Configuration.setAlert(Page, "Final Submit Saved Successfully", 1);
             }
-
-            // Patient Information Start //
-            DateTime DatepreConsult = new DateTime();
-            if (txtDatepreConsult.Text.Trim().Length > 0)
+            catch (Exception ex)
             {
-                DateTime.TryParseExact(txtDatepreConsult.Text, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DatepreConsult);
-            }
-            DateTime DateBirth = new DateTime();
-            DateTime.TryParseExact(txtDateBirth.Text, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateBirth);
-            DateTime DateDelivery = new DateTime();
-            DateTime.TryParseExact(txtDateofDelivery.Text, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateDelivery);
-            string Gender = string.Empty;
-            if (CheckFemale.Checked) { Gender = CheckFemale.Text.Trim(); }
-            if (CheckMale.Checked) { Gender = CheckMale.Text.Trim(); }
-            if (CheckOther.Checked) { Gender = CheckOther.Text.Trim(); }
-            string ChildAttend = string.Empty;
-            if (YesAttend.Checked) { ChildAttend = YesAttend.Text.Trim(); }
-            if (Noattend.Checked) { ChildAttend = Noattend.Text.Trim(); }
-            // Patient Information End //
-
-            // Family History Start //
-            string Consanguinity = string.Empty;
-            if (CheckConsan.Checked) { Consanguinity = CheckConsan.Text.Trim(); }
-            string Consanguinity_1 = string.Empty;
-            if (CheckNonConsan.Checked) { Consanguinity_1 = CheckNonConsan.Text.Trim(); }
-            string ConsanguinityDegree = string.Empty;
-            if (Check1Deg.Checked) { ConsanguinityDegree = Check1Deg.Text.Trim(); }
-            string ConsanguinityDegree_1 = string.Empty;
-            if (Check2Deg.Checked) { ConsanguinityDegree_1 = Check2Deg.Text.Trim(); }
-            string ConsanguinityDegree_2 = string.Empty;
-            if (Check3Deg.Checked) { ConsanguinityDegree_2 = Check3Deg.Text.Trim(); }
-            string FamilyStructure = string.Empty;
-            if (CheckNuclear.Checked) { FamilyStructure = CheckNuclear.Text.Trim(); }
-            string FamilyStructure_1 = string.Empty;
-            if (CheckJoint.Checked) { FamilyStructure_1 = CheckJoint.Text.Trim(); }
-            string Conception = string.Empty;
-            if (CheckNatural.Checked) { Conception = CheckNatural.Text.Trim(); }
-            string Conception_1 = string.Empty;
-            if (CheckIUI.Checked) { Conception_1 = CheckIUI.Text.Trim(); }
-            string Conception_2 = string.Empty;
-            if (CheckIVF.Checked) { Conception_2 = CheckIVF.Text.Trim(); }
-            string Conception_3 = string.Empty;
-            if (CheckISCI.Checked) { Conception_3 = CheckISCI.Text.Trim(); }
-            string Conception_4 = string.Empty;
-            if (CheckOI.Checked) { Conception_4 = CheckOI.Text.Trim(); }
-            string PlanningConception = string.Empty;
-            if (CheckPlanned.Checked) { PlanningConception = CheckPlanned.Text.Trim(); }
-            string PlanningConception_1 = string.Empty;
-            if (CheckUnplanned.Checked) { PlanningConception_1 = CheckUnplanned.Text.Trim(); }
-            string Siblings = string.Empty;
-            if (AnySiblingsYes.Checked) { Siblings = AnySiblingsYes.Text.Trim(); }
-            if (AnySiblingsNo.Checked) { Siblings = AnySiblingsNo.Text.Trim(); }
-            // Family History End //
-
-            // Family Relation Start //
-            string InterParentalRelation = string.Empty;
-            if (CheckPoor.Checked) { InterParentalRelation = CheckPoor.Text.Trim(); }
-            string InterParentalRelation_1 = string.Empty;
-            if (CheckFair.Checked) { InterParentalRelation_1 = CheckFair.Text.Trim(); }
-            string InterParentalRelation_2 = string.Empty;
-            if (CheckGood.Checked) { InterParentalRelation_2 = CheckGood.Text.Trim(); }
-            string ParentChildRelation = string.Empty;
-            if (CheckPoorr.Checked) { ParentChildRelation = CheckPoorr.Text.Trim(); }
-            string ParentChildRelation_1 = string.Empty;
-            if (CheckFairr.Checked) { ParentChildRelation_1 = CheckFairr.Text.Trim(); }
-            string ParentChildRelation_2 = string.Empty;
-            if (CheckGoodd.Checked) { ParentChildRelation_2 = CheckGoodd.Text.Trim(); }
-            string InterSiblingRelation = string.Empty;
-            if (Check_Poor.Checked) { InterSiblingRelation = Check_Poor.Text.Trim(); }
-            string InterSiblingRelation_1 = string.Empty;
-            if (Check_Fair.Checked) { InterSiblingRelation_1 = Check_Fair.Text.Trim(); }
-            string InterSiblingRelation_2 = string.Empty;
-            if (Check_Good.Checked) { InterSiblingRelation_2 = Check_Good.Text.Trim(); }
-            string DomesticViolence = string.Empty;
-            if (CheckYes.Checked) { DomesticViolence = CheckYes.Text.Trim(); }
-            string DomesticViolence_1 = string.Empty;
-            if (CheckNo.Checked) { DomesticViolence_1 = CheckNo.Text.Trim(); }
-            string DomesticViolence_2 = string.Empty;
-            if (CheckMaybe.Checked) { DomesticViolence_2 = CheckMaybe.Text.Trim(); }
-            string FamilyRelocation = string.Empty;
-            if (Check_Yes.Checked) { FamilyRelocation = Check_Yes.Text.Trim(); }
-            string FamilyRelocation_1 = string.Empty;
-            if (Check_No.Checked) { FamilyRelocation_1 = Check_No.Text.Trim(); }
-            string PrimaryCare = string.Empty;
-            if (CheckMother.Checked) { PrimaryCare = CheckMother.Text.Trim(); }
-            string PrimaryCare_1 = string.Empty;
-            if (CheckFather.Checked) { PrimaryCare_1 = CheckFather.Text.Trim(); }
-            string PrimaryCare_2 = string.Empty;
-            if (CheckGrandparents.Checked) { PrimaryCare_2 = CheckGrandparents.Text.Trim(); }
-            string PrimaryCare_3 = string.Empty;
-            if (CheckCaretaker.Checked) { PrimaryCare_3 = CheckCaretaker.Text.Trim(); }
-            // Family Relation End //
-
-            // Maternal History start //
-            string MaternalStress = string.Empty;
-            if (CheckPhysical.Checked) { MaternalStress = CheckPhysical.Text.Trim(); }
-            string MaternalStress_1 = string.Empty;
-            if (CheckMental.Checked) { MaternalStress_1 = CheckMental.Text.Trim(); }
-            string Prenatalwellness = string.Empty;
-            if (CheckYess.Checked) { Prenatalwellness = CheckYess.Text.Trim(); }
-            if (CheckNoo.Checked) { Prenatalwellness = CheckNoo.Text.Trim(); }
-            // Maternal History End //
-
-            // Peri and Postnatal History Start //
-            string delivery = string.Empty;
-            if (rdoFTND.Checked) { delivery = rdoFTND.Text.Trim(); }
-            string delivery_1 = string.Empty;
-            if (rdoFTNDva.Checked) { delivery_1 = rdoFTNDva.Text.Trim(); }
-            string delivery_2 = string.Empty;
-            if (rdoELSCS.Checked) { delivery_2 = rdoELSCS.Text.Trim(); }
-            string delivery_3 = string.Empty;
-            if (rdoElectiveLSCS.Checked) { delivery_3 = rdoElectiveLSCS.Text.Trim(); }
-            string ciab = string.Empty;
-            if (rdoYess.Checked) { ciab = rdoYess.Text.Trim(); }
-            if (rdoNoo.Checked) { ciab = rdoNoo.Text.Trim(); }
-            string GestationalBirthAge = string.Empty;
-            if (RdoAGA.Checked) { GestationalBirthAge = RdoAGA.Text.Trim(); }
-            string GestationalBirthAge_1 = string.Empty;
-            if (RdoSGA.Checked) { GestationalBirthAge_1 = RdoSGA.Text.Trim(); }
-            string GestationalBirthAge_2 = string.Empty;
-            if (RdoLGA.Checked) { GestationalBirthAge_2 = RdoLGA.Text.Trim(); }
-            string NICUstay = string.Empty;
-            if (RdoPresent.Checked) { NICUstay = RdoPresent.Text.Trim(); }
-            if (RdoAbsent.Checked) { NICUstay = RdoAbsent.Text.Trim(); }
-            string Breastfed = string.Empty;
-            if (RdoYes.Checked) { Breastfed = RdoYes.Text.Trim(); }
-            if (RdoNo.Checked) { Breastfed = RdoNo.Text.Trim(); }
-            string Problemsduringbreastfeeding = string.Empty;
-            if (RadioPresent.Checked) { Problemsduringbreastfeeding = RadioPresent.Text.Trim(); }
-            if (RadioAbsent.Checked) { Problemsduringbreastfeeding = RadioAbsent.Text.Trim(); }
-            string colicissue = string.Empty;
-            if (RadioYes.Checked) { colicissue = RadioYes.Text.Trim(); }
-            if (RadioNo.Checked) { colicissue = RadioNo.Text.Trim(); }
-            // Peri and Postnatal History End //
-
-            // Sleep Start //
-            string Sleepissues = string.Empty;
-            if (RadiooNo.Checked) { Sleepissues = RadiooNo.Text.Trim(); }
-            if (RadiooYes.Checked) { Sleepissues = RadiooYes.Text.Trim(); }
-            string Presentsleep = string.Empty;
-            if (PresentRadio.Checked) { Presentsleep = PresentRadio.Text.Trim(); }
-            if (AbsentRadio.Checked) { Presentsleep = AbsentRadio.Text.Trim(); }
-            string SleepType = string.Empty;
-            if (RadioLight.Checked) { SleepType = RadioLight.Text.Trim(); }
-            if (RadioDeep.Checked) { SleepType = RadioDeep.Text.Trim(); }
-            string Cosleeping = string.Empty;
-            if (RadioAbsentbtn.Checked) { Cosleeping = RadioAbsentbtn.Text.Trim(); }
-            if (RadioPresentbtn.Checked) { Cosleeping = RadioPresentbtn.Text.Trim(); }
-            string Naptime = string.Empty;
-            if (RadioButtonPresent.Checked) { Naptime = RadioButtonPresent.Text.Trim(); }
-            if (RadioButtonAbsent.Checked) { Naptime = RadioButtonAbsent.Text.Trim(); }
-            // Sleep end //
-
-            // Feeding habits Start //
-            string Feedinghabits = string.Empty;
-            if (RadioTypical.Checked) { Feedinghabits = RadioTypical.Text.Trim(); }
-            if (RadioAtypical.Checked) { Feedinghabits = RadioAtypical.Text.Trim(); }
-            // Feeding habits end //
-
-            // Into the Child's Heart start //
-            //string signsofstress = string.Empty;
-            //if (RadioButtonYes.Checked) { signsofstress = RadioButtonYes.Text.Trim(); }
-            //if (RadioButtonNo.Checked) { signsofstress = RadioButtonNo.Text.Trim(); }
-            //if (RadioButtonMaybe.Checked) { signsofstress = RadioButtonMaybe.Text.Trim(); }
-            // Into the Child's Heart end //
-
-            // Play Behaviour start //
-            string Playbehaviour = string.Empty;
-            if (RadioOrganised.Checked) { Playbehaviour = RadioOrganised.Text.Trim(); }
-            if (RadioDisorganised.Checked) { Playbehaviour = RadioDisorganised.Text.Trim(); }
-            string Strangeranxiety = string.Empty;
-            if (RadioPresentButton.Checked) { Strangeranxiety = RadioPresentButton.Text.Trim(); }
-            if (RadioAbsentButton.Checked) { Strangeranxiety = RadioAbsentButton.Text.Trim(); }
-            string PlayToys = string.Empty;
-            if (RadioYesButton.Checked) { PlayToys = RadioYesButton.Text.Trim(); }
-            if (RadioNoButton.Checked) { PlayToys = RadioNoButton.Text.Trim(); }
-            if (RadioMaybeButton.Checked) { PlayToys = RadioMaybeButton.Text.Trim(); }
-            // Play Behaviour end //
-
-            // ADLs start //
-            string Brushing = string.Empty;
-            if (RadioDependent.Checked) { Brushing = RadioDependent.Text.Trim(); }
-            string Brushing_1 = string.Empty;
-            if (RadioAssisted.Checked) { Brushing_1 = RadioAssisted.Text.Trim(); }
-            string Brushing_2 = string.Empty;
-            if (RadioIndependent.Checked) { Brushing_2 = RadioIndependent.Text.Trim(); }
-            string Bathing = string.Empty;
-            if (DependentRadio.Checked) { Bathing = DependentRadio.Text.Trim(); }
-            string Bathing_1 = string.Empty;
-            if (AssistedRadio.Checked) { Bathing_1 = AssistedRadio.Text.Trim(); }
-            string Bathing_2 = string.Empty;
-            if (IndependentRadio.Checked) { Bathing_2 = IndependentRadio.Text.Trim(); }
-            string Toileting = string.Empty;
-            if (RadioDependentButton.Checked) { Toileting = RadioDependentButton.Text.Trim(); }
-            string Toileting_1 = string.Empty;
-            if (RadioAssistedButton.Checked) { Toileting_1 = RadioAssistedButton.Text.Trim(); }
-            string Toileting_2 = string.Empty;
-            if (RadioIndependentButton.Checked) { Toileting_2 = RadioIndependentButton.Text.Trim(); }
-            string Dressing = string.Empty;
-            if (RadioButtonDependent.Checked) { Dressing = RadioButtonDependent.Text.Trim(); }
-            string Dressing_1 = string.Empty;
-            if (RadioButtonAssisted.Checked) { Dressing_1 = RadioButtonAssisted.Text.Trim(); }
-            string Dressing_2 = string.Empty;
-            if (RadioButtonIndependent.Checked) { Dressing_2 = RadioButtonIndependent.Text.Trim(); }
-            string Eating = string.Empty;
-            if (RadioBtnDependent.Checked) { Eating = RadioBtnDependent.Text.Trim(); }
-            string Eating_1 = string.Empty;
-            if (RadioBtnAssisted.Checked) { Eating_1 = RadioBtnAssisted.Text.Trim(); }
-            string Eating_2 = string.Empty;
-            if (RadioBtnIndependent.Checked) { Eating_2 = RadioBtnIndependent.Text.Trim(); }
-            string Ambulation = string.Empty;
-            if (RdoDependent.Checked) { Ambulation = RdoDependent.Text.Trim(); }
-            string Ambulation_1 = string.Empty;
-            if (RdoAssisted.Checked) { Ambulation_1 = RdoAssisted.Text.Trim(); }
-            string Ambulation_2 = string.Empty;
-            if (RdoIndependent.Checked) { Ambulation_2 = RdoIndependent.Text.Trim(); }
-            string Transfers = string.Empty;
-            if (RdobtnDependent.Checked) { Transfers = RdobtnDependent.Text.Trim(); }
-            string Transfers_1 = string.Empty;
-            if (RdobtnAssisted.Checked) { Transfers_1 = RdobtnAssisted.Text.Trim(); }
-            string Transfers_2 = string.Empty;
-            if (RdobtnIndependent.Checked) { Transfers_2 = RdobtnIndependent.Text.Trim(); }
-            // ADLs end //
-
-
-
-
-            int i = RDB.Set_New(_appointmentID, IsFinal, IsGiven, GivenDate, DateTime.UtcNow.AddMinutes(330), _loginID,
-            DatepreConsult, txtComfortableLanguage.Text.Trim(), DateBirth, DateDelivery, txtCorrectAge.Text.Trim(),
-            txtAge.Text.Trim(), Gender, txtMotherName.Text.Trim(), txtMotherAge.Text.Trim(), txtMotherQualification.Text.Trim(),
-            txtMotherOccupation.Text.Trim(), txtMotherWorkingHour.Text.Trim(), txtFatherName.Text.Trim(), txtFatherAge.Text.Trim(),
-            txtFatherOccupation.Text.Trim(), txtFatherQualification.Text.Trim(), txtFatherWorkingHour.Text.Trim(), txtAddress.Text.Trim(),
-            txtContactDetails.Text.Trim(), txtEmailID.Text.Trim(), txtReferredBy.Text.Trim(), txtTherapistDuringPC.Text.Trim(), txtDiagnosis.Text.Trim(),
-            txtCommentsPI.Text.Trim(), txtChiefConcernsHome.Text.Trim(), txtChiefConcernsSchool.Text.Trim(), txtChiefConcernsSocialGath.Text.Trim(),
-            txtCommentsCC.Text.Trim(), Consanguinity, ConsanguinityDegree, txtYearsMarriage.Text.Trim(), FamilyStructure, Conception,
-            PlanningConception, txtCommentsFH.Text.Trim(), ParentChildRelation, InterParentalRelation, InterSiblingRelation, DomesticViolence, FamilyRelocation,
-            txtfrequency.Text.Trim(), PrimaryCare, txtMotherScreenTime.Text.Trim(), txtScreenTimeChild.Text.Trim(), txtCommentsFR.Text.Trim(),
-            txtPrenatalCondition.Text.Trim(), MaternalStress, txtDescribeStressors.Text.Trim(), txtWGDP.Text.Trim(), txtFoetalMovement.Text.Trim(),
-            txtCommentsMH.Text.Trim(), txtDurationLabour.Text.Trim(), delivery, ciab, txtConditionPostBirth.Text.Trim(), txtBirthWeight.Text.Trim(),
-            GestationalBirthAge, NICUstay, txtDurationNICUstay.Text.Trim(), txtNICUHistory.Text.Trim(), txtReasonNICUstay.Text.Trim(), txtAPGARscore.Text.Trim(),
-            Breastfed, txtBabyFed.Text.Trim(), Problemsduringbreastfeeding, txtMentionProblem.Text.Trim(), txtwaswtcbf.Text.Trim(), colicissue,
-            txtOthrtMedicalIssues.Text.Trim(), txtCommentsPPH.Text.Trim(), txtGrossMotor.Text.Trim(), txtFineMotor.Text.Trim(), txtPersonalandSocial.Text.Trim(),
-            txtCommunication.Text.Trim(), txtCommentsDM.Text.Trim(), Sleepissues, Presentsleep, txtSleepduration.Text.Trim(), SleepType, Cosleeping,
-            txtCosleepingwith.Text.Trim(), txtAnySleepAdjunctsused.Text.Trim(), Naptime, txtNapduration.Text.Trim(), txtCommentsS.Text.Trim(), Feedinghabits,
-            txtTypeoffoodhad.Text.Trim(), txtFoodconsistency.Text.Trim(), txtFoodtemperature.Text.Trim(), txtFoodtaste.Text.Trim(), txtCommentsFeHa.Text.Trim(),
-            txtChildLikes.Text.Trim(), txtCommentsITCH.Text.Trim(), Playbehaviour, txtInteractionwithpeers.Text.Trim(), Strangeranxiety, PlayToys,
-            txtPreferenceoftoys.Text.Trim(), txtCommentsPB.Text.Trim(), Brushing, txtCommentsBrushing.Text.Trim(), Bathing, txtCommentsBathing.Text.Trim(), Toileting,
-            txtCommentsToileting.Text.Trim(), Dressing, txtCommentsDressing.Text.Trim(), Eating, txtCommentsEating.Text.Trim(), Ambulation, txtCommentsAmbulation.Text.Trim(),
-            Transfers, txtCommentsTransfers.Text.Trim(), txtAddComments.Text.Trim(), Prenatalwellness, Siblings,
-            txtNoOfSiblings.Text.Trim(), txtRHASiblings.Text.Trim(), Consanguinity_1, ConsanguinityDegree_1, ConsanguinityDegree_2, FamilyStructure_1,
-            Conception_1, Conception_2, Conception_3, Conception_4, PlanningConception_1, InterParentalRelation_1, InterParentalRelation_2, ParentChildRelation_1,
-            ParentChildRelation_2, InterSiblingRelation_1, InterSiblingRelation_2, DomesticViolence_1, DomesticViolence_2, FamilyRelocation_1, PrimaryCare_1, PrimaryCare_2, PrimaryCare_3,
-            MaternalStress_1, delivery_1, delivery_2, delivery_3, GestationalBirthAge_1, GestationalBirthAge_2, txtAddEvalRec.Text.Trim(), ChildAttend, txtOnlineOffline.Text.Trim(), txtWhichGrade.Text.Trim(),
-            Brushing_1, Brushing_2, Bathing_1, Bathing_2, Toileting_1, Toileting_2, Dressing_1, Dressing_2, Eating_1, Eating_2, Ambulation_1, Ambulation_2,
-            Transfers_1, Transfers_2
-            // ,  Option1, Option2, Option3, Option4, Option5
-            );
-            if (i > 0)
-            {
-                Session[DbHelper.Configuration.messageTextSession] = "Pre Consultation report saved successfully.";
-                Session[DbHelper.Configuration.messageTypeSession] = "1";
-                LoadForm();
-                Response.Redirect(ResolveClientUrl("~/SessionRpt/PreConsultRpt.aspx?record=" + Request.QueryString["record"]), true);
-            }
-            else
-            {
-                DbHelper.Configuration.setAlert(Page, "Unable to process your request, Please try again...", 2);
+                DbHelper.Configuration.setAlert(Page, ex.Message, 2);
             }
         }
+
+        //protected void btnSubmit_Click(object sender, EventArgs e)
+        //{
+        //    SnehBLL.ReportPreConsultMst_Bll RDB = new SnehBLL.ReportPreConsultMst_Bll();
+
+
+        //    string deletedIds = hdnDeletedTimelineIds.Value;
+
+        //    if (!string.IsNullOrEmpty(deletedIds))
+        //    {
+        //        foreach (string id in deletedIds.Split(','))
+        //        {
+        //            int delID;
+        //            if (int.TryParse(id, out delID))
+        //            {
+        //                RDB.DeleteRow(delID);
+        //            }
+        //        }
+        //    }
+
+        //    string[] orderedIds = hdnRowOrder.Value.Split(',');
+
+        //    int displayOrder = 1;
+
+        //    foreach (string idStr in orderedIds)
+        //    {
+        //        int id;
+        //        int.TryParse(idStr, out id);
+
+        //        foreach (RepeaterItem item in txtSignleChoice.Items)
+        //        {
+        //            HiddenField PreConsultID = item.FindControl("txtPreConsultID") as HiddenField;
+
+        //            if (PreConsultID.Value == idStr)
+        //            {
+        //                TextBox DateMonth = item.FindControl("txtDateMonth") as TextBox;
+        //                TextBox RelevantHistory = item.FindControl("txtRelevantHistory") as TextBox;
+        //                TextBox HospitalDoctorsVisited = item.FindControl("txtHospitalDoctorsVisited") as TextBox;
+        //                TextBox DoctorsRecommendations = item.FindControl("txtDoctorsRecommendations") as TextBox;
+        //                TextBox InvestigationsRecordsResults = item.FindControl("txtInvestigationsRecordsResults") as TextBox;
+
+        //                string Option1 = DateMonth.Text.Trim();
+        //                string Option2 = RelevantHistory.Text.Trim();
+        //                string Option3 = HospitalDoctorsVisited.Text.Trim();
+        //                string Option4 = DoctorsRecommendations.Text.Trim();
+        //                string Option5 = InvestigationsRecordsResults.Text.Trim();
+
+        //                if (!string.IsNullOrEmpty(Option1) ||
+        //                    !string.IsNullOrEmpty(Option2) ||
+        //                    !string.IsNullOrEmpty(Option3) ||
+        //                    !string.IsNullOrEmpty(Option4) ||
+        //                    !string.IsNullOrEmpty(Option5))
+        //                {
+        //                    RDB.SetTimeLine(
+        //                        _appointmentID,
+        //                        id,
+        //                        Option1,
+        //                        Option2,
+        //                        Option3,
+        //                        Option4,
+        //                        Option5,
+        //                        DateTime.UtcNow.AddMinutes(330),
+        //                        _loginID,
+        //                        displayOrder
+        //                    );
+
+        //                    displayOrder++;
+        //                }
+
+        //                break;
+        //            }
+        //        }
+        //    }
+
+
+
+        //    bool IsFinal = txtFinal.Checked;
+        //    bool IsGiven = txtGiven.Checked;
+        //    DateTime GivenDate = new DateTime();
+        //    if (IsGiven)
+        //    {
+        //        if (txtGivenDate.Text.Trim().Length > 0)
+        //        {
+        //            DateTime.TryParseExact(txtGivenDate.Text.Trim(), DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out GivenDate);
+        //        }
+        //    }
+
+        //    // Patient Information Start //
+        //    DateTime DatepreConsult = new DateTime();
+        //    if (txtDatepreConsult.Text.Trim().Length > 0)
+        //    {
+        //        DateTime.TryParseExact(txtDatepreConsult.Text, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DatepreConsult);
+        //    }
+        //    DateTime DateBirth = new DateTime();
+        //    DateTime.TryParseExact(txtDateBirth.Text, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateBirth);
+        //    DateTime DateDelivery = new DateTime();
+        //    DateTime.TryParseExact(txtDateofDelivery.Text, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateDelivery);
+        //    string Gender = string.Empty;
+        //    if (CheckFemale.Checked) { Gender = CheckFemale.Text.Trim(); }
+        //    if (CheckMale.Checked) { Gender = CheckMale.Text.Trim(); }
+        //    if (CheckOther.Checked) { Gender = CheckOther.Text.Trim(); }
+        //    string ChildAttend = string.Empty;
+        //    if (YesAttend.Checked) { ChildAttend = YesAttend.Text.Trim(); }
+        //    if (Noattend.Checked) { ChildAttend = Noattend.Text.Trim(); }
+        //    // Patient Information End //
+
+        //    // Family History Start //
+        //    string Consanguinity = string.Empty;
+        //    if (CheckConsan.Checked) { Consanguinity = CheckConsan.Text.Trim(); }
+        //    string Consanguinity_1 = string.Empty;
+        //    if (CheckNonConsan.Checked) { Consanguinity_1 = CheckNonConsan.Text.Trim(); }
+        //    string ConsanguinityDegree = string.Empty;
+        //    if (Check1Deg.Checked) { ConsanguinityDegree = Check1Deg.Text.Trim(); }
+        //    string ConsanguinityDegree_1 = string.Empty;
+        //    if (Check2Deg.Checked) { ConsanguinityDegree_1 = Check2Deg.Text.Trim(); }
+        //    string ConsanguinityDegree_2 = string.Empty;
+        //    if (Check3Deg.Checked) { ConsanguinityDegree_2 = Check3Deg.Text.Trim(); }
+        //    string FamilyStructure = string.Empty;
+        //    if (CheckNuclear.Checked) { FamilyStructure = CheckNuclear.Text.Trim(); }
+        //    string FamilyStructure_1 = string.Empty;
+        //    if (CheckJoint.Checked) { FamilyStructure_1 = CheckJoint.Text.Trim(); }
+        //    string Conception = string.Empty;
+        //    if (CheckNatural.Checked) { Conception = CheckNatural.Text.Trim(); }
+        //    string Conception_1 = string.Empty;
+        //    if (CheckIUI.Checked) { Conception_1 = CheckIUI.Text.Trim(); }
+        //    string Conception_2 = string.Empty;
+        //    if (CheckIVF.Checked) { Conception_2 = CheckIVF.Text.Trim(); }
+        //    string Conception_3 = string.Empty;
+        //    if (CheckISCI.Checked) { Conception_3 = CheckISCI.Text.Trim(); }
+        //    string Conception_4 = string.Empty;
+        //    if (CheckOI.Checked) { Conception_4 = CheckOI.Text.Trim(); }
+        //    string PlanningConception = string.Empty;
+        //    if (CheckPlanned.Checked) { PlanningConception = CheckPlanned.Text.Trim(); }
+        //    string PlanningConception_1 = string.Empty;
+        //    if (CheckUnplanned.Checked) { PlanningConception_1 = CheckUnplanned.Text.Trim(); }
+        //    string Siblings = string.Empty;
+        //    if (AnySiblingsYes.Checked) { Siblings = AnySiblingsYes.Text.Trim(); }
+        //    if (AnySiblingsNo.Checked) { Siblings = AnySiblingsNo.Text.Trim(); }
+        //    // Family History End //
+
+        //    // Family Relation Start //
+        //    string InterParentalRelation = string.Empty;
+        //    if (CheckPoor.Checked) { InterParentalRelation = CheckPoor.Text.Trim(); }
+        //    string InterParentalRelation_1 = string.Empty;
+        //    if (CheckFair.Checked) { InterParentalRelation_1 = CheckFair.Text.Trim(); }
+        //    string InterParentalRelation_2 = string.Empty;
+        //    if (CheckGood.Checked) { InterParentalRelation_2 = CheckGood.Text.Trim(); }
+        //    string ParentChildRelation = string.Empty;
+        //    if (CheckPoorr.Checked) { ParentChildRelation = CheckPoorr.Text.Trim(); }
+        //    string ParentChildRelation_1 = string.Empty;
+        //    if (CheckFairr.Checked) { ParentChildRelation_1 = CheckFairr.Text.Trim(); }
+        //    string ParentChildRelation_2 = string.Empty;
+        //    if (CheckGoodd.Checked) { ParentChildRelation_2 = CheckGoodd.Text.Trim(); }
+        //    string InterSiblingRelation = string.Empty;
+        //    if (Check_Poor.Checked) { InterSiblingRelation = Check_Poor.Text.Trim(); }
+        //    string InterSiblingRelation_1 = string.Empty;
+        //    if (Check_Fair.Checked) { InterSiblingRelation_1 = Check_Fair.Text.Trim(); }
+        //    string InterSiblingRelation_2 = string.Empty;
+        //    if (Check_Good.Checked) { InterSiblingRelation_2 = Check_Good.Text.Trim(); }
+        //    string DomesticViolence = string.Empty;
+        //    if (CheckYes.Checked) { DomesticViolence = CheckYes.Text.Trim(); }
+        //    string DomesticViolence_1 = string.Empty;
+        //    if (CheckNo.Checked) { DomesticViolence_1 = CheckNo.Text.Trim(); }
+        //    string DomesticViolence_2 = string.Empty;
+        //    if (CheckMaybe.Checked) { DomesticViolence_2 = CheckMaybe.Text.Trim(); }
+        //    string FamilyRelocation = string.Empty;
+        //    if (Check_Yes.Checked) { FamilyRelocation = Check_Yes.Text.Trim(); }
+        //    string FamilyRelocation_1 = string.Empty;
+        //    if (Check_No.Checked) { FamilyRelocation_1 = Check_No.Text.Trim(); }
+        //    string PrimaryCare = string.Empty;
+        //    if (CheckMother.Checked) { PrimaryCare = CheckMother.Text.Trim(); }
+        //    string PrimaryCare_1 = string.Empty;
+        //    if (CheckFather.Checked) { PrimaryCare_1 = CheckFather.Text.Trim(); }
+        //    string PrimaryCare_2 = string.Empty;
+        //    if (CheckGrandparents.Checked) { PrimaryCare_2 = CheckGrandparents.Text.Trim(); }
+        //    string PrimaryCare_3 = string.Empty;
+        //    if (CheckCaretaker.Checked) { PrimaryCare_3 = CheckCaretaker.Text.Trim(); }
+        //    // Family Relation End //
+
+        //    // Maternal History start //
+        //    string MaternalStress = string.Empty;
+        //    if (CheckPhysical.Checked) { MaternalStress = CheckPhysical.Text.Trim(); }
+        //    string MaternalStress_1 = string.Empty;
+        //    if (CheckMental.Checked) { MaternalStress_1 = CheckMental.Text.Trim(); }
+        //    string Prenatalwellness = string.Empty;
+        //    if (CheckYess.Checked) { Prenatalwellness = CheckYess.Text.Trim(); }
+        //    if (CheckNoo.Checked) { Prenatalwellness = CheckNoo.Text.Trim(); }
+        //    // Maternal History End //
+
+        //    // Peri and Postnatal History Start //
+        //    string delivery = string.Empty;
+        //    if (rdoFTND.Checked) { delivery = rdoFTND.Text.Trim(); }
+        //    string delivery_1 = string.Empty;
+        //    if (rdoFTNDva.Checked) { delivery_1 = rdoFTNDva.Text.Trim(); }
+        //    string delivery_2 = string.Empty;
+        //    if (rdoELSCS.Checked) { delivery_2 = rdoELSCS.Text.Trim(); }
+        //    string delivery_3 = string.Empty;
+        //    if (rdoElectiveLSCS.Checked) { delivery_3 = rdoElectiveLSCS.Text.Trim(); }
+        //    string ciab = string.Empty;
+        //    if (rdoYess.Checked) { ciab = rdoYess.Text.Trim(); }
+        //    if (rdoNoo.Checked) { ciab = rdoNoo.Text.Trim(); }
+        //    string GestationalBirthAge = string.Empty;
+        //    if (RdoAGA.Checked) { GestationalBirthAge = RdoAGA.Text.Trim(); }
+        //    string GestationalBirthAge_1 = string.Empty;
+        //    if (RdoSGA.Checked) { GestationalBirthAge_1 = RdoSGA.Text.Trim(); }
+        //    string GestationalBirthAge_2 = string.Empty;
+        //    if (RdoLGA.Checked) { GestationalBirthAge_2 = RdoLGA.Text.Trim(); }
+        //    string NICUstay = string.Empty;
+        //    if (RdoPresent.Checked) { NICUstay = RdoPresent.Text.Trim(); }
+        //    if (RdoAbsent.Checked) { NICUstay = RdoAbsent.Text.Trim(); }
+        //    string Breastfed = string.Empty;
+        //    if (RdoYes.Checked) { Breastfed = RdoYes.Text.Trim(); }
+        //    if (RdoNo.Checked) { Breastfed = RdoNo.Text.Trim(); }
+        //    string Problemsduringbreastfeeding = string.Empty;
+        //    if (RadioPresent.Checked) { Problemsduringbreastfeeding = RadioPresent.Text.Trim(); }
+        //    if (RadioAbsent.Checked) { Problemsduringbreastfeeding = RadioAbsent.Text.Trim(); }
+        //    string colicissue = string.Empty;
+        //    if (RadioYes.Checked) { colicissue = RadioYes.Text.Trim(); }
+        //    if (RadioNo.Checked) { colicissue = RadioNo.Text.Trim(); }
+        //    // Peri and Postnatal History End //
+
+        //    // Sleep Start //
+        //    string Sleepissues = string.Empty;
+        //    if (RadiooNo.Checked) { Sleepissues = RadiooNo.Text.Trim(); }
+        //    if (RadiooYes.Checked) { Sleepissues = RadiooYes.Text.Trim(); }
+        //    string Presentsleep = string.Empty;
+        //    if (PresentRadio.Checked) { Presentsleep = PresentRadio.Text.Trim(); }
+        //    if (AbsentRadio.Checked) { Presentsleep = AbsentRadio.Text.Trim(); }
+        //    string SleepType = string.Empty;
+        //    if (RadioLight.Checked) { SleepType = RadioLight.Text.Trim(); }
+        //    if (RadioDeep.Checked) { SleepType = RadioDeep.Text.Trim(); }
+        //    string Cosleeping = string.Empty;
+        //    if (RadioAbsentbtn.Checked) { Cosleeping = RadioAbsentbtn.Text.Trim(); }
+        //    if (RadioPresentbtn.Checked) { Cosleeping = RadioPresentbtn.Text.Trim(); }
+        //    string Naptime = string.Empty;
+        //    if (RadioButtonPresent.Checked) { Naptime = RadioButtonPresent.Text.Trim(); }
+        //    if (RadioButtonAbsent.Checked) { Naptime = RadioButtonAbsent.Text.Trim(); }
+        //    // Sleep end //
+
+        //    // Feeding habits Start //
+        //    string Feedinghabits = string.Empty;
+        //    if (RadioTypical.Checked) { Feedinghabits = RadioTypical.Text.Trim(); }
+        //    if (RadioAtypical.Checked) { Feedinghabits = RadioAtypical.Text.Trim(); }
+        //    // Feeding habits end //
+
+        //    // Into the Child's Heart start //
+        //    //string signsofstress = string.Empty;
+        //    //if (RadioButtonYes.Checked) { signsofstress = RadioButtonYes.Text.Trim(); }
+        //    //if (RadioButtonNo.Checked) { signsofstress = RadioButtonNo.Text.Trim(); }
+        //    //if (RadioButtonMaybe.Checked) { signsofstress = RadioButtonMaybe.Text.Trim(); }
+        //    // Into the Child's Heart end //
+
+        //    // Play Behaviour start //
+        //    string Playbehaviour = string.Empty;
+        //    if (RadioOrganised.Checked) { Playbehaviour = RadioOrganised.Text.Trim(); }
+        //    if (RadioDisorganised.Checked) { Playbehaviour = RadioDisorganised.Text.Trim(); }
+        //    string Strangeranxiety = string.Empty;
+        //    if (RadioPresentButton.Checked) { Strangeranxiety = RadioPresentButton.Text.Trim(); }
+        //    if (RadioAbsentButton.Checked) { Strangeranxiety = RadioAbsentButton.Text.Trim(); }
+        //    string PlayToys = string.Empty;
+        //    if (RadioYesButton.Checked) { PlayToys = RadioYesButton.Text.Trim(); }
+        //    if (RadioNoButton.Checked) { PlayToys = RadioNoButton.Text.Trim(); }
+        //    if (RadioMaybeButton.Checked) { PlayToys = RadioMaybeButton.Text.Trim(); }
+        //    // Play Behaviour end //
+
+        //    // ADLs start //
+        //    string Brushing = string.Empty;
+        //    if (RadioDependent.Checked) { Brushing = RadioDependent.Text.Trim(); }
+        //    string Brushing_1 = string.Empty;
+        //    if (RadioAssisted.Checked) { Brushing_1 = RadioAssisted.Text.Trim(); }
+        //    string Brushing_2 = string.Empty;
+        //    if (RadioIndependent.Checked) { Brushing_2 = RadioIndependent.Text.Trim(); }
+        //    string Bathing = string.Empty;
+        //    if (DependentRadio.Checked) { Bathing = DependentRadio.Text.Trim(); }
+        //    string Bathing_1 = string.Empty;
+        //    if (AssistedRadio.Checked) { Bathing_1 = AssistedRadio.Text.Trim(); }
+        //    string Bathing_2 = string.Empty;
+        //    if (IndependentRadio.Checked) { Bathing_2 = IndependentRadio.Text.Trim(); }
+        //    string Toileting = string.Empty;
+        //    if (RadioDependentButton.Checked) { Toileting = RadioDependentButton.Text.Trim(); }
+        //    string Toileting_1 = string.Empty;
+        //    if (RadioAssistedButton.Checked) { Toileting_1 = RadioAssistedButton.Text.Trim(); }
+        //    string Toileting_2 = string.Empty;
+        //    if (RadioIndependentButton.Checked) { Toileting_2 = RadioIndependentButton.Text.Trim(); }
+        //    string Dressing = string.Empty;
+        //    if (RadioButtonDependent.Checked) { Dressing = RadioButtonDependent.Text.Trim(); }
+        //    string Dressing_1 = string.Empty;
+        //    if (RadioButtonAssisted.Checked) { Dressing_1 = RadioButtonAssisted.Text.Trim(); }
+        //    string Dressing_2 = string.Empty;
+        //    if (RadioButtonIndependent.Checked) { Dressing_2 = RadioButtonIndependent.Text.Trim(); }
+        //    string Eating = string.Empty;
+        //    if (RadioBtnDependent.Checked) { Eating = RadioBtnDependent.Text.Trim(); }
+        //    string Eating_1 = string.Empty;
+        //    if (RadioBtnAssisted.Checked) { Eating_1 = RadioBtnAssisted.Text.Trim(); }
+        //    string Eating_2 = string.Empty;
+        //    if (RadioBtnIndependent.Checked) { Eating_2 = RadioBtnIndependent.Text.Trim(); }
+        //    string Ambulation = string.Empty;
+        //    if (RdoDependent.Checked) { Ambulation = RdoDependent.Text.Trim(); }
+        //    string Ambulation_1 = string.Empty;
+        //    if (RdoAssisted.Checked) { Ambulation_1 = RdoAssisted.Text.Trim(); }
+        //    string Ambulation_2 = string.Empty;
+        //    if (RdoIndependent.Checked) { Ambulation_2 = RdoIndependent.Text.Trim(); }
+        //    string Transfers = string.Empty;
+        //    if (RdobtnDependent.Checked) { Transfers = RdobtnDependent.Text.Trim(); }
+        //    string Transfers_1 = string.Empty;
+        //    if (RdobtnAssisted.Checked) { Transfers_1 = RdobtnAssisted.Text.Trim(); }
+        //    string Transfers_2 = string.Empty;
+        //    if (RdobtnIndependent.Checked) { Transfers_2 = RdobtnIndependent.Text.Trim(); }
+        //    // ADLs end //
+
+
+
+
+        //    int i = RDB.Set_New(_appointmentID, IsFinal, IsGiven, GivenDate, DateTime.UtcNow.AddMinutes(330), _loginID,
+        //    DatepreConsult, txtComfortableLanguage.Text.Trim(), DateBirth, DateDelivery, txtCorrectAge.Text.Trim(),
+        //    txtAge.Text.Trim(), Gender, txtMotherName.Text.Trim(), txtMotherAge.Text.Trim(), txtMotherQualification.Text.Trim(),
+        //    txtMotherOccupation.Text.Trim(), txtMotherWorkingHour.Text.Trim(), txtFatherName.Text.Trim(), txtFatherAge.Text.Trim(),
+        //    txtFatherOccupation.Text.Trim(), txtFatherQualification.Text.Trim(), txtFatherWorkingHour.Text.Trim(), txtAddress.Text.Trim(),
+        //    txtContactDetails.Text.Trim(), txtEmailID.Text.Trim(), txtReferredBy.Text.Trim(), txtTherapistDuringPC.Text.Trim(), txtDiagnosis.Text.Trim(),
+        //    txtCommentsPI.Text.Trim(), txtChiefConcernsHome.Text.Trim(), txtChiefConcernsSchool.Text.Trim(), txtChiefConcernsSocialGath.Text.Trim(),
+        //    txtCommentsCC.Text.Trim(), Consanguinity, ConsanguinityDegree, txtYearsMarriage.Text.Trim(), FamilyStructure, Conception,
+        //    PlanningConception, txtCommentsFH.Text.Trim(), ParentChildRelation, InterParentalRelation, InterSiblingRelation, DomesticViolence, FamilyRelocation,
+        //    txtfrequency.Text.Trim(), PrimaryCare, txtMotherScreenTime.Text.Trim(), txtScreenTimeChild.Text.Trim(), txtCommentsFR.Text.Trim(),
+        //    txtPrenatalCondition.Text.Trim(), MaternalStress, txtDescribeStressors.Text.Trim(), txtWGDP.Text.Trim(), txtFoetalMovement.Text.Trim(),
+        //    txtCommentsMH.Text.Trim(), txtDurationLabour.Text.Trim(), delivery, ciab, txtConditionPostBirth.Text.Trim(), txtBirthWeight.Text.Trim(),
+        //    GestationalBirthAge, NICUstay, txtDurationNICUstay.Text.Trim(), txtNICUHistory.Text.Trim(), txtReasonNICUstay.Text.Trim(), txtAPGARscore.Text.Trim(),
+        //    Breastfed, txtBabyFed.Text.Trim(), Problemsduringbreastfeeding, txtMentionProblem.Text.Trim(), txtwaswtcbf.Text.Trim(), colicissue,
+        //    txtOthrtMedicalIssues.Text.Trim(), txtCommentsPPH.Text.Trim(), txtGrossMotor.Text.Trim(), txtFineMotor.Text.Trim(), txtPersonalandSocial.Text.Trim(),
+        //    txtCommunication.Text.Trim(), txtCommentsDM.Text.Trim(), Sleepissues, Presentsleep, txtSleepduration.Text.Trim(), SleepType, Cosleeping,
+        //    txtCosleepingwith.Text.Trim(), txtAnySleepAdjunctsused.Text.Trim(), Naptime, txtNapduration.Text.Trim(), txtCommentsS.Text.Trim(), Feedinghabits,
+        //    txtTypeoffoodhad.Text.Trim(), txtFoodconsistency.Text.Trim(), txtFoodtemperature.Text.Trim(), txtFoodtaste.Text.Trim(), txtCommentsFeHa.Text.Trim(),
+        //    txtChildLikes.Text.Trim(), txtCommentsITCH.Text.Trim(), Playbehaviour, txtInteractionwithpeers.Text.Trim(), Strangeranxiety, PlayToys,
+        //    txtPreferenceoftoys.Text.Trim(), txtCommentsPB.Text.Trim(), Brushing, txtCommentsBrushing.Text.Trim(), Bathing, txtCommentsBathing.Text.Trim(), Toileting,
+        //    txtCommentsToileting.Text.Trim(), Dressing, txtCommentsDressing.Text.Trim(), Eating, txtCommentsEating.Text.Trim(), Ambulation, txtCommentsAmbulation.Text.Trim(),
+        //    Transfers, txtCommentsTransfers.Text.Trim(), txtAddComments.Text.Trim(), Prenatalwellness, Siblings,
+        //    txtNoOfSiblings.Text.Trim(), txtRHASiblings.Text.Trim(), Consanguinity_1, ConsanguinityDegree_1, ConsanguinityDegree_2, FamilyStructure_1,
+        //    Conception_1, Conception_2, Conception_3, Conception_4, PlanningConception_1, InterParentalRelation_1, InterParentalRelation_2, ParentChildRelation_1,
+        //    ParentChildRelation_2, InterSiblingRelation_1, InterSiblingRelation_2, DomesticViolence_1, DomesticViolence_2, FamilyRelocation_1, PrimaryCare_1, PrimaryCare_2, PrimaryCare_3,
+        //    MaternalStress_1, delivery_1, delivery_2, delivery_3, GestationalBirthAge_1, GestationalBirthAge_2, txtAddEvalRec.Text.Trim(), ChildAttend, txtOnlineOffline.Text.Trim(), txtWhichGrade.Text.Trim(),
+        //    Brushing_1, Brushing_2, Bathing_1, Bathing_2, Toileting_1, Toileting_2, Dressing_1, Dressing_2, Eating_1, Eating_2, Ambulation_1, Ambulation_2,
+        //    Transfers_1, Transfers_2
+        //    // ,  Option1, Option2, Option3, Option4, Option5
+        //    );
+        //    if (i > 0)
+        //    {
+        //        Session[DbHelper.Configuration.messageTextSession] = "Pre Consultation report saved successfully.";
+        //        Session[DbHelper.Configuration.messageTypeSession] = "1";
+        //        LoadForm();
+        //        Response.Redirect(ResolveClientUrl("~/SessionRpt/PreConsultRpt.aspx?record=" + Request.QueryString["record"]), true);
+        //    }
+        //    else
+        //    {
+        //        DbHelper.Configuration.setAlert(Page, "Unable to process your request, Please try again...", 2);
+        //    }
+        //}
         public string cloneButtonLeft_sm(int index)
         {
+            string addBtn = "";
+            string removeBtn = "";
+            string sortBtn = "";
+
             if (index == 0)
             {
-                return "<a href=\"javascript:;\" class=\"btn btn-xs btn-default btn-success\" style=\"float:right; margin-left:20px;\" onclick=\"show_next_option(this);\"><i class=\"fa fa-plus-circle\"></i></a>";
+                addBtn =
+                    "<a href=\"javascript:;\" class=\"btn btn-xs btn-success action-btn\" " +
+                    "onclick=\"show_next_option(this);\">+</a>";
             }
-            else
-            {
-                return "<div class=\"rbutton\"></div>";
-            }
+
+            sortBtn =
+                "<a href=\"javascript:;\" class=\"btn btn-xs btn-info action-btn\" onclick=\"move_up(this);\">&#8593;</a>" +
+                "<a href=\"javascript:;\" class=\"btn btn-xs btn-info action-btn\" onclick=\"move_down(this);\">&#8595;</a>";
+
+            removeBtn =
+                "<a href=\"javascript:;\" class=\"btn btn-xs btn-danger action-btn\" " +
+                "onclick=\"remove_this_option(this);\">&#10005;</a>";
+
+            return
+                "<div class=\"row-actions-vertical\">" +
+                    addBtn +
+                    sortBtn +
+                    removeBtn +
+                "</div>";
         }
         public string cloneClass(int index, string Option)
         {
@@ -1063,7 +1145,7 @@ namespace snehrehab.SessionRpt
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
+
             SnehBLL.ReportPreConsultMst_Bll RDB = new SnehBLL.ReportPreConsultMst_Bll();
             DataSet ds = RDB.Get_New(_appointmentID);
             DbHelper.SqlDb db = new DbHelper.SqlDb();
@@ -1476,7 +1558,7 @@ namespace snehrehab.SessionRpt
                     tabValue = 3;
                     cmd.Parameters.AddWithValue("@AppointmentID", _appointmentID);
 
-                    
+
                     int HidPreConsultID = 0;
                     string Option1 = string.Empty;
                     string Option2 = string.Empty;
@@ -1497,6 +1579,7 @@ namespace snehrehab.SessionRpt
                             TextBox InvestigationsRecordsResults = item.FindControl("txtInvestigationsRecordsResults") as TextBox;
                             if (DateMonth.Text != "" || RelevantHistory.Text != "" || HospitalDoctorsVisited.Text != "" || DoctorsRecommendations.Text != "" || InvestigationsRecordsResults.Text != "")
                             {
+                                int displayOrder = j + 1;
                                 int.TryParse(PreConsultID.Value.ToString(), out HidPreConsultID);
 
                                 Option1 = DateMonth.Text.Trim();
@@ -1509,7 +1592,7 @@ namespace snehrehab.SessionRpt
 
                                 Option5 = InvestigationsRecordsResults.Text.Trim();
 
-                                int k = RDB.SetTimeLine(_appointmentID, HidPreConsultID, Option1, Option2, Option3, Option4, Option5, DateTime.UtcNow.AddMinutes(330), _loginID);
+                               // int k = RDB.SetTimeLine(_appointmentID, HidPreConsultID, Option1, Option2, Option3, Option4, Option5, DateTime.UtcNow.AddMinutes(330), _loginID, displayOrder);
 
                             }
                             else if (DateMonth.Text == "" && RelevantHistory.Text == "" && HospitalDoctorsVisited.Text == "" && DoctorsRecommendations.Text == "" && InvestigationsRecordsResults.Text == "")

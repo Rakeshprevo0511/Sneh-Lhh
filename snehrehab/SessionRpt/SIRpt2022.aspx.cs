@@ -88,14 +88,8 @@ namespace snehrehab.SessionRpt
                 //Doctor_EnterReport.Items.Add(new ListItem(DMD.PreFix + " " + DMD.FullName, DMD.DoctorID.ToString()));
             }
 
-
-
             //SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
             //SqlConnection conn = new SqlConnection(conn);
-
-
-
-
 
             string que = "SELECT 'Select Month' as Month, '0' as MONTHS UNION ALL SELECT distinct cast(MONTHS as varchar) + ' Month' as Month, MONTHS FROM QUESTIONNAIRE_SI order by MONTHS";
             SqlCommand cmd = new SqlCommand(que, conn);
@@ -135,7 +129,25 @@ namespace snehrehab.SessionRpt
             Session["rptData"] = ds;
             if (ds.Tables.Count > 0)
             {
-
+                if (ds != null && ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0)
+                {
+                    bool IsFinal = false; bool.TryParse(ds.Tables[1].Rows[0]["IsFinal"].ToString(), out IsFinal);
+                    txtFinal.Checked = IsFinal;
+                    bool IsGiven = false; bool.TryParse(ds.Tables[1].Rows[0]["IsGiven"].ToString(), out IsGiven);
+                    txtGiven.Checked = IsGiven;
+                    DateTime _givenDate = new DateTime(); DateTime.TryParseExact(ds.Tables[1].Rows[0]["GivenDate"].ToString(), DbHelper.Configuration.dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _givenDate);
+                    if (_givenDate > DateTime.MinValue)
+                    {
+                        txtGivenDate.Text = _givenDate.ToString(DbHelper.Configuration.showDateFormat);
+                    }
+                }
+                else
+                {
+                    // ✅ IMPORTANT: handle no data case
+                    txtFinal.Checked = false;
+                    txtGiven.Checked = false;
+                    txtGivenDate.Text = "";
+                }
                 List<ListItem> selected = new List<ListItem>();
                 bool HasDiagnosisID = false;
                 if (ds.Tables[0].Rows.Count > 0)
@@ -1766,7 +1778,7 @@ namespace snehrehab.SessionRpt
                     DCDQ_Hits3.Text = ds.Tables[1].Rows[0]["DCDQ_Hits3"].ToString();
                     DCDQ_Jumps1.Text = ds.Tables[1].Rows[0]["DCDQ_Jumps1"].ToString();
                     DCDQ_Jumps2.Text = ds.Tables[1].Rows[0]["DCDQ_Jumps2"].ToString();
-                    DCDQ_Jumps2.Text = ds.Tables[1].Rows[0]["DCDQ_Jumps3"].ToString();
+                    DCDQ_Jumps3.Text = ds.Tables[1].Rows[0]["DCDQ_Jumps3"].ToString();
                     DCDQ_Runs1.Text = ds.Tables[1].Rows[0]["DCDQ_Runs1"].ToString();
                     DCDQ_Runs2.Text = ds.Tables[1].Rows[0]["DCDQ_Runs2"].ToString();
                     DCDQ_Runs3.Text = ds.Tables[1].Rows[0]["DCDQ_Runs3"].ToString();
@@ -2962,7 +2974,84 @@ namespace snehrehab.SessionRpt
                 return "hide";
             }
         }
+        protected void lnkFinalSave_Click(object sender, EventArgs e)
+        {
+            SnehBLL.ReportNdtMst_Bll RDB = new SnehBLL.ReportNdtMst_Bll();
+            try
+            {
 
+                // ---- Same logic as SaveFinalOnly() ----
+                bool isFinal = txtFinal.Checked;
+                bool isGiven = txtGiven.Checked;
+
+                DateTime givenDate = DateTime.MinValue;
+
+                if (isGiven)
+                {
+                    if (string.IsNullOrWhiteSpace(txtGivenDate.Text))
+                    {
+                        DbHelper.Configuration.setAlert(Page, "Given Date is Required...", 2);
+                        return;
+                    }
+
+                    DateTime.TryParseExact(
+                        txtGivenDate.Text.Trim(),
+                        DbHelper.Configuration.showDateFormat,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        System.Globalization.DateTimeStyles.None,
+                        out givenDate
+                    );
+                }
+
+                DbHelper.SqlDb db = new DbHelper.SqlDb();
+
+                using (SqlCommand cmd1 = new SqlCommand("SET_SI_FLAGS"))
+                {
+                    cmd1.CommandType = CommandType.StoredProcedure;
+                    cmd1.Parameters.AddWithValue("@AppointmentID", _appointmentID);
+                    cmd1.Parameters.AddWithValue("@IsGiven", isGiven);
+                    cmd1.Parameters.AddWithValue("@IsFinal", isFinal);
+                    cmd1.Parameters.AddWithValue("@GivenDate", isGiven ? (object)givenDate : DBNull.Value);
+
+                    db.DbUpdate(cmd1);
+                }
+
+                // DiagnosisIDs
+                string diagnosisIDs = "";
+                for (int k = 0; k < txtDiagnosis.Items.Count; k++)
+                {
+                    if (txtDiagnosis.Items[k].Selected)
+                    {
+                        if (string.IsNullOrEmpty(diagnosisIDs))
+                            diagnosisIDs = txtDiagnosis.Items[k].Value;
+                        else
+                            diagnosisIDs += "|" + txtDiagnosis.Items[k].Value;
+                    }
+                }
+
+                string diagnosisOther = txtDiagnosisOther.Text.Trim();
+
+                DataSet ds = RDB.GetReval(_appointmentID);
+                int patientID = 0;
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    int.TryParse(ds.Tables[0].Rows[0]["PatientID"].ToString(), out patientID);
+
+                SnehBLL.Diagnosis_Bll DIB = new SnehBLL.Diagnosis_Bll();
+                int g = DIB.setFromOther(diagnosisIDs, diagnosisOther, patientID);
+
+                if (g < 0)
+                {
+                    DbHelper.Configuration.setAlert(Page, "Diagnosis already exist...", 2);
+                    return;
+                }
+
+                DbHelper.Configuration.setAlert(Page, "Diagonis and Mark date Saved Successfully", 1);
+            }
+            catch (Exception ex)
+            {
+                DbHelper.Configuration.setAlert(Page, ex.Message, 2);
+            }
+        }
         protected void Button1_Click(object sender, EventArgs e)
         {
 

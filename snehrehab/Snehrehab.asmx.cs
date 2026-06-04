@@ -675,9 +675,12 @@ namespace snehrehab
                     if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
                         int PatientID = 0; int.TryParse(ds.Tables[0].Rows[0]["PatientID"].ToString(), out PatientID);
-                        float Amount = 0; float.TryParse(ds.Tables[0].Rows[0]["Amount"].ToString(), out Amount);
-                        int ModePayment = 0; int.TryParse(ds.Tables[0].Rows[0]["ModePayment"].ToString(), out ModePayment); string strModePayment = string.Empty;
-                        if (ModePayment == 1) { strModePayment = "Cash"; } else if (ModePayment == 2) { strModePayment = "Credit"; } else if (ModePayment == 3) { strModePayment = "Cheque"; } else if (ModePayment == 4) { strModePayment = "Online"; }
+                        float Amount  = 0; float.TryParse(ds.Tables[0].Rows[0]["Amount"].ToString(), out Amount);
+                      int ModePayment = 0; int.TryParse(ds.Tables[0].Rows[0]["ModePayment"].ToString(), out ModePayment);
+                string strModePayment = string.Empty;if (ModePayment == 1) { strModePayment = "Cash"; } 
+                                                else if (ModePayment == 2) { strModePayment = "Credit"; } 
+                                                else if (ModePayment == 3) { strModePayment = "Cheque"; } 
+                                                else if (ModePayment == 4) { strModePayment = "Online"; }
 
                         StringBuilder html = new StringBuilder();
                         html.Append("<table class=\"table table-nobordered\" cellspacing=\"0\">");
