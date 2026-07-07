@@ -17,7 +17,7 @@ namespace snehrehab.Handler
     public class PreconstRpt_2021 : IHttpHandler, IRequiresSessionState
     {
         DbHelper.SqlDb db; int _loginID = 0;
-        SnehBLL.ReportPreConsultMst_Bll RDB = new SnehBLL.ReportPreConsultMst_Bll();
+        SnehBLL.ReportPreScreenMst_Bll RDB = new SnehBLL.ReportPreScreenMst_Bll();
         public PreconstRpt_2021()
         {
             db = new DbHelper.SqlDb();
@@ -225,7 +225,7 @@ namespace snehrehab.Handler
             if (!string.IsNullOrEmpty(DateDeliveryStr))
                 DateTime.TryParseExact(DateDeliveryStr, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateDelivery);
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -285,7 +285,7 @@ namespace snehrehab.Handler
             string ChiefConcernsSocialGath = GetStr(context, "ChiefConcernsSocialGath");
             string CommentsCC = GetStr(context, "CommentsCC");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -387,7 +387,7 @@ namespace snehrehab.Handler
             }
 
             // 3️⃣ TABWISE SP
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -401,7 +401,6 @@ namespace snehrehab.Handler
                 return ToInt(ret.Value);
             }
         }
-
         private int SaveTab4(HttpContext context, int appointmentID)
         {
             int tabNo = 4;
@@ -462,7 +461,7 @@ namespace snehrehab.Handler
             string ScreenTimeChild = GetStr(context, "ScreenTimeChild");
             string CommentsFR = GetStr(context, "CommentsFR");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -547,7 +546,7 @@ namespace snehrehab.Handler
             string Prenatalwellness = GetStr(context, "Prenatalwellness");
             string CommentsMH = GetStr(context, "CommentsMH");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -609,7 +608,7 @@ namespace snehrehab.Handler
             string OthrtMedicalIssues = GetStr(context, "OthrtMedicalIssues");
             string CommentsPPH = GetStr(context, "CommentsPPH");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -668,7 +667,7 @@ namespace snehrehab.Handler
             string Communication = GetStr(context, "Communication");
             string CommentsDM = GetStr(context, "CommentsDM");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -705,7 +704,7 @@ namespace snehrehab.Handler
             string Napduration = GetStr(context, "Napduration");
             string CommentsS = GetStr(context, "CommentsS");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -743,7 +742,7 @@ namespace snehrehab.Handler
             string Foodtaste = GetStr(context, "Foodtaste");
             string CommentsFeHa = GetStr(context, "CommentsFeHa");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -773,7 +772,7 @@ namespace snehrehab.Handler
             string ChildLikes = GetStr(context, "ChildLikes");
             string CommentsITCH = GetStr(context, "CommentsITCH");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -803,7 +802,7 @@ namespace snehrehab.Handler
             string Preferenceoftoys = GetStr(context, "Preferenceoftoys");
             string CommentsPB = GetStr(context, "CommentsPB");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -865,7 +864,7 @@ namespace snehrehab.Handler
             string Transfers_2 = GetStr(context, "Transfers_2");
             string CommentsTransfers = GetStr(context, "CommentsTransfers");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -922,7 +921,7 @@ namespace snehrehab.Handler
 
             string AddComments = GetStr(context, "AddComments");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -946,7 +945,7 @@ namespace snehrehab.Handler
 
             string AddEvalRec = GetStr(context, "AddEvalRec");
 
-            using (SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set_TABWISE"))
+            using (SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_TABWISE"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 

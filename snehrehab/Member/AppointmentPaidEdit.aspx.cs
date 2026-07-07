@@ -1021,10 +1021,10 @@ namespace snehrehab.Member
         //    //}
         //}
 
-        //protected void txtBulkPackages_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //   // LoadBulkBalance();
-        //}
+        protected void txtBulkPackages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // LoadBulkBalance();
+        }
 
         //private void LoadBulkBooking()
         //{
@@ -1428,7 +1428,7 @@ namespace snehrehab.Member
             DateTime _entrydatetime = new DateTime(); DateTime.TryParseExact(txtEntryDateTime.Text.Trim(), DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _entrydatetime);
             int _patientpackage = 0; if (txtPatientPackages.SelectedItem != null) { int.TryParse(txtPatientPackages.SelectedItem.Value, out _patientpackage); }
             int _therapistedit = 0; if (txtTherapist.SelectedItem != null) { int.TryParse(txtTherapist.SelectedItem.Value, out _therapistedit); }
-
+            
             if (_therapistedit <= 0)
             {
                 DbHelper.Configuration.setAlert(Page, "Please select therapist for appointment...", 2); return;
@@ -1455,8 +1455,8 @@ namespace snehrehab.Member
                     if (txtAssistantShareType.SelectedItem != null) { int.TryParse(txtAssistantShareType.SelectedItem.Value, out _assistantShareType); }
                 }
                 SnehDLL.PatientSessionPackage_Dll PKD = null; SnehDLL.PatientSessionPackage_Dll PKO = null; SnehDLL.Packages_Dll PKE = null;
-                //if (!chkBulkPackage.Checked)
-                //{
+                if (!chkBulkPackage.Checked)
+                {
                     if (SMD.IsPackage)
                     {
                         if (txtPatientPackages.SelectedItem != null) { int.TryParse(txtPatientPackages.SelectedItem.Value, out _bookingID); }
@@ -1826,74 +1826,84 @@ namespace snehrehab.Member
                     {
                         DbHelper.Configuration.setAlert(Page, "Unable to process your request, please try again...", 2);
                     }
-                //}
-                //else
-                //{
-                    //float bulkSessionCharges = 0; float.TryParse(txtBulkSessionCharge.Text.Trim(), out bulkSessionCharges);
-                    //if (bulkSessionCharges <= 0)
-                    //{
-                    //    DbHelper.Configuration.setAlert(Page, "Please enter session charges...", 2); return;
-                    //}
+                }
+                else
+                {
+                    int bulkSelected = chkBulkPackage.Checked ? 1 : 0;
+                    float bulkSessionCharges = 0; float.TryParse(txtBulkSessionCharge.Text.Trim(), out bulkSessionCharges);
+                    if (bulkSessionCharges <= 0)
+                    {
+                        DbHelper.Configuration.setAlert(Page, "Please enter session charges...", 2); return;
+                    }
+                    long bulkID = 0;
+                    if (Session["bulkid"] != null)
+                    {
+                        long.TryParse(Session["bulkid"].ToString(), out bulkID);
+                    }
+                    if (bulkID <= 0)
+                    {
+                        DbHelper.Configuration.setAlert(Page, "Please select bulk package...", 2); return;
+                    }
                     //long bulkID = 0; if (txtBulkPackages.SelectedItem != null) { long.TryParse(txtBulkPackages.SelectedItem.Value, out bulkID); }
                     //if (bulkID <= 0)
                     //{
                     //    DbHelper.Configuration.setAlert(Page, "Please select bulk package...", 2); return;
                     //}
-                    //SnehBLL.AppointmentSession_Bll ASB = new SnehBLL.AppointmentSession_Bll();
-                    //ASB.AppointmentPaidEdit_Delete(_appointmentID);
-                    //int i = ASB.Set(AD_Loaded.AppointmentID, bulkSessionCharges, bulkID, _entryDate, _loginID, txtNarration.Text.Trim(), 1);
-                    //if (i > 0)
-                    //{
+                    SnehBLL.AppointmentSession_Bll ASB = new SnehBLL.AppointmentSession_Bll();
+                    ASB.AppointmentPaidEdit_Delete(_appointmentID);
+                    int i = ASB.Set(AD_Loaded.AppointmentID, bulkSessionCharges, bulkID, bulkSelected, _entryDate, _loginID, txtNarration.Text.Trim(), 1, AD_Loaded.BulkPackageID, AD_Loaded.PatientID);
+                    if (i > 0)
+                    {
 
-                    //    SnehBLL.AppointmentDoctor_Bll ADB = new SnehBLL.AppointmentDoctor_Bll();
-                    //    SnehDLL.AppointmentDoctor_Dll ADD = new SnehDLL.AppointmentDoctor_Dll();
-                    //    if (_therapistedit > 0)
-                    //    {
-                    //        ADD.AppointmentID = _appointmentID; ADD.DoctorID = _therapistedit; ADD.IsMain = true; ADD.ShareType = 2; ADD.ShareAmount = 100;
-                    //        ADB.Delete(i);
-                    //        ADB.setNew(ADD);
-                    //    }
-                    //    if (_assistantTherapistedit > -1)
-                    //    {
-                    //        ADD.AppointmentID = _appointmentID; ADD.DoctorID = _assistantTherapistedit; ADD.IsMain = false; ADD.ShareType = 2; ADD.ShareAmount = 0;
-                    //        ADB.setNew(ADD);
-                    //    }
-                    //    DateTime _appointmentdateedit = new DateTime();
-                    //    DateTime.TryParseExact(txtAppointmentDate.Text, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _appointmentdateedit);
-                    //    int _timeID = 0; if (txtTimeFrom.SelectedItem != null) { int.TryParse(txtTimeFrom.SelectedItem.Value, out _timeID); }
-                    //    TimeSpan _appointmentTimeEdit = new TimeSpan();
-                    //    SnehBLL.AppointmentTime_Bll ATB = new SnehBLL.AppointmentTime_Bll();
-                    //    SnehDLL.AppointmentTime_Dll ATD = ATB.Get(_timeID);
-                    //    if (ATD != null)
-                    //    {
-                    //        _appointmentTimeEdit = ATD.TimeHour;
-                    //    }
-                    //    SnehBLL.Appointments_Bll A = new SnehBLL.Appointments_Bll();
-                    //    A.EditAppointment(_appointmentID, _sessionid, _duration, _appointmentdateedit, _appointmentTimeEdit);
-                    //    if (ASB.SetBulkPayment(i) > 0)
-                    //    {
-                    //        ASB.DeleteDoctorPayment(i);
-                    //        ASB.SetDoctorPayment(i);
+                        SnehBLL.AppointmentDoctor_Bll ADB = new SnehBLL.AppointmentDoctor_Bll();
+                        SnehDLL.AppointmentDoctor_Dll ADD = new SnehDLL.AppointmentDoctor_Dll();
+                        if (_therapistedit > 0)
+                        {
+                            ADD.AppointmentID = _appointmentID; ADD.DoctorID = _therapistedit; ADD.IsMain = true; ADD.ShareType = 2; ADD.ShareAmount = 100;
+                            ADB.Delete(i);
+                            ADB.setNew(ADD);
+                        }
+                        if (_assistantTherapistedit > -1)
+                        {
+                            ADD.AppointmentID = _appointmentID; ADD.DoctorID = _assistantTherapistedit; ADD.IsMain = false; ADD.ShareType = 2; ADD.ShareAmount = 0;
+                            ADB.setNew(ADD);
+                        }
+                        DateTime _appointmentdateedit = new DateTime();
+                        DateTime.TryParseExact(txtAppointmentDate.Text, DbHelper.Configuration.showDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _appointmentdateedit);
+                        int _timeID = 0; if (txtTimeFrom.SelectedItem != null) { int.TryParse(txtTimeFrom.SelectedItem.Value, out _timeID); }
+                        TimeSpan _appointmentTimeEdit = new TimeSpan();
+                        SnehBLL.AppointmentTime_Bll ATB = new SnehBLL.AppointmentTime_Bll();
+                        SnehDLL.AppointmentTime_Dll ATD = ATB.Get(_timeID);
+                        if (ATD != null)
+                        {
+                            _appointmentTimeEdit = ATD.TimeHour;
+                        }
+                        SnehBLL.Appointments_Bll A = new SnehBLL.Appointments_Bll();
+                        A.EditAppointment(_appointmentID, _sessionid, _duration, _appointmentdateedit, _appointmentTimeEdit);
+                        if (ASB.SetBulkPayment(i) > 0)
+                        {
+                            ASB.DeleteDoctorPayment(i);
+                            ASB.SetDoctorPayment(i);
 
-                    //        Session[DbHelper.Configuration.messageTextSession] = "Patient session entry updated successfully.";
-                    //        Session[DbHelper.Configuration.messageTypeSession] = "1";
+                            Session[DbHelper.Configuration.messageTextSession] = "Patient session entry updated successfully.";
+                            Session[DbHelper.Configuration.messageTypeSession] = "1";
 
-                    //        if (toReturn == 101)
-                    //            Response.Redirect(ResolveClientUrl("~/Member/AppointmentChart.aspx"), true);
-                    //        else
-                    //            Response.Redirect(ResolveClientUrl("~/Member/Appointmentc.aspx"), true);
-                    //    }
-                    //    else
-                    //    {
-                    //        ASB.Delete(i);
-                    //        DbHelper.Configuration.setAlert(Page, "Unable to process your request, please try again...", 2);
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    DbHelper.Configuration.setAlert(Page, "Unable to process your request, please try again...", 2);
-                    //}
-                //}
+                            if (toReturn == 101)
+                                Response.Redirect(ResolveClientUrl("~/Member/AppointmentChart.aspx"), true);
+                            else
+                                Response.Redirect(ResolveClientUrl("~/Member/Appointmentc.aspx"), true);
+                        }
+                        else
+                        {
+                            ASB.Delete(i);
+                            DbHelper.Configuration.setAlert(Page, "Unable to process your request, please try again...", 2);
+                        }
+                    }
+                    else
+                    {
+                        DbHelper.Configuration.setAlert(Page, "Unable to process your request, please try again...", 2);
+                    }
+                }
             }
             else
             {

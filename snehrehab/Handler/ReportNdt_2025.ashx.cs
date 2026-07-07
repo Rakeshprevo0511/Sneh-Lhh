@@ -1387,75 +1387,90 @@ namespace snehrehab.Handler
                 AddParam(cmd, "@Score_behavioural", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Score_behavioural")));
                 AddParam(cmd, "@BEHAVIORAL", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "BEHAVIORAL")));
 
-                // Comments
-                AddParamWithSize(cmd, "@Comments_2", SqlDbType.VarChar, 200, DbNullIfEmpty(GetStr(context, "Comments_2")));
-                AddParamWithSize(cmd, "@Comments_3", SqlDbType.VarChar, 200, DbNullIfEmpty(GetStr(context, "Comments_3")));
-                AddParamWithSize(cmd, "@Comments_4", SqlDbType.VarChar, 200, DbNullIfEmpty(GetStr(context, "Comments_4")));
-                AddParamWithSize(cmd, "@Comments_5", SqlDbType.VarChar, 200, DbNullIfEmpty(GetStr(context, "Comments_5")));
-                AddParamWithSize(cmd, "@Comments_6", SqlDbType.VarChar, 200, DbNullIfEmpty(GetStr(context, "Comments_6")));
+                AddParam(cmd, "@Comments_2", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Comments_2")));
 
-                // SP Child
-                AddParamWithSize(cmd, "@SPchild_Seeker", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Seeker")));
-                AddParamWithSize(cmd, "@SPchild_Avoider", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Avoider")));
-                AddParamWithSize(cmd, "@SPchild_Sensor", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Sensor")));
-                AddParamWithSize(cmd, "@SPchild_Bystander", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Bystander")));
+                AddParam(cmd, "@SPchild_Seeker", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Seeker")));
+                AddParam(cmd, "@Seeking_Seeker", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Seeking_Seeker")));
 
-                AddParamWithSize(cmd, "@SPchild_Auditory_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Auditory_3")));
-                AddParamWithSize(cmd, "@SPchild_Visual_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Visual_3")));
-                AddParamWithSize(cmd, "@SPchild_Touch_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Touch_3")));
-                AddParamWithSize(cmd, "@SPchild_Movement_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Movement_3")));
-                AddParamWithSize(cmd, "@SPchild_Body_position", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Body_position")));
-                AddParamWithSize(cmd, "@SPchild_Oral_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Oral_3")));
-                AddParamWithSize(cmd, "@SPchild_Conduct_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Conduct_3")));
-                AddParamWithSize(cmd, "@SPchild_Social_emotional", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Social_emotional")));
-                AddParamWithSize(cmd, "@SPchild_Attentional_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "SPchild_Attentional_3")));
+                AddParam(cmd, "@SPchild_Avoider", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Avoider")));
+                AddParam(cmd, "@Avoiding_Avoider", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Avoiding_Avoider")));
 
-                // Normal
-                AddParamWithSize(cmd, "@Seeking_Seeker", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Seeking_Seeker")));
-                AddParamWithSize(cmd, "@Avoiding_Avoider", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Avoiding_Avoider")));
-                AddParamWithSize(cmd, "@Sensitivity_Sensor", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Sensitivity_Sensor")));
-                AddParamWithSize(cmd, "@Registration_Bystander", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Registration_Bystander")));
+                AddParam(cmd, "@SPchild_Sensor", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Sensor")));
+                AddParam(cmd, "@Sensitivity_Sensor", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensitivity_Sensor")));
 
-                AddParamWithSize(cmd, "@Auditory_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Auditory_3")));
-                AddParamWithSize(cmd, "@Visual_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Visual_3")));
-                AddParamWithSize(cmd, "@Touch_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Touch_3")));
-                AddParamWithSize(cmd, "@Movement_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Movement_3")));
-                AddParamWithSize(cmd, "@Body_position", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Body_position")));
-                AddParamWithSize(cmd, "@Oral_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Oral_3")));
-                AddParamWithSize(cmd, "@Conduct_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Conduct_3")));
-                AddParamWithSize(cmd, "@Social_emotional", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Social_emotional")));
-                AddParamWithSize(cmd, "@Attentional_3", SqlDbType.VarChar, 100, DbNullIfEmpty(GetStr(context, "Attentional_3")));
+                AddParam(cmd, "@SPchild_Bystander", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Bystander")));
+                AddParam(cmd, "@Registration_Bystander", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Registration_Bystander")));
 
-                // Adult
-                AddParamWithSize(cmd, "@SPAdult_Low_Registration", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "SPAdult_Low_Registration")));
-                AddParamWithSize(cmd, "@SPAdult_Sensory_seeking", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "SPAdult_Sensory_seeking")));
-                AddParamWithSize(cmd, "@SPAdult_Sensory_Sensitivity", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "SPAdult_Sensory_Sensitivity")));
-                AddParamWithSize(cmd, "@SPAdult_Sensory_Avoiding", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "SPAdult_Sensory_Avoiding")));
+                AddParam(cmd, "@SPchild_Auditory_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Auditory_3")));
+                AddParam(cmd, "@Auditory_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Auditory_3")));
 
-                AddParamWithSize(cmd, "@Low_Registration", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Low_Registration")));
-                AddParamWithSize(cmd, "@Sensory_seeking", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_seeking")));
-                AddParamWithSize(cmd, "@Sensory_Sensitivity", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_Sensitivity")));
-                AddParamWithSize(cmd, "@Sensory_Avoiding", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_Avoiding")));
+                AddParam(cmd, "@SPchild_Visual_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Visual_3")));
+                AddParam(cmd, "@Visual_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Visual_3")));
 
-                AddParamWithSize(cmd, "@SP_Low_Registration64", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "SP_Low_Registration64")));
-                AddParamWithSize(cmd, "@SP_Sensory_seeking_64", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "SP_Sensory_seeking_64")));
-                AddParamWithSize(cmd, "@SP_Sensory_Sensitivity64", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "SP_Sensory_Sensitivity64")));
-                AddParamWithSize(cmd, "@SP_Sensory_Avoiding64", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "SP_Sensory_Avoiding64")));
+                AddParam(cmd, "@SPchild_Touch_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Touch_3")));
+                AddParam(cmd, "@Touch_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Touch_3")));
 
-                AddParamWithSize(cmd, "@Low_Registration_5", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Low_Registration_5")));
-                AddParamWithSize(cmd, "@Sensory_seeking_5", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_seeking_5")));
-                AddParamWithSize(cmd, "@Sensory_Sensitivity_5", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_Sensitivity_5")));
-                AddParamWithSize(cmd, "@Sensory_Avoiding_5", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_Avoiding_5")));
+                AddParam(cmd, "@SPchild_Movement_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Movement_3")));
+                AddParam(cmd, "@Movement_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Movement_3")));
 
-                AddParamWithSize(cmd, "@Older_Low_Registration", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Older_Low_Registration")));
-                AddParamWithSize(cmd, "@Older_Sensory_seeking", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Older_Sensory_seeking")));
-                AddParamWithSize(cmd, "@Older_Sensory_Sensitivity", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Older_Sensory_Sensitivity")));
-                AddParamWithSize(cmd, "@Older_Sensory_Avoiding", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Older_Sensory_Avoiding")));
+                AddParam(cmd, "@SPchild_Body_position", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Body_position")));
+                AddParam(cmd, "@Body_position", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Body_position")));
 
-                AddParamWithSize(cmd, "@Low_Registration_6", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Low_Registration_6")));
-                AddParamWithSize(cmd, "@Sensory_seeking_6", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_seeking_6")));
-                AddParamWithSize(cmd, "@Sensory_Sensitivity_6", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_Sensitivity_6")));
-                AddParamWithSize(cmd, "@Sensory_Avoiding_6", SqlDbType.VarChar, 50, DbNullIfEmpty(GetStr(context, "Sensory_Avoiding_6")));
+                AddParam(cmd, "@SPchild_Oral_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Oral_3")));
+                AddParam(cmd, "@Oral_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Oral_3")));
+
+                AddParam(cmd, "@SPchild_Conduct_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Conduct_3")));
+                AddParam(cmd, "@Conduct_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Conduct_3")));
+
+                AddParam(cmd, "@SPchild_Social_emotional", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Social_emotional")));
+                AddParam(cmd, "@Social_emotional", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Social_emotional")));
+
+                AddParam(cmd, "@SPchild_Attentional_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPchild_Attentional_3")));
+                AddParam(cmd, "@Attentional_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Attentional_3")));
+
+                AddParam(cmd, "@Comments_3", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Comments_3")));
+
+                AddParam(cmd, "@SPAdult_Low_Registration", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPAdult_Low_Registration")));
+                AddParam(cmd, "@Low_Registration", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Low_Registration")));
+
+                AddParam(cmd, "@SPAdult_Sensory_seeking", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPAdult_Sensory_seeking")));
+                AddParam(cmd, "@Sensory_seeking", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_seeking")));
+
+                AddParam(cmd, "@SPAdult_Sensory_Sensitivity", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPAdult_Sensory_Sensitivity")));
+                AddParam(cmd, "@Sensory_Sensitivity", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_Sensitivity")));
+
+                AddParam(cmd, "@SPAdult_Sensory_Avoiding", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SPAdult_Sensory_Avoiding")));
+                AddParam(cmd, "@Sensory_Avoiding", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_Avoiding")));
+
+                AddParam(cmd, "@Comments_4", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Comments_4")));
+
+                AddParam(cmd, "@SP_Low_Registration64", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SP_Low_Registration64")));
+                AddParam(cmd, "@Low_Registration_5", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Low_Registration_5")));
+
+                AddParam(cmd, "@SP_Sensory_seeking_64", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SP_Sensory_seeking_64")));
+                AddParam(cmd, "@Sensory_seeking_5", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_seeking_5")));
+
+                AddParam(cmd, "@SP_Sensory_Sensitivity64", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SP_Sensory_Sensitivity64")));
+                AddParam(cmd, "@Sensory_Sensitivity_5", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_Sensitivity_5")));
+
+                AddParam(cmd, "@SP_Sensory_Avoiding64", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "SP_Sensory_Avoiding64")));
+                AddParam(cmd, "@Sensory_Avoiding_5", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_Avoiding_5")));
+
+                AddParam(cmd, "@Comments_5", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Comments_5")));
+
+                AddParam(cmd, "@Older_Low_Registration", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Older_Low_Registration")));
+                AddParam(cmd, "@Low_Registration_6", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Low_Registration_6")));
+
+                AddParam(cmd, "@Older_Sensory_seeking", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Older_Sensory_seeking")));
+                AddParam(cmd, "@Sensory_seeking_6", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_seeking_6")));
+
+                AddParam(cmd, "@Older_Sensory_Sensitivity", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Older_Sensory_Sensitivity")));
+                AddParam(cmd, "@Sensory_Sensitivity_6", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_Sensitivity_6")));
+
+                AddParam(cmd, "@Older_Sensory_Avoiding", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Older_Sensory_Avoiding")));
+                AddParam(cmd, "@Sensory_Avoiding_6", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Sensory_Avoiding_6")));
+
+                AddParam(cmd, "@Comments_6", SqlDbType.VarChar, DbNullIfEmpty(GetStr(context, "Comments_6")));
 
                 AddParam(cmd, "@TabNo", SqlDbType.Int, tabNo);
 
@@ -1535,6 +1550,7 @@ namespace snehrehab.Handler
                 return ToInt(ret.Value);
             }
         }
+
         private string ResolveClientUrl(string sessionOutURL)
         {
             throw new NotImplementedException();
@@ -1550,6 +1566,7 @@ namespace snehrehab.Handler
             // return empty string (best for COALESCE(NULLIF(@Param,''),Column))
             return (context.Request.Form[key] ?? "").Trim();
         }
+
         private static int ToInt(object val)
         {
             int x;
@@ -1560,16 +1577,11 @@ namespace snehrehab.Handler
         {
             return string.IsNullOrWhiteSpace(text) ? (object)DBNull.Value : text.Trim();
         }
+
         private void AddParam(SqlCommand cmd, string name, SqlDbType type, object value)
         {
             SqlParameter p = cmd.Parameters.Add(name, type);
             p.Value = value ?? DBNull.Value;
-        }
-        public static void AddParamWithSize(SqlCommand cmd, string name, SqlDbType type, int size, object value)
-        {
-            SqlParameter param = new SqlParameter(name, type, size);
-            param.Value = value ?? DBNull.Value;
-            cmd.Parameters.Add(param);
         }
         private bool GetBool(HttpContext context, string key)
         {
@@ -1592,6 +1604,8 @@ namespace snehrehab.Handler
 
             return false;
         }
+
+
         private string GetString(object obj)
         {
             return obj != DBNull.Value ? obj.ToString() : string.Empty;
@@ -1756,6 +1770,5 @@ namespace snehrehab.Handler
             }
         }
         public bool IsReusable { get { return false; } }
-
     }
 }

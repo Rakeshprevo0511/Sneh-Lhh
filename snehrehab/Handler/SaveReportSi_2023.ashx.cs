@@ -248,7 +248,7 @@ namespace snehrehab.Handler
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 AddParam(cmd, "@AppointmentID", SqlDbType.Int, appointmentID);
-                AddParam(cmd, "@ClinicalObservation", SqlDbType.NVarChar, DbNullIfEmpty(clinicalObservation));
+                AddParam(cmd, "@ClinicalObsevation", SqlDbType.NVarChar, DbNullIfEmpty(clinicalObservation));
                 AddParam(cmd, "@ModifyDate", SqlDbType.DateTime, DateTime.UtcNow.AddMinutes(330));
                 AddParam(cmd, "@ModifyBy", SqlDbType.Int, _loginID);
 
@@ -2030,7 +2030,6 @@ namespace snehrehab.Handler
             string Evaluation_Plan_Service = GetStr(context, "Evaluation_Plan_Service");
             string Evaluation_Plan_Strategies = GetStr(context, "Evaluation_Plan_Strategies");
             string Evaluation_Plan_Equipment = GetStr(context, "Evaluation_Plan_Equipment");
-            string Evaluation_Plan_Education = GetStr(context, "Evaluation_Plan_Education");
 
             using (SqlCommand cmd = new SqlCommand("Rpt_SI_SET_TABWISE"))
             {
@@ -2056,7 +2055,6 @@ namespace snehrehab.Handler
                 AddParam(cmd, "@Evaluation_Plan_Service", SqlDbType.NVarChar, DbNullIfEmpty(Evaluation_Plan_Service));
                 AddParam(cmd, "@Evaluation_Plan_Strategies", SqlDbType.NVarChar, DbNullIfEmpty(Evaluation_Plan_Strategies));
                 AddParam(cmd, "@Evaluation_Plan_Equipment", SqlDbType.NVarChar, DbNullIfEmpty(Evaluation_Plan_Equipment));
-                AddParam(cmd, "@Evaluation_Plan_Education", SqlDbType.NVarChar, DbNullIfEmpty(Evaluation_Plan_Education));
 
                 SqlParameter ret = cmd.Parameters.Add("@RetVal", SqlDbType.Int);
                 ret.Direction = ParameterDirection.Output;

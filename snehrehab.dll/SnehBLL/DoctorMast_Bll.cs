@@ -504,11 +504,15 @@ namespace SnehBLL
             }
             return DL;
         }
-        public List<SnehDLL.DoctorMast_Dll> get_newapp(int _appointmentID)
+        public List<SnehDLL.DoctorMast_Dll> get_newapp(int _appointmentID, DateTime _fromDate)
         {
             List<SnehDLL.DoctorMast_Dll> DL = new List<SnehDLL.DoctorMast_Dll>();
             SqlCommand cmd = new SqlCommand("DoctorMast_Get_newapp"); cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = _appointmentID;
+            if (_fromDate > DateTime.MinValue)
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;
+            else
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DBNull.Value;
             DataTable dt = db.DbRead(cmd);
             for (int i = 0; i < dt.Rows.Count; i++)
             {
