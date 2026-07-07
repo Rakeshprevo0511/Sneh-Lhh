@@ -212,5 +212,14 @@ namespace SnehBLL
             }
             return i > 0;
         }
+        public void SetPackageIsActive(int bookingId, bool isActive)
+        {
+
+            SqlCommand cmd = new SqlCommand("SetPackageIsActive"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookingID", bookingId);
+            cmd.Parameters.AddWithValue("@IsActive", isActive);
+            db.DbUpdate(cmd);
+
+        }
     }
 }

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace SnehBLL
 {
-    public class ReportPreConsultMst_Bll
+    public class ReportPreScreenMst_Bll
     {
         DbHelper.SqlDb db;
 
-        public ReportPreConsultMst_Bll()
+        public ReportPreScreenMst_Bll()
         {
             db = new DbHelper.SqlDb();
         }
@@ -20,7 +20,7 @@ namespace SnehBLL
         {
             SqlCommand cmd = new SqlCommand("ReportMst_IsValid"); cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = _appointmentID;
-            cmd.Parameters.Add("@ReportID", SqlDbType.Int).Value = 7;
+            cmd.Parameters.Add("@ReportID", SqlDbType.Int).Value = 6;
 
 
             SqlParameter Param = new SqlParameter(); Param.ParameterName = "@RetVal";
@@ -39,7 +39,7 @@ namespace SnehBLL
 
         public DataTable Search(int _doctorID, string _fullName, DateTime _fromDate, DateTime _uptoDate, bool _isDoctor)
         {
-            SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Search"); cmd.CommandType = CommandType.StoredProcedure;
+            SqlCommand cmd = new SqlCommand("Report_PreScreenMst_Search"); cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = _doctorID;
             cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
             if (_fromDate > DateTime.MinValue)
@@ -57,7 +57,7 @@ namespace SnehBLL
 
         public DataTable Search_New(int _doctorID, string _fullName, DateTime _fromDate, DateTime _uptoDate, bool _isDoctor)
         {
-            SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Search"); cmd.CommandType = CommandType.StoredProcedure;
+            SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Search"); cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = _doctorID;
             cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
             if (_fromDate > DateTime.MinValue)
@@ -73,21 +73,90 @@ namespace SnehBLL
             return db.DbRead(cmd);
         }
 
-        public int DeleteRow(int HidPreConsultID)
+        public DataTable Search_New_Report(int _doctorID, string _fullName, DateTime _fromDate, DateTime _uptoDate, bool _isDoctor)
         {
-            SqlCommand cmd = new SqlCommand("DeletePreConsultID"); cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@PreConsultID", SqlDbType.Int).Value = HidPreConsultID;
-            SqlParameter Param = new SqlParameter(); Param.ParameterName = "@RetVal";
-            Param.DbType = DbType.Int64; Param.Direction = ParameterDirection.Output;
-            Param.Value = 0; cmd.Parameters.Add(Param);
-            db.DbUpdate(cmd);
-            int i = 0;
-            if (cmd.Parameters["@RetVal"].Value != null)
-            {
-                int.TryParse(cmd.Parameters["@RetVal"].Value.ToString(), out i);
-            }
-            return i;
+            SqlCommand cmd = new SqlCommand("Export_PreConsultMst_Get_Docterwise"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = _doctorID;
+            cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
+            if (_fromDate > DateTime.MinValue)
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;
+            else
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DBNull.Value;
+            if (_uptoDate > DateTime.MinValue)
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = _uptoDate;
+            else
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = DBNull.Value;
+            cmd.Parameters.Add("@IsDoctor", SqlDbType.Bit).Value = _isDoctor;
+
+            return db.DbRead(cmd);
         }
+
+        public DataTable Search_New_Report_Patient(int _doctorID, string _fullName, DateTime _fromDate, DateTime _uptoDate, bool _isDoctor)
+        {
+            SqlCommand cmd = new SqlCommand("Export_PreConsultMst_Get"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = _doctorID;
+            cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
+            if (_fromDate > DateTime.MinValue)
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;
+            else
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DBNull.Value;
+            if (_uptoDate > DateTime.MinValue)
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = _uptoDate;
+            else
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = DBNull.Value;
+            cmd.Parameters.Add("@IsDoctor", SqlDbType.Bit).Value = _isDoctor;
+
+            return db.DbRead(cmd);
+        }
+
+
+        public DataTable AllMail_SendSearch(string _fullName, DateTime _fromDate, DateTime _uptoDate,int reportid)
+        {
+            SqlCommand cmd = new SqlCommand("Report_BotoxMail_Search"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
+            if (_fromDate > DateTime.MinValue)
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;
+            else
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DBNull.Value;
+            if (_uptoDate > DateTime.MinValue)
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = _uptoDate;
+            else
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = DBNull.Value;
+            cmd.Parameters.Add("@ReportID", SqlDbType.Int).Value = reportid;
+
+            return db.DbRead(cmd);
+        }
+        public DataTable Print_Screen_Mail_SendSearch(string _fullName, DateTime _fromDate, DateTime _uptoDate)
+        {
+            SqlCommand cmd = new SqlCommand("ReportPrintRecp_Search"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
+            if (_fromDate > DateTime.MinValue)
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;
+            else
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DBNull.Value;
+            if (_uptoDate > DateTime.MinValue)
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = _uptoDate;
+            else
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = DBNull.Value;
+
+            return db.DbRead(cmd);
+        }
+        public DataTable BirthdayWishReport_SendSearch(string _fullName, DateTime _fromDate, DateTime _uptoDate)
+        {
+            SqlCommand cmd = new SqlCommand("Report_BirthdayWishes"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
+            if (_fromDate > DateTime.MinValue)
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;
+            else
+                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DBNull.Value;
+            if (_uptoDate > DateTime.MinValue)
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = _uptoDate;
+            else
+                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = DBNull.Value;
+
+            return db.DbRead(cmd);
+        }
+
         public DataTable DemoSearch(string _fullName, DateTime _fromDate, DateTime _uptoDate, bool _isDoctor)
         {
             SqlCommand cmd = new SqlCommand("Demo_Report_PreScreenMst_Search"); cmd.CommandType = CommandType.StoredProcedure;
@@ -104,87 +173,153 @@ namespace SnehBLL
 
             return db.DbRead(cmd);
         }
+
+        public DataSet Get(int _appointmentID)
+        {
+            SqlCommand cmd = new SqlCommand("Report_PreScreenMst_Get"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = _appointmentID;
+            return db.DbFetch(cmd);
+        }
+
         public DataSet Get_New(int _appointmentID)
         {
-            SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Get");
+            SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Get");
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = _appointmentID;
             return db.DbFetch(cmd);
         }
-        public int SetTimeLine(
-   int AppointmentID,
-   int PreConsultID,
-   string Option1,
-   string Option2,
-   string Option3,
-   string Option4,
-   string Option5,
-   int sortOrder)
+
+        public DataTable Get_PreConExportData(int _appointmentID)
         {
-            SqlCommand cmd = new SqlCommand("TimeLine_PreConsultMst_Set");
+            SqlCommand cmd = new SqlCommand("Export_PreConsultMst_Get");
             cmd.CommandType = CommandType.StoredProcedure;
-
-            cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = AppointmentID;
-            cmd.Parameters.Add("@PreConsultID", SqlDbType.Int).Value = PreConsultID;
-
-            cmd.Parameters.Add("@DateMonth", SqlDbType.NVarChar, -1).Value = Option1;
-            cmd.Parameters.Add("@RelevantHistory", SqlDbType.NVarChar, -1).Value = Option2;
-            cmd.Parameters.Add("@HospitalDoctorsVisited", SqlDbType.NVarChar, -1).Value = Option3;
-            cmd.Parameters.Add("@DoctorsRecommendations", SqlDbType.NVarChar, -1).Value = Option4;
-            cmd.Parameters.Add("@InvestigationsRecordsResults", SqlDbType.NVarChar, -1).Value = Option5;
-
-            // ✅ ONLY THIS (correct param)
-            cmd.Parameters.Add("@DisplayOrder", SqlDbType.Int).Value = sortOrder;
-
-            SqlParameter param = new SqlParameter();
-            param.ParameterName = "@RetVal";
-            param.DbType = DbType.Int32;
-            param.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(param);
-
-            db.DbUpdate(cmd);
-
-            int result = 0;
-            if (cmd.Parameters["@RetVal"].Value != null)
-            {
-                int.TryParse(cmd.Parameters["@RetVal"].Value.ToString(), out result);
-            }
-
-            return result;
+            cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = _appointmentID;
+            return db.DbRead(cmd);
         }
 
+        //public int SetTimeLine(int AppointmentID, int Option0, string Option1, string Option2, string Option3, string Option4, string Option5, DateTime ModifyDate, int ModifyBy)
+        //{
+        //    SqlCommand cmd = new SqlCommand("TimeLine_PreConsultMst_Set"); cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = AppointmentID;
+        //    cmd.Parameters.Add("@PreConsultID", SqlDbType.Int).Value = Option0;
+        //    cmd.Parameters.Add("@DateMonth", SqlDbType.NVarChar - 1).Value = Option1;
+        //    cmd.Parameters.Add("@RelevantHistory", SqlDbType.NVarChar - 1).Value = Option2;
+        //    cmd.Parameters.Add("@HospitalDoctorsVisited", SqlDbType.NVarChar - 1).Value = Option3;
+        //    cmd.Parameters.Add("@DoctorsRecommendations", SqlDbType.NVarChar - 1).Value = Option4;
+        //    cmd.Parameters.Add("@InvestigationsRecordsResults", SqlDbType.NVarChar - 1).Value = Option5;
+        //    if (ModifyDate > DateTime.MinValue)
+        //        cmd.Parameters.Add("@ModifyDate", SqlDbType.DateTime).Value = ModifyDate;
+        //    else
+        //        cmd.Parameters.Add("@ModifyDate", SqlDbType.DateTime).Value = DBNull.Value;
+        //    cmd.Parameters.Add("@ModifyBy", SqlDbType.Int).Value = ModifyBy;
+        //    SqlParameter Param = new SqlParameter(); Param.ParameterName = "@RetVal";
+        //    Param.DbType = DbType.Int64; Param.Direction = ParameterDirection.Output;
+        //    Param.Value = 0; cmd.Parameters.Add(Param);
+
+        //    db.DbUpdate(cmd);
+        //    int i = 0;
+        //    if (cmd.Parameters["@RetVal"].Value != null)
+        //    {
+        //        int.TryParse(cmd.Parameters["@RetVal"].Value.ToString(), out i);
+        //    }
+        //    return i;
+        //}
+
+        public int SetTimeLine(int AppointmentID, int Option0, string Option1, string Option2, string Option3, string Option4, string Option5,int sortOrder)
+        {
+            SqlCommand cmd = new SqlCommand("TimeLine_PreConsultMst_Set"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = AppointmentID;
+            cmd.Parameters.Add("@SortOrder", SqlDbType.Int).Value = sortOrder;
+            cmd.Parameters.Add("@PreConsultID", SqlDbType.Int).Value = Option0;
+            cmd.Parameters.Add("@DateMonth", SqlDbType.NVarChar - 1).Value = Option1;
+            cmd.Parameters.Add("@RelevantHistory", SqlDbType.NVarChar - 1).Value = Option2;
+            cmd.Parameters.Add("@HospitalDoctorsVisited", SqlDbType.NVarChar - 1).Value = Option3;
+            cmd.Parameters.Add("@DoctorsRecommendations", SqlDbType.NVarChar - 1).Value = Option4;
+            cmd.Parameters.Add("@InvestigationsRecordsResults", SqlDbType.NVarChar - 1).Value = Option5;
+            cmd.Parameters.Add("@DisplayOrder", SqlDbType.Int).Value = sortOrder;
+            SqlParameter Param = new SqlParameter(); Param.ParameterName = "@RetVal";
+            Param.DbType = DbType.Int64; Param.Direction = ParameterDirection.Output;
+            Param.Value = 0; cmd.Parameters.Add(Param);
+
+            db.DbUpdate(cmd);
+            int i = 0;
+            if (cmd.Parameters["@RetVal"].Value != null)
+            {
+                int.TryParse(cmd.Parameters["@RetVal"].Value.ToString(), out i);
+            }
+            return i;
+        }
+        public int SetTimeLineNew(int AppointmentID, int Option0, string Option1, string Option2, string Option3, string Option4, string Option5, int sortOrder)
+        {
+            SqlCommand cmd = new SqlCommand("TimeLine_PreConsultMst_Set_New"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = AppointmentID;
+            cmd.Parameters.Add("@SortOrder", SqlDbType.Int).Value = sortOrder;
+            cmd.Parameters.Add("@PreConsultID", SqlDbType.Int).Value = Option0;
+            cmd.Parameters.Add("@DateMonth", SqlDbType.NVarChar - 1).Value = Option1;
+            cmd.Parameters.Add("@RelevantHistory", SqlDbType.NVarChar - 1).Value = Option2;
+            cmd.Parameters.Add("@HospitalDoctorsVisited", SqlDbType.NVarChar - 1).Value = Option3;
+            cmd.Parameters.Add("@DoctorsRecommendations", SqlDbType.NVarChar - 1).Value = Option4;
+            cmd.Parameters.Add("@InvestigationsRecordsResults", SqlDbType.NVarChar - 1).Value = Option5;
+
+            SqlParameter Param = new SqlParameter(); Param.ParameterName = "@RetVal";
+            Param.DbType = DbType.Int64; Param.Direction = ParameterDirection.Output;
+            Param.Value = 0; cmd.Parameters.Add(Param);
+
+            db.DbUpdate(cmd);
+            int i = 0;
+            if (cmd.Parameters["@RetVal"].Value != null)
+            {
+                int.TryParse(cmd.Parameters["@RetVal"].Value.ToString(), out i);
+            }
+            return i;
+        }
+        public int DeleteRow(int HidPreConsultID)
+        {
+            SqlCommand cmd = new SqlCommand("DeletePreConsultID"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@PreConsultID", SqlDbType.Int).Value = HidPreConsultID;
+            SqlParameter Param = new SqlParameter(); Param.ParameterName = "@RetVal";
+            Param.DbType = DbType.Int64; Param.Direction = ParameterDirection.Output;
+            Param.Value = 0; cmd.Parameters.Add(Param);
+            db.DbUpdate(cmd);
+            int i = 0;
+            if (cmd.Parameters["@RetVal"].Value != null)
+            {
+                int.TryParse(cmd.Parameters["@RetVal"].Value.ToString(), out i);
+            }
+            return i;
+        }
         public int Set_New(int AppointmentID, bool IsFinal, bool IsGiven, DateTime GivenDate, DateTime ModifyDate, int ModifyBy,
         DateTime DatepreConsult, string txtComfortableLanguage, DateTime DateBirth, DateTime DateDelivery, string txtCorrectAge,
         string txtAge, string Gender, string txtMotherName, string txtMotherAge, string txtMotherQualification, string txtMotherOccupation,
         string txtMotherWorkingHour, string txtFatherName, string txtFatherAge, string txtFatherOccupation, string txtFatherQualification,
         string txtFatherWorkingHour, string txtAddress, string txtContactDetails, string txtEmailID, string txtReferredBy, string txtTherapistDuringPC,
         string txtDiagnosis, string txtCommentsPI, string txtChiefConcernsHome, string txtChiefConcernsSchool, string txtChiefConcernsSocialGath,
-        string txtCommentsCC, string Consanguinity, string ConsanguinityDegree, string txtYearsMarriage, string FamilyStructure, string Conception,
+        string txtCommentsCC, string Consanguinity, string ConsanguinityDegree, string txtYearsMarriage, string FamilyStructure,string Conception,
         string PlanningConception, string txtCommentsFH, string ParentChildRelation, string InterParentalRelation, string InterSiblingRelation,
         string DomesticViolence, string FamilyRelocation, string txtfrequency, string PrimaryCare, string txtMotherScreenTime, string txtScreenTimeChild,
-        string txtCommentsFR, string txtPrenatalCondition, string CheckMental, string txtDescribeStressors, string txtWGDP, string txtFoetalMovement,
+        string txtCommentsFR, string txtPrenatalCondition, string CheckMental, string txtDescribeStressors,string txtWGDP, string txtFoetalMovement,
         string txtCommentsMH, string txtDurationLabour, string delivery, string ciab, string txtConditionPostBirth, string txtBirthWeight,
         string GestationalBirthAge, string NICUstay, string txtDurationNICUstay, string txtNICUHistory, string txtReasonNICUstay, string txtAPGARscore,
-        string Breastfed, string txtBabyFed, string Problemsduringbreastfeeding, string txtMentionProblem, string txtwaswtcbf, string colicissue,
+        string Breastfed, string txtBabyFed,string Problemsduringbreastfeeding, string txtMentionProblem,string txtwaswtcbf, string colicissue,
         string txtOthrtMedicalIssues, string txtCommentsPPH, string txtGrossMotor, string txtFineMotor, string txtPersonalandSocial, string txtCommunication,
-        string txtCommentsDM, string Sleepissues, string Presentsleep, string txtSleepduration, string SleepType, string Cosleeping, string txtCosleepingwith,
+        string txtCommentsDM, string Sleepissues,string Presentsleep, string txtSleepduration,string SleepType, string Cosleeping, string txtCosleepingwith,
         string txtAnySleepAdjunctsused, string Naptime, string txtNapduration, string txtCommentsS, string Feedinghabits, string txtTypeoffoodhad, string txtFoodconsistency,
         string txtFoodtemperature, string txtFoodtaste, string txtCommentsFeHa, string txtChildLikes, string txtCommentsITCH, string Playbehaviour, string txtInteractionwithpeers,
-        string Strangeranxiety, string PlayToys, string txtPreferenceoftoys, string txtCommentsPB, string Brushing, string txtCommentsBrushing, string Bathing,
-        string txtCommentsBathing, string Toileting, string txtCommentsToileting, string Dressing, string txtCommentsDressing, string Eating, string txtCommentsEating,
-        string Ambulation, string txtCommentsAmbulation, string Transfers, string txtCommentsTransfers, string txtAddComments, string Prenatalwellness,
-        string Siblings, string NoOfSiblings, string RHASiblings, string Consanguinity_1, string ConsanguinityDegree_1,
-        string ConsanguinityDegree_2, string FamilyStructure_1, string Conception_1, string Conception_2, string Conception_3, string Conception_4,
+        string Strangeranxiety,string PlayToys,string txtPreferenceoftoys,string txtCommentsPB,string Brushing, string txtCommentsBrushing, string Bathing,
+        string txtCommentsBathing, string Toileting,string txtCommentsToileting, string Dressing,string txtCommentsDressing, string Eating,string txtCommentsEating,
+        string Ambulation,string txtCommentsAmbulation, string Transfers, string txtCommentsTransfers, string txtAddComments, string Prenatalwellness,
+        string Siblings,  string NoOfSiblings, string RHASiblings, string Consanguinity_1, string ConsanguinityDegree_1,
+        string ConsanguinityDegree_2, string FamilyStructure_1, string Conception_1, string Conception_2, string Conception_3, string Conception_4, 
         string PlanningConception_1, string InterParentalRelation_1, string InterParentalRelation_2, string ParentChildRelation_1, string ParentChildRelation_2,
         string InterSiblingRelation_1, string InterSiblingRelation_2, string DomesticViolence_1, string DomesticViolence_2, string FamilyRelocation_1,
-        string PrimaryCare_1, string PrimaryCare_2, string PrimaryCare_3, string MaternalStress_1, string delivery_1, string delivery_2, string delivery_3,
-        string GestationalBirthAge_1, string GestationalBirthAge_2, string AddEvalRec, string ChildAttend, string txtOnlineOffline, string txtWhichGrade,
+        string PrimaryCare_1, string PrimaryCare_2, string PrimaryCare_3,string MaternalStress_1, string delivery_1, string delivery_2, string delivery_3,
+        string GestationalBirthAge_1, string GestationalBirthAge_2, string AddEvalRec, string ChildAttend,  string txtOnlineOffline, string txtWhichGrade,
         string Brushing_1, string Brushing_2, string Bathing_1, string Bathing_2, string Toileting_1, string Toileting_2, string Dressing_1, string Dressing_2,
         string Eating_1, string Eating_2, string Ambulation_1, string Ambulation_2, string Transfers_1, string Transfers_2
         //, string Option1, string Option2, string Option3, string Option4, string Option5
         )
         {
-            SqlCommand cmd = new SqlCommand("Report_PreConsultantMst_Set"); cmd.CommandType = CommandType.StoredProcedure;
+            SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set"); cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = AppointmentID;
             cmd.Parameters.Add("@IsFinal", SqlDbType.Bit).Value = IsFinal;
             cmd.Parameters.Add("@IsGiven", SqlDbType.Bit).Value = IsGiven;
@@ -332,6 +467,7 @@ namespace SnehBLL
             cmd.Parameters.Add("@Siblings", SqlDbType.NVarChar - 1).Value = Siblings;
             cmd.Parameters.Add("@NoOfSiblings", SqlDbType.NVarChar - 1).Value = NoOfSiblings;
             cmd.Parameters.Add("@RHASiblings", SqlDbType.NVarChar - 1).Value = RHASiblings;
+            //cmd.Parameters.Add("@Consanguinity", SqlDbType.NVarChar - 1).Value = Consanguinity;
             cmd.Parameters.Add("@Consanguinity_1", SqlDbType.NVarChar - 1).Value = Consanguinity_1;
             cmd.Parameters.Add("@ConsanguinityDegree_1", SqlDbType.NVarChar - 1).Value = ConsanguinityDegree_1;
             cmd.Parameters.Add("@ConsanguinityDegree_2", SqlDbType.NVarChar - 1).Value = ConsanguinityDegree_2;
@@ -350,7 +486,7 @@ namespace SnehBLL
             cmd.Parameters.Add("@DomesticViolence_1", SqlDbType.NVarChar - 1).Value = DomesticViolence_1;
             cmd.Parameters.Add("@DomesticViolence_2", SqlDbType.NVarChar - 1).Value = DomesticViolence_2;
             cmd.Parameters.Add("@FamilyRelocation_1", SqlDbType.NVarChar - 1).Value = FamilyRelocation_1;
-            cmd.Parameters.Add("@PrimaryCare_1", SqlDbType.NVarChar - 1).Value = PrimaryCare_1;
+            cmd.Parameters.Add("@PrimaryCare_1", SqlDbType.NVarChar - 1).Value =  PrimaryCare_1;
             cmd.Parameters.Add("@PrimaryCare_2", SqlDbType.NVarChar - 1).Value = PrimaryCare_2;
             cmd.Parameters.Add("@PrimaryCare_3", SqlDbType.NVarChar - 1).Value = PrimaryCare_3;
             cmd.Parameters.Add("@MaternalStress_1", SqlDbType.NVarChar - 1).Value = MaternalStress_1;
@@ -377,6 +513,7 @@ namespace SnehBLL
             cmd.Parameters.Add("@Eating_2", SqlDbType.NVarChar - 1).Value = Eating_2;
             cmd.Parameters.Add("@Ambulation_1", SqlDbType.NVarChar - 1).Value = Ambulation_1;
             cmd.Parameters.Add("@Ambulation_2", SqlDbType.NVarChar - 1).Value = Ambulation_2;
+            //cmd.Parameters.Add("@Transfers", SqlDbType.NVarChar - 1).Value = Transfers;
             cmd.Parameters.Add("@Transfers_1", SqlDbType.NVarChar - 1).Value = Transfers_1;
             cmd.Parameters.Add("@Transfers_2", SqlDbType.NVarChar - 1).Value = Transfers_2;
 
@@ -392,13 +529,6 @@ namespace SnehBLL
                 int.TryParse(cmd.Parameters["@RetVal"].Value.ToString(), out i);
             }
             return i;
-        }
-
-        public DataSet Get(int _appointmentID)
-        {
-            SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Get"); cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = _appointmentID;
-            return db.DbFetch(cmd);
         }
 
         public int Set(int AppointmentID, string His_FamilyHistory, string His_FamilyStru, string His_InterParental, string His_ParentalChild, string His_EmotionalAbus,
@@ -421,7 +551,7 @@ namespace SnehBLL
             string Other_Name, string Other_Date, string Other_Addr, string Other_Phone, string ReleventMedicalTimeline, string DailyRoutine,
             string DiagnosisIDs, string DiagnosisOther)
         {
-            SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set"); cmd.CommandType = CommandType.StoredProcedure;
+            SqlCommand cmd = new SqlCommand("Report_PreScreenMst_Set"); cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = AppointmentID;
             cmd.Parameters.Add("@His_FamilyHistory", SqlDbType.NVarChar, -1).Value = His_FamilyHistory;
             cmd.Parameters.Add("@His_FamilyStru", SqlDbType.NVarChar, -1).Value = His_FamilyStru;
@@ -585,40 +715,141 @@ namespace SnehBLL
             return db.DbRead(cmd);
         }
 
-        public DataTable Search_New_Report(int _doctorID, string _fullName, DateTime _fromDate, DateTime _uptoDate, bool _isDoctor)
+        public int Auto_Save(
+            int AppointmentID, string txtComfortableLanguage,
+            string txtCorrectAge, string txtAge, string txtMotherName, string txtMotherAge,
+            string txtMotherQualification, string txtMotherOccupation, string txtMotherWorkingHour, string txtFatherName,
+            string txtFatherAge, string txtFatherOccupation, string txtFatherQualification, string txtFatherWorkingHour,
+            string txtAddress, string txtContactDetails, string txtEmailID, string txtReferredBy,
+            string txtTherapistDuringPC, string txtDiagnosis, string txtCommentsPI, string txtChiefConcernsHome,
+            string txtChiefConcernsSchool, string txtChiefConcernsSocialGath,
+            string txtCommentsCC, string txtYearsMarriage, string txtCommentsFH, string txtfrequency,
+            string txtMotherScreenTime, string txtScreenTimeChild, string txtCommentsFR, string txtPrenatalCondition,
+            string txtDescribeStressors, string txtWGDP, string txtFoetalMovement, string txtCommentsMH,
+            string txtDurationLabour, string txtConditionPostBirth, string txtBirthWeight, string txtDurationNICUstay,
+            string txtNICUHistory, string txtReasonNICUstay, string txtAPGARscore, string txtBabyFed,
+            string txtMentionProblem, string txtwaswtcbf, string txtOthrtMedicalIssues, string txtCommentsPPH,
+            string txtGrossMotor, string txtFineMotor, string txtPersonalandSocial,
+            string txtCommunication, string txtCommentsDM, string txtSleepduration, string txtCosleepingwith,
+            string txtAnySleepAdjunctsused, string txtNapduration, string txtCommentsS, string txtTypeoffoodhad,
+            string txtFoodconsistency, string txtFoodtemperature, string txtFoodtaste, string txtCommentsFeHa,
+            string txtChildLikes, string txtCommentsITCH, string txtInteractionwithpeers, string txtPreferenceoftoys,
+            string txtCommentsPB, string txtCommentsBrushing, string txtCommentsBathing, string txtCommentsToileting,
+            string txtCommentsDressing, string txtCommentsEating, string txtCommentsAmbulation, string txtCommentsTransfers,
+            string txtAddComments, string txtNoOfSiblings, string txtRHASiblings, string txtAddEvalRec,
+            string txtOnlineOffline, string txtWhichGrade)
         {
-            SqlCommand cmd = new SqlCommand("Export_PreConsultMst_Get_doctorwise"); cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = _doctorID;
-            cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
-            if (_fromDate > DateTime.MinValue)
-                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;
-            else
-                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DBNull.Value;
-            if (_uptoDate > DateTime.MinValue)
-                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = _uptoDate;
-            else
-                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = DBNull.Value;
-            cmd.Parameters.Add("@IsDoctor", SqlDbType.Bit).Value = _isDoctor;
+            SqlCommand cmd = new SqlCommand("Report_PreConsultMst_Set_Auto_Save"); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = AppointmentID;
+            cmd.Parameters.Add("@ComfortableLanguage", SqlDbType.NVarChar - 1).Value = txtComfortableLanguage;
+            cmd.Parameters.Add("@CorrectAge", SqlDbType.NVarChar - 1).Value = txtCorrectAge;
+            cmd.Parameters.Add("@Age", SqlDbType.NVarChar - 1).Value = txtAge;
+            cmd.Parameters.Add("@MotherName", SqlDbType.NVarChar - 1).Value = txtMotherName;
+            cmd.Parameters.Add("@MotherAge", SqlDbType.NVarChar - 1).Value = txtMotherAge;
+            cmd.Parameters.Add("@MotherQualification", SqlDbType.NVarChar - 1).Value = txtMotherQualification;
+            cmd.Parameters.Add("@MotherOccupation", SqlDbType.NVarChar - 1).Value = txtMotherOccupation;
+            cmd.Parameters.Add("@MotherWorkingHour", SqlDbType.NVarChar - 1).Value = txtMotherWorkingHour;
+            cmd.Parameters.Add("@FatherName", SqlDbType.NVarChar - 1).Value = txtFatherName;
+            cmd.Parameters.Add("@FatherAge", SqlDbType.NVarChar - 1).Value = txtFatherAge;
+            cmd.Parameters.Add("@FatherOccupation", SqlDbType.NVarChar - 1).Value = txtFatherOccupation;
+            cmd.Parameters.Add("@FatherQualification", SqlDbType.NVarChar - 1).Value = txtFatherQualification;
+            cmd.Parameters.Add("@FatherWorkingHour", SqlDbType.NVarChar - 1).Value = txtFatherWorkingHour;
 
-            return db.DbRead(cmd);
+            cmd.Parameters.Add("@Address", SqlDbType.NVarChar - 1).Value = txtAddress;
+            cmd.Parameters.Add("@ContactDetails", SqlDbType.NVarChar - 1).Value = txtContactDetails;
+            cmd.Parameters.Add("@EmailID", SqlDbType.NVarChar - 1).Value = txtEmailID;
+            cmd.Parameters.Add("@ReferredBy", SqlDbType.NVarChar - 1).Value = txtReferredBy;
+
+            cmd.Parameters.Add("@TherapistDuringPC", SqlDbType.NVarChar - 1).Value = txtTherapistDuringPC;
+            cmd.Parameters.Add("@Diagnosis", SqlDbType.NVarChar - 1).Value = txtDiagnosis;
+            cmd.Parameters.Add("@CommentsPI", SqlDbType.NVarChar - 1).Value = txtCommentsPI;
+            cmd.Parameters.Add("@ChiefConcernsHome", SqlDbType.NVarChar - 1).Value = txtChiefConcernsHome;
+            cmd.Parameters.Add("@ChiefConcernsSchool", SqlDbType.NVarChar - 1).Value = txtChiefConcernsSchool;
+            cmd.Parameters.Add("@ChiefConcernsSocialGath", SqlDbType.NVarChar - 1).Value = txtChiefConcernsSocialGath;
+            cmd.Parameters.Add("@CommentsCC", SqlDbType.NVarChar - 1).Value = txtCommentsCC;
+
+            cmd.Parameters.Add("@YearsMarriage", SqlDbType.NVarChar - 1).Value = txtYearsMarriage;
+            cmd.Parameters.Add("@CommentsFH", SqlDbType.NVarChar - 1).Value = txtCommentsFH;
+            cmd.Parameters.Add("@frequency", SqlDbType.NVarChar - 1).Value = txtfrequency;
+            cmd.Parameters.Add("@MotherScreenTime", SqlDbType.NVarChar - 1).Value = txtMotherScreenTime;
+            cmd.Parameters.Add("@ScreenTimeChild", SqlDbType.NVarChar - 1).Value = txtScreenTimeChild;
+            cmd.Parameters.Add("@CommentsFR", SqlDbType.NVarChar - 1).Value = txtCommentsFR;
+
+            cmd.Parameters.Add("@PrenatalCondition", SqlDbType.NVarChar - 1).Value = txtPrenatalCondition;
+            cmd.Parameters.Add("@DescribeStressors", SqlDbType.NVarChar - 1).Value = txtDescribeStressors;
+            cmd.Parameters.Add("@WGDP", SqlDbType.NVarChar - 1).Value = txtWGDP;
+            cmd.Parameters.Add("@FoetalMovement", SqlDbType.NVarChar - 1).Value = txtFoetalMovement;
+            cmd.Parameters.Add("@CommentsMH", SqlDbType.NVarChar - 1).Value = txtCommentsMH;
+            cmd.Parameters.Add("@DurationLabour", SqlDbType.NVarChar - 1).Value = txtDurationLabour;
+
+            cmd.Parameters.Add("@ConditionPostBirth", SqlDbType.NVarChar - 1).Value = txtConditionPostBirth;
+            cmd.Parameters.Add("@BirthWeight", SqlDbType.NVarChar - 1).Value = txtBirthWeight;
+            cmd.Parameters.Add("@DurationNICUstay", SqlDbType.NVarChar - 1).Value = txtDurationNICUstay;
+            cmd.Parameters.Add("@NICUHistory", SqlDbType.NVarChar - 1).Value = txtNICUHistory;
+            cmd.Parameters.Add("@ReasonNICUstay", SqlDbType.NVarChar - 1).Value = txtReasonNICUstay;
+            cmd.Parameters.Add("@APGARscore", SqlDbType.NVarChar - 1).Value = txtAPGARscore;
+
+            cmd.Parameters.Add("@BabyFed", SqlDbType.NVarChar - 1).Value = txtBabyFed;
+            cmd.Parameters.Add("@MentionProblem", SqlDbType.NVarChar - 1).Value = txtMentionProblem;
+            cmd.Parameters.Add("@waswtcbf", SqlDbType.NVarChar - 1).Value = txtwaswtcbf;
+            cmd.Parameters.Add("@OthrtMedicalIssues", SqlDbType.NVarChar - 1).Value = txtOthrtMedicalIssues;
+            cmd.Parameters.Add("@CommentsPPH", SqlDbType.NVarChar - 1).Value = txtCommentsPPH;
+            cmd.Parameters.Add("@GrossMotor", SqlDbType.NVarChar - 1).Value = txtGrossMotor;
+            cmd.Parameters.Add("@FineMotor", SqlDbType.NVarChar - 1).Value = txtFineMotor;
+
+            cmd.Parameters.Add("@PersonalandSocial", SqlDbType.NVarChar - 1).Value = txtPersonalandSocial;
+            cmd.Parameters.Add("@Communication", SqlDbType.NVarChar - 1).Value = txtCommunication;
+            cmd.Parameters.Add("@CommentsDM", SqlDbType.NVarChar - 1).Value = txtCommentsDM;
+            cmd.Parameters.Add("@Sleepduration", SqlDbType.NVarChar - 1).Value = txtSleepduration;
+            cmd.Parameters.Add("@Cosleepingwith", SqlDbType.NVarChar - 1).Value = txtCosleepingwith;
+            cmd.Parameters.Add("@AnySleepAdjunctsused", SqlDbType.NVarChar - 1).Value = txtAnySleepAdjunctsused;
+
+            cmd.Parameters.Add("@Napduration", SqlDbType.NVarChar - 1).Value = txtNapduration;
+            cmd.Parameters.Add("@CommentsS", SqlDbType.NVarChar - 1).Value = txtCommentsS;
+            cmd.Parameters.Add("@Typeoffoodhad", SqlDbType.NVarChar - 1).Value = txtTypeoffoodhad;
+            cmd.Parameters.Add("@Foodconsistency", SqlDbType.NVarChar - 1).Value = txtFoodconsistency;
+            cmd.Parameters.Add("@Foodtemperature", SqlDbType.NVarChar - 1).Value = txtFoodtemperature;
+            cmd.Parameters.Add("@Foodtaste", SqlDbType.NVarChar - 1).Value = txtFoodtaste;
+            cmd.Parameters.Add("@CommentsFeHa", SqlDbType.NVarChar - 1).Value = txtCommentsFeHa;
+            cmd.Parameters.Add("@ChildLikes", SqlDbType.NVarChar - 1).Value = txtChildLikes;
+            cmd.Parameters.Add("@ChildDislikes", SqlDbType.NVarChar - 1).Value = txtChildLikes;
+            cmd.Parameters.Add("@MomentsOfHappiness", SqlDbType.NVarChar - 1).Value = txtChildLikes;
+            cmd.Parameters.Add("@MomentsOfFear", SqlDbType.NVarChar - 1).Value = txtChildLikes;
+            cmd.Parameters.Add("@FeelingsNemotions", SqlDbType.NVarChar - 1).Value = txtChildLikes;
+
+            cmd.Parameters.Add("@CommentsITCH", SqlDbType.NVarChar - 1).Value = txtCommentsITCH;
+            cmd.Parameters.Add("@Interactionwithpeers", SqlDbType.NVarChar - 1).Value = txtInteractionwithpeers;
+            cmd.Parameters.Add("@Preferenceoftoys", SqlDbType.NVarChar - 1).Value = txtPreferenceoftoys;
+            cmd.Parameters.Add("@CommentsPB", SqlDbType.NVarChar - 1).Value = txtCommentsPB;
+            cmd.Parameters.Add("@CommentsBrushing", SqlDbType.NVarChar - 1).Value = txtCommentsBrushing;
+            cmd.Parameters.Add("@CommentsBathing", SqlDbType.NVarChar - 1).Value = txtCommentsBathing;
+            cmd.Parameters.Add("@CommentsToileting", SqlDbType.NVarChar - 1).Value = txtCommentsToileting;
+            cmd.Parameters.Add("@CommentsDressing", SqlDbType.NVarChar - 1).Value = txtCommentsDressing;
+            cmd.Parameters.Add("@CommentsEating", SqlDbType.NVarChar - 1).Value = txtCommentsEating;
+            cmd.Parameters.Add("@CommentsAmbulation", SqlDbType.NVarChar - 1).Value = txtCommentsAmbulation;
+            cmd.Parameters.Add("@CommentsTransfers", SqlDbType.NVarChar - 1).Value = txtCommentsTransfers;
+            cmd.Parameters.Add("@AddComments", SqlDbType.NVarChar - 1).Value = txtAddComments;
+            cmd.Parameters.Add("@OnlineOffline", SqlDbType.NVarChar - 1).Value = txtOnlineOffline;
+
+            cmd.Parameters.Add("@NoOfSiblings", SqlDbType.NVarChar - 1).Value = txtNoOfSiblings;
+            cmd.Parameters.Add("@RHASiblings", SqlDbType.NVarChar - 1).Value = txtRHASiblings;
+            cmd.Parameters.Add("@AddEvalRec", SqlDbType.NVarChar - 1).Value = txtAddEvalRec;
+
+            cmd.Parameters.Add("@WhichGrade", SqlDbType.NVarChar - 1).Value = txtWhichGrade;
+
+            SqlParameter Param = new SqlParameter(); Param.ParameterName = "@RetVal";
+            Param.DbType = DbType.Int64; Param.Direction = ParameterDirection.Output;
+            Param.Value = 0; cmd.Parameters.Add(Param);
+
+            db.DbUpdate(cmd);
+            int i = 0;
+            if (cmd.Parameters["@RetVal"].Value != null)
+            {
+                int.TryParse(cmd.Parameters["@RetVal"].Value.ToString(), out i);
+            }
+
+            return i;
         }
 
-        public DataTable Search_New_Report_Patient(int _doctorID, string _fullName, DateTime _fromDate, DateTime _uptoDate, bool _isDoctor)
-        {
-            SqlCommand cmd = new SqlCommand("Export_PreConsultMst_Get"); cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = _doctorID;
-            cmd.Parameters.Add("@FullName", SqlDbType.VarChar, 50).Value = _fullName;
-            if (_fromDate > DateTime.MinValue)
-                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = _fromDate;
-            else
-                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DBNull.Value;
-            if (_uptoDate > DateTime.MinValue)
-                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = _uptoDate;
-            else
-                cmd.Parameters.Add("@UptoDate", SqlDbType.DateTime).Value = DBNull.Value;
-            cmd.Parameters.Add("@IsDoctor", SqlDbType.Bit).Value = _isDoctor;
-
-            return db.DbRead(cmd);
-        }
     }
 }

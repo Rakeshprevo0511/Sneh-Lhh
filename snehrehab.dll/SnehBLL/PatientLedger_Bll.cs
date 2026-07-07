@@ -169,7 +169,7 @@ namespace SnehBLL
             return i;
         }
 
-        public int PayPackage(int _ledgerID, float _amount, DateTime _payDate, int _paymentMode, int _bankID, string BankBranch, string ChequeTxnNo, DateTime _chequeDate, string _narration)
+        public int PayPackage(int _ledgerID, float _amount, DateTime _payDate, int _paymentMode, int _bankID, string BankBranch, string ChequeTxnNo, DateTime _chequeDate, string _narration, string hospitalReceiptId, DateTime hospitalReceiptDate)
         {
             SqlCommand cmd = new SqlCommand("PatientLedger_PayPackages"); cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@LedgerID", SqlDbType.Int).Value = _ledgerID;
@@ -187,6 +187,15 @@ namespace SnehBLL
             else
                 cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = DBNull.Value;
             cmd.Parameters.Add("@Narration", SqlDbType.VarChar, 4000).Value = _narration;
+            if (!string.IsNullOrWhiteSpace(hospitalReceiptId))
+                cmd.Parameters.Add("@HospitalReceiptID", SqlDbType.NVarChar, 500).Value = hospitalReceiptId.Trim();
+            else
+                cmd.Parameters.Add("@HospitalReceiptID", SqlDbType.NVarChar, 500).Value = DBNull.Value;
+
+            if (hospitalReceiptDate > DateTime.MinValue)
+                cmd.Parameters.Add("@HospitalReceiptDate", SqlDbType.DateTime).Value = hospitalReceiptDate;
+            else
+                cmd.Parameters.Add("@HospitalReceiptDate", SqlDbType.DateTime).Value = DBNull.Value;
 
             SqlParameter Param = new SqlParameter(); Param.ParameterName = "@RetVal";
             Param.DbType = DbType.Int64; Param.Direction = ParameterDirection.Output;

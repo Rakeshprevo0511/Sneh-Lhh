@@ -122,6 +122,7 @@
     <Compile Include="ReportEIPMst_Bll.cs" />
     <Compile Include="ReportNdtMst_Bll.cs" />
     <Compile Include="ReportPreConsultMst_Bll.cs" />
+    <Compile Include="ReportPreScreenMst_Bll.cs" />
     <Compile Include="ReportSI2022_Bll.cs" />
     <Compile Include="ReportSiMst_Bll.cs" />
     <Compile Include="Reports_Bll.cs" />
