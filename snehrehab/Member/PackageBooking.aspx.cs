@@ -247,7 +247,7 @@ public partial class Member_PackageBooking : System.Web.UI.Page
         int _paymentMode = 0; if (txtPaymentMode.SelectedItem != null) { int.TryParse(txtPaymentMode.SelectedItem.Value, out _paymentMode); }
         int _bankID = 0; DateTime _chequeDate = new DateTime(); string BankBranch = string.Empty; string ChequeTxnNo = string.Empty;
         string HospitalReceiptID = string.Empty; DateTime HospitalReceiptDate = DateTime.MinValue;
-        
+        string narration = txtNarration.Text.Trim();
         if (_paymentMode == 1)   
         {
             HospitalReceiptID = txtHospitalReceiptID.Text.Trim();
@@ -355,6 +355,12 @@ public partial class Member_PackageBooking : System.Web.UI.Page
         {
             DbHelper.Configuration.setAlert(Page, "Please select proper patient package entry date...", 2); return;
         }
+        if (string.IsNullOrWhiteSpace(narration))
+        {
+            DbHelper.Configuration.setAlert(Page, "Please enter Narration...", 2);
+            return;
+        }
+
         SnehDLL.PatientPackage_Dll PPD = new SnehDLL.PatientPackage_Dll();
         PPD.BookingID = _bookingID; PPD.UniqueID = "";
         PPD.PatientID = _patientID; PPD.SessionID = _sessionID;

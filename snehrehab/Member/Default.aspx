@@ -619,6 +619,7 @@
                                     <option>Reportings</option>
                                     <option value="/Reports/">Management Reports</option>
                                     <option value="/Reports/ReportStatus.aspx">Report Status</option>
+                                    <option value="/Reports/AList.aspx">A-List</option>
                                 </select>
                             </div>
                         </td>

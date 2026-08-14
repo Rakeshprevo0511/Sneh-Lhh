@@ -8,13 +8,20 @@
 </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <div class="msg-container">
+         <asp:UpdatePanel ID="UpdatePanel13" runat="server">
+             <ContentTemplate>
+                 <asp:PlaceHolder ID="msgmodal" runat="server"></asp:PlaceHolder>
+             </ContentTemplate>
+         </asp:UpdatePanel>
+    </div>
     <div class="grid">
         <div class="grid-title">
             <div class="pull-left">
-               Absent Session Entry :
+                Patient Session Entry :
             </div>
             <div class="pull-right">
-                <a href="/Member/Appointments.aspx" class="btn btn-primary">View List</a>
+                <a href='<%=returnUrl %>' class="btn btn-primary">View List</a>
             </div>
         </div>
         <div class="grid-content" style="padding:0px;">
@@ -24,8 +31,7 @@
                         <div style="margin-top: 20px; margin-bottom: 20px;">
                             <div class="formRow">
                                 <div class="span12">
-                                    <asp:GridView ID="PatientGV" runat="server" CssClass="table table-bordered"
-                                        AutoGenerateColumns="False">
+                                    <asp:GridView ID="PatientGV" runat="server" CssClass="table table-bordered" AutoGenerateColumns="False">
                                         <Columns>
                                             <asp:TemplateField HeaderText="REG DATE"><ItemTemplate><%# DbHelper.Configuration.FORMATDATE(Eval("RegistrationDate").ToString())%></ItemTemplate><HeaderStyle Width="85px" /></asp:TemplateField>
                                             <asp:TemplateField HeaderText="FULL NAME"><ItemTemplate><%# Eval("FullName").ToString()%></ItemTemplate></asp:TemplateField>
@@ -113,7 +119,7 @@
                                         <div class="control-group">
                                             <asp:UpdatePanel ID="UpdatePatient" runat="server">
                                                 <ContentTemplate>
-                                                    <asp:TextBox ID="txtSessionCharge" runat="server" CssClass="span4" ReadOnly="true"></asp:TextBox>
+                                                    <asp:TextBox ID="txtSessionCharge" runat="server" CssClass="span4" ReadOnly="true" onkeyup="PackageSessionChargePay();" onchange="PackageSessionChargePay();"></asp:TextBox>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
                                         </div>
@@ -182,18 +188,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <asp:UpdatePanel ID="update20" runat="server"><ContentTemplate>
+                            <div id="Type_BulkPay" runat="server" visible="False">
+                                <div class="formRow">
+                                    <div class="span6">
+                                        <label class="control-label">
+                                            Session Charge:</label>
+                                        <div class="control-group">
+                                             <asp:TextBox ID="txtBulkSessionCharge" runat="server" CssClass="span4" onkeyup="BulkSessionChargePay();" onchange="BulkSessionChargePay();"></asp:TextBox>
+                                           </div>
+                                       </div>
+                                    <div class="clearfix">
+                                    </div>
+                                </div>
+                            </div>
+                           </ContentTemplate></asp:UpdatePanel>
                             <div class="formRow" style="padding: 0;">
                                 <div class="span12">
                                     <hr />
                                 </div>
                             </div>
-                            <div class="formRow">
-                                <div class="span6">
-                                    <label class="control-label">
-                                        Payment Type:</label>
-                                    <div class="control-group">
-                                        <asp:UpdatePanel ID="UpdatePanel4" runat="server">
-                                            <ContentTemplate>
+                             <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                                <ContentTemplate>
+                                    <div class="formRow" id="tabPaymentModes" runat="server">
+                                        <div class="span6">
+                                            <label class="control-label">
+                                                Payment Type:</label>
+                                            <div class="control-group">
                                                 <asp:DropDownList ID="txtPaymentType" runat="server" CssClass="chzn-select span4"
                                                     AutoPostBack="True" OnSelectedIndexChanged="txtPaymentType_SelectedIndexChanged">
                                                     <%--<asp:ListItem Value="-1">Select Payment Type</asp:ListItem>
@@ -201,24 +222,100 @@
                                                     <asp:ListItem Value="2">Credit Payment</asp:ListItem>
                                                     <asp:ListItem Value="3">Cheque Payment</asp:ListItem>--%>
                                                 </asp:DropDownList>
-                                            </ContentTemplate>
-                                        </asp:UpdatePanel>
+                                            </div>
+                                        </div>
+                                        <div class="span6">
+                                            <label class="control-label">
+                                                Amount To Pay:</label>
+                                            <div class="control-group">                                       
+                                                <asp:TextBox ID="txtAmountToPay" runat="server" CssClass="span4"></asp:TextBox>                                           
+                                            </div>
+                                        </div>
+                                        <div class="clearfix">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="span6">
-                                    <label class="control-label">
-                                        Amount To Pay:</label>
-                                    <div class="control-group">
-                                        <asp:UpdatePanel ID="UpdatePanel5" runat="server">
-                                            <ContentTemplate>
-                                                <asp:TextBox ID="txtAmountToPay" runat="server" CssClass="span4"></asp:TextBox>
-                                            </ContentTemplate>
-                                        </asp:UpdatePanel>
+                                    <div id="tabPaymentBulkMode" runat="server"></div>
+                                    <div id="bulk" runat="server" visible="true">
+                                        <div class="formRow">
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Select Booking :</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtBulkPackages" runat="server" CssClass="span4" Enabled="false"></asp:TextBox>
+                                                    <%--<asp:DropDownList ID="txtBulkPackages" runat="server" CssClass="chzn-select span4"
+                                                        AutoPostBack="True" OnSelectedIndexChanged="txtBulkPackages_SelectedIndexChanged">
+                                                    </asp:DropDownList>--%>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="span6" id="bulkpack" runat="server" visible="false">
+                                                <label class="control-label">
+                                                    Select Package :</label>
+                                                <div class="control-group">
+                                                    <asp:DropDownList ID="txtbulkpackagesnew" runat="server" CssClass="chzn-select span4"
+                                                        AutoPostBack="True" OnSelectedIndexChanged="txtbulkpackagesnew_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="clearfix">
-                                </div>
-                            </div>
+                                    <div id="bulkpackage" runat="server" visible="false">
+                                        <div class="formRow">
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Appointment Charge:</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtbulkappointmentcharge" runat="server" CssClass="span4" Enabled="false"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="bulkusedamntchrg" runat="server" visible="false">
+                                        <div class="formRow">
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Used AppointmentCharge:</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtusedappointmentcharge" runat="server" CssClass="span4" Enabled="false"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Used AppointmentCount:</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtusedappointmentcount" runat="server" CssClass="span4" Enabled="false"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="bulkcarry" runat="server" visible="true">
+                                        <div class="formRow">
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Balance Amount:</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtBulkBalance" runat="server" CssClass="span4" Enabled="false"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Carry Forword:</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtBulkForword" runat="server" CssClass="span4" Enabled="false"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
                             <asp:UpdatePanel ID="UpdatePanel6" runat="server">
                                 <ContentTemplate>
                                     <div id="tb_SessionBank" runat="server" visible="false">
@@ -233,6 +330,21 @@
                                             </div>
                                             <div class="span6">
                                                 <label class="control-label">
+                                                    Branch Name:</label>
+                                                <div class="control-group">
+                                                     <asp:TextBox ID="txtSessionBankBranch" runat="server" CssClass="span4"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Cheque No.:</label>
+                                                <div class="control-group">
+                                                     <asp:TextBox ID="txtSessionChequeNo" runat="server" CssClass="span4"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="span6">
+                                                <label class="control-label">
                                                     Cheque Date:</label>
                                                 <div class="control-group">
                                                     <asp:TextBox ID="txtSessionChequeDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
@@ -240,6 +352,25 @@
                                             </div>
                                             <div class="clearfix">
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div id="tb_SessionOnline" runat="server" visible="false">
+                                        <div class="formRow">
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Transaction ID:</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtSessionTransactionID" runat="server" CssClass="span4"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Transaction Date:</label>
+                                                <div class="control-group">
+                                                     <asp:TextBox ID="txtSessionTransactionDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
                                         </div>
                                     </div>
                                 </ContentTemplate>
@@ -304,9 +435,9 @@
                                         &nbsp;</label>
                                     <div class="control-group">
                                         <div id="black_loader_pay"></div>
-                                        <asp:LinkButton ID="btnSubmit" runat="server" Text="Abesnt Appointment" CssClass="btn btn-danger" OnClick="btnSubmit_Click" OnClientClick="if(confirm('Are you sure to pay absent appointment entry..??')){ShowBlakLoader('black_loader_pay');DisableOnSubmit(this);return true;}else{return false;}"></asp:LinkButton>
+                                        <asp:LinkButton ID="btnSubmit" runat="server" Text="Pay Appointment" CssClass="btn btn-danger" OnClick="btnSubmit_Click" OnClientClick="if(confirm('Are you sure to pay session appointment entry..??')){ShowBlakLoader('black_loader_pay');DisableOnSubmit(this);return true;}else{return false;}"></asp:LinkButton>
                                         &nbsp;
-                                        <a href="/Member/Appointments.aspx" class="btn btn-default">Cancel</a>
+                                        <a href='<%=returnUrl %>' class="btn btn-default">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="clearfix">
@@ -488,9 +619,17 @@
                                                     <asp:ListItem Value="1">Cash</asp:ListItem>
                                                     <asp:ListItem Value="2">Credit</asp:ListItem>
                                                     <asp:ListItem Value="3">Cheque</asp:ListItem>
+                                                    <asp:ListItem Value="4">Online</asp:ListItem>
                                                 </asp:DropDownList>
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <label class="control-label">
+                                        Receipt Date:</label>
+                                    <div class="control-group">
+                                        <asp:TextBox ID="txtBookingDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="clearfix">
@@ -510,6 +649,21 @@
                                             </div>
                                             <div class="span6">
                                                 <label class="control-label">
+                                                    Branch Name:</label>
+                                                <div class="control-group">
+                                                     <asp:TextBox ID="txtBranchName" runat="server" CssClass="span4"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Cheque No.:</label>
+                                                <div class="control-group">
+                                                     <asp:TextBox ID="txtChequeNo" runat="server" CssClass="span4"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="span6">
+                                                <label class="control-label">
                                                     Cheque Date:</label>
                                                 <div class="control-group">
                                                     <asp:TextBox ID="txtChequeDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
@@ -519,6 +673,44 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="tab_online" runat="server" visible="false">
+                                        <div class="formRow">
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Transaction ID:</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtTransactionID" runat="server" CssClass="span4"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="span6">
+                                                <label class="control-label">
+                                                    Transaction Date:</label>
+                                                <div class="control-group">
+                                                     <asp:TextBox ID="txtTransactionDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                     <div id="tab_cash_Credit" runat="server" visible="true">
+                        <div class="formRow">
+                            <div class="span6">
+                                <label class="control-label">
+                                    Hospital Receipt ID:</label>
+                                <div class="control-group">
+                                    <asp:TextBox ID="txtHospitalReceiptID" runat="server" CssClass="span4"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="span6">
+                                <label class="control-label">
+                                    Hospital Receipt Date:</label>
+                                <div class="control-group">
+                                     <asp:TextBox ID="txtHospitalReceiptDate" runat="server" CssClass="span2 my-datepicker"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
                             <div class="formRow">
@@ -553,26 +745,77 @@
             </ajaxtoolkit:tabcontainer>
         </div>
     </div>
-    <asp:HiddenField ID="txthSingleSession" runat="server" />
+    <asp:UpdatePanel ID="UpdatePanel5" runat="server">
+        <ContentTemplate>
+            <asp:HiddenField ID="txthSingleSession" runat="server" />
+            <asp:HiddenField ID="txthBulkPackage" runat="server" />
+            <asp:HiddenField ID="txtPatientPackage" runat="server"/>
+        </ContentTemplate>
+    </asp:UpdatePanel>
     <script type="text/javascript">
         function SingleSessionChargePay() {
             var c = document.getElementById('<%= txthSingleSession.ClientID %>').value; if (isNaN(c)) { c = 0; }
             if (c > 0) {
-                document.getElementById("<%= txtAmountToPay.ClientID %>").disabled =  true;
+                document.getElementById("<%= txtAmountToPay.ClientID %>").disabled = true;
                 var a = document.getElementById('<%= txtSingleSessionCharge.ClientID %>').value;
                 if (isNaN(a)) { a = 0; }
                 var val = ""; if (a > 0) { val = a.toString(); }
 
                 document.getElementById("<%= txtAmountToPay.ClientID %>").disabled = false;
-                document.getElementById("<%= txtAmountToPay.ClientID %>").value = val;
+                try { document.getElementById("<%= txtAmountToPay.ClientID %>").value = val; } catch (e) { }
                 try { document.getElementById("<%= txtAmountToPay.ClientID %>").setAttribute("value", val) } catch (e) { }
                 try { document.getElementById("<%= txtAmountToPay.ClientID %>").innerText = val; } catch (e) { }
                 document.getElementById("<%= txtAmountToPay.ClientID %>").disabled = true;
             }
         }
-        window.onload = function() {
-            SingleSessionChargePay();
+        function BulkSessionChargePay() {
+            var c = document.getElementById('<%= txthBulkPackage.ClientID %>').value; if (isNaN(c)) { c = 0; }
+            if (c > 0) {
+
+                var cc = document.getElementById('<%= txtBulkSessionCharge.ClientID %>').value; if (isNaN(cc)) { cc = 0; }
+                var bb = document.getElementById('<%= txtBulkBalance.ClientID %>').value; if (isNaN(bb)) { bb = 0; }
+                var val = (bb - cc).toString();
+                document.getElementById("<%= txtBulkForword.ClientID %>").disabled = false;
+                // try { document.getElementById("<%= txtusedappointmentcharge.ClientID %>").value = document.getElementById("<%= txtBulkSessionCharge.ClientID %>").value; } catch (e) { }
+
+
+                try { document.getElementById("<%= txtBulkForword.ClientID %>").value = val; } catch (e) { }
+                try { document.getElementById("<%= txtBulkForword.ClientID %>").setAttribute("value", val) } catch (e) { }
+                try { document.getElementById("<%= txtBulkForword.ClientID %>").innerText = val; } catch (e) { }
+                document.getElementById("<%= txtBulkForword.ClientID %>").disabled = true;
+            }
         }
+        function PackageSessionChargePay() {
+            var c = document.getElementById('<%= txtPatientPackage.ClientID %>').value; if (isNaN(c)) { c = 0; }
+            if (c > 0) {
+
+                var cc = document.getElementById('<%= txtSessionCharge.ClientID %>').value; if (isNaN(cc)) { cc = 0; }
+                var bb = document.getElementById('<%= txtPackageBalance.ClientID %>').value; if (isNaN(bb)) { bb = 0; }
+                var val = (bb - cc).toString();
+                document.getElementById("<%= txtBalanceAmount.ClientID %>").disabled = false;
+
+                     try { document.getElementById("<%= txtBalanceAmount.ClientID %>").value = val; } catch (e) { }
+                     try { document.getElementById("<%= txtBalanceAmount.ClientID %>").setAttribute("value", val) } catch (e) { }
+                     try { document.getElementById("<%= txtBalanceAmount.ClientID %>").innerText = val; } catch (e) { }
+                document.getElementById("<%= txtBalanceAmount.ClientID %>").disabled = true;
+
+                document.getElementById("<%= txtAmountToPay.ClientID %>").disabled =  true;
+                var a = document.getElementById('<%= txtSessionCharge.ClientID %>').value;
+                if (isNaN(a)) { a = 0; }
+                var val = ""; if (a > 0) { val = a.toString(); }
+
+                document.getElementById("<%= txtAmountToPay.ClientID %>").disabled = false;
+                try { document.getElementById("<%= txtAmountToPay.ClientID %>").value = val; } catch (e) { }
+                try { document.getElementById("<%= txtAmountToPay.ClientID %>").setAttribute("value", val) } catch (e) { }
+                try { document.getElementById("<%= txtAmountToPay.ClientID %>").innerText = val; } catch (e) { }
+                document.getElementById("<%= txtAmountToPay.ClientID %>").disabled = true;
+            }
+        }
+        $(function () {
+            SingleSessionChargePay();
+            BulkSessionChargePay();
+            PackageSessionChargePay();
+        });
     </script>
     <asp:UpdateProgress ID="UpdatePanelProgress" runat="server" DisplayAfter="0">
         <ProgressTemplate>

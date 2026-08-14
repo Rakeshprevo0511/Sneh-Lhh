@@ -13,6 +13,24 @@ public partial class Member_AppointmentAbst
 {
 
     /// <summary>
+    /// UpdatePanel13 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.UpdatePanel UpdatePanel13;
+
+    /// <summary>
+    /// msgmodal control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.PlaceHolder msgmodal;
+
+    /// <summary>
     /// tb_Contents control.
     /// </summary>
     /// <remarks>
@@ -274,6 +292,15 @@ public partial class Member_AppointmentAbst
     protected global::System.Web.UI.UpdatePanel UpdatePanel4;
 
     /// <summary>
+    /// tabPaymentModes control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tabPaymentModes;
+
+    /// <summary>
     /// txtPaymentType control.
     /// </summary>
     /// <remarks>
@@ -281,15 +308,6 @@ public partial class Member_AppointmentAbst
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.DropDownList txtPaymentType;
-
-    /// <summary>
-    /// UpdatePanel5 control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.UpdatePanel UpdatePanel5;
 
     /// <summary>
     /// txtAmountToPay control.
@@ -364,42 +382,6 @@ public partial class Member_AppointmentAbst
     protected global::System.Web.UI.WebControls.TextBox txtbulkappointmentcharge;
 
     /// <summary>
-    /// UpdatePanel6 control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.UpdatePanel UpdatePanel6;
-
-    /// <summary>
-    /// tb_SessionBank control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tb_SessionBank;
-
-    /// <summary>
-    /// txtSessionBankName control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.DropDownList txtSessionBankName;
-
-    /// <summary>
-    /// txtSessionChequeDate control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox txtSessionChequeDate;
-
-    /// <summary>
     /// bulkusedamntchrg control.
     /// </summary>
     /// <remarks>
@@ -452,6 +434,87 @@ public partial class Member_AppointmentAbst
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtBulkForword;
+
+    /// <summary>
+    /// UpdatePanel6 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.UpdatePanel UpdatePanel6;
+
+    /// <summary>
+    /// tb_SessionBank control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tb_SessionBank;
+
+    /// <summary>
+    /// txtSessionBankName control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.DropDownList txtSessionBankName;
+
+    /// <summary>
+    /// txtSessionBankBranch control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtSessionBankBranch;
+
+    /// <summary>
+    /// txtSessionChequeNo control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtSessionChequeNo;
+
+    /// <summary>
+    /// txtSessionChequeDate control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtSessionChequeDate;
+
+    /// <summary>
+    /// tb_SessionOnline control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tb_SessionOnline;
+
+    /// <summary>
+    /// txtSessionTransactionID control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtSessionTransactionID;
+
+    /// <summary>
+    /// txtSessionTransactionDate control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtSessionTransactionDate;
 
     /// <summary>
     /// UpdatePanel7 control.
@@ -742,6 +805,15 @@ public partial class Member_AppointmentAbst
     protected global::System.Web.UI.WebControls.DropDownList txtPaymentMode;
 
     /// <summary>
+    /// txtBookingDate control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtBookingDate;
+
+    /// <summary>
     /// UpdateChequeDetail control.
     /// </summary>
     /// <remarks>
@@ -769,6 +841,24 @@ public partial class Member_AppointmentAbst
     protected global::System.Web.UI.WebControls.DropDownList txtBankName;
 
     /// <summary>
+    /// txtBranchName control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtBranchName;
+
+    /// <summary>
+    /// txtChequeNo control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtChequeNo;
+
+    /// <summary>
     /// txtChequeDate control.
     /// </summary>
     /// <remarks>
@@ -776,6 +866,60 @@ public partial class Member_AppointmentAbst
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtChequeDate;
+
+    /// <summary>
+    /// tab_online control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tab_online;
+
+    /// <summary>
+    /// txtTransactionID control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtTransactionID;
+
+    /// <summary>
+    /// txtTransactionDate control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtTransactionDate;
+
+    /// <summary>
+    /// tab_cash_Credit control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tab_cash_Credit;
+
+    /// <summary>
+    /// txtHospitalReceiptID control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtHospitalReceiptID;
+
+    /// <summary>
+    /// txtHospitalReceiptDate control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtHospitalReceiptDate;
 
     /// <summary>
     /// txtNarration control.
@@ -805,6 +949,15 @@ public partial class Member_AppointmentAbst
     protected global::System.Web.UI.WebControls.LinkButton btnCancelPackage;
 
     /// <summary>
+    /// UpdatePanel5 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.UpdatePanel UpdatePanel5;
+
+    /// <summary>
     /// txthSingleSession control.
     /// </summary>
     /// <remarks>
@@ -812,6 +965,24 @@ public partial class Member_AppointmentAbst
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField txthSingleSession;
+
+    /// <summary>
+    /// txthBulkPackage control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.HiddenField txthBulkPackage;
+
+    /// <summary>
+    /// txtPatientPackage control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.HiddenField txtPatientPackage;
 
     /// <summary>
     /// UpdatePanelProgress control.

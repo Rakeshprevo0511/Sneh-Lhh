@@ -136,22 +136,15 @@ public partial class Member_PackageBookings : System.Web.UI.Page
     }
     public string CHECKUSAGELINK(string bookingId, string canUse)
     {
-        int _canUseInt = 0;
-        int.TryParse(canUse, out _canUseInt);
+        int _canUseInt = 0;  int.TryParse(canUse, out _canUseInt);
         int cat = SnehBLL.UserAccount_Bll.getCategory();
        
-
         // Allow only manager or super admin
-        if (!isSuperAdmin)
-        {
-            
-            if (cat == 1 || cat == 6)
-            {
+        if (!isSuperAdmin){
+            if (cat == 1 || cat == 6) {
                 return "<a href='/Member/ViewPackageDetails.aspx?id=" + bookingId + "' style='font-weight:bold;'>CHECK USAGE</a>";
             }
-        }
-
-        return string.Empty;
+        } return string.Empty;
     }
     public string TOTALBALANCE(string str)
     {

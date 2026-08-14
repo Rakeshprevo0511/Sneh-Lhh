@@ -38,11 +38,10 @@
                 <asp:TemplateField HeaderText="BOOKING DATE"><ItemTemplate><%# FORMATLDATE(Eval("AddedDate").ToString())%></ItemTemplate></asp:TemplateField>                   
                 <asp:BoundField HeaderText="REMARK" DataField="Remarks"/> 
                 <asp:BoundField HeaderText="SEND MAIL" DataField="email_flag"/> 
-                
-                    <asp:TemplateField HeaderText="ACTION"><ItemTemplate>                    
-                    <a href='/Member/PrintReceipt.ashx?id=<%#GetUrlQuery(Eval("UniqueID").ToString(), Eval("ReceiptType").ToString(), Eval("FiscalDate").ToString(), Eval("ReceiptNo").ToString()) %>' target="_blank">Print /</a>
-                    &nbsp;
-                    <a href='/Member/SendMail.aspx?pid=<%#Eval("PatientID").ToString() %>&id=<%# GetUrlQuery(Eval("UniqueID").ToString(), Eval("ReceiptType").ToString(), Eval("FiscalDate").ToString(), Eval("ReceiptNo").ToString()) %>' target="_blank">Send Mail</a>
+                <asp:TemplateField HeaderText="ACTION"><ItemTemplate>                    
+                <a href='/Member/PrintReceipt.ashx?id=<%#GetUrlQuery(Eval("UniqueID").ToString(), Eval("ReceiptType").ToString(), Eval("FiscalDate").ToString(), Eval("ReceiptNo").ToString()) %>' target="_blank">Print /</a>
+                &nbsp;
+                <a href='/Member/SendMail.aspx?pid=<%#Eval("PatientID").ToString() %>&id=<%# GetUrlQuery(Eval("UniqueID").ToString(), Eval("ReceiptType").ToString(), Eval("FiscalDate").ToString(), Eval("ReceiptNo").ToString()) %>' target="_blank">Send Mail</a>
                 </ItemTemplate>
                 <ItemStyle CssClass="text-center" />
                 <HeaderStyle CssClass="text-center" Width="50px"/>
